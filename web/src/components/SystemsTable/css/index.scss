@@ -1,0 +1,30 @@
+.table {
+  @apply table-auto w-full mt-8;
+  & > thead {
+    @apply bg-neutral-700 text-neutral-400;
+
+    & > tr {
+      & > th {
+        @apply text-left py-3 px-3 cursor-pointer
+      }
+    }
+  }
+
+  & > tbody {
+    & > tr {
+      @apply bg-neutral-800;
+      &:hover {
+        @apply bg-neutral-900;
+        & > td:first-child {
+          @apply text-orange-400;
+        }
+      }
+      & > td {
+        @apply px-3 py-2 text-neutral-400 border-b border-neutral-700;
+        &:first-child {
+          @apply font-bold;
+        }
+      }
+    }
+  }
+}

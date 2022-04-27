@@ -1,0 +1,11 @@
+.search-wrapper {
+  @apply fixed w-full h-screen;
+  background: rgba(0, 0, 0, 0.5);
+  overflow-y: hidden !important;
+  z-index: 999;
+}
+
+.search {
+  @apply block w-full p-2 pl-10 text-white placeholder-gray-400 bg-gray-700 border-gray-600  sm:text-sm focus-visible:outline-none
+  
+}

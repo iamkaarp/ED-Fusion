@@ -1,0 +1,114 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+  ],
+  "parser": "@typescript-eslint/parser",
+  "ignorePatterns": [
+    "node_modules"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "rules": {
+    "react/self-closing-comp": [
+      "error",
+      {
+        "component": true,
+        "html": true
+      }
+    ],
+    "react/no-unescaped-entities": [
+      "error",
+      {
+        "forbid": []
+      }
+    ],
+    "react/jsx-indent": [
+      "error",
+      2
+    ],
+    "react/jsx-indent-props": [
+      "error",
+      2
+    ],
+    "react/sort-comp": [
+      2,
+      {
+        "order": [
+          "static-methods",
+          "lifecycle",
+          "/^on.+$/",
+          "render",
+          "everything-else"
+        ]
+      }
+    ],
+    "no-tabs": [
+      "error",
+      {
+        "allowIndentationTabs": true
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 400,
+        "tabWidth": 2,
+        "ignoreUrls": true
+      }
+    ],
+    "array-bracket-spacing": [
+      "error",
+      "never"
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
+    "quotes": [
+      "warn",
+      "single"
+    ],
+    "no-trailing-spaces": [
+      "error"
+    ],
+    "valid-jsdoc": [
+      "error",
+      {
+        "requireReturnDescription": false,
+        "requireParamDescription": false
+      }
+    ],
+    "eqeqeq": [
+      "error"
+    ],
+    "curly": [
+      "error"
+    ],
+    "no-param-reassign": [
+      "error"
+    ],
+    "no-useless-concat": [
+      "error"
+    ],
+    "yoda": [
+      "error"
+    ],
+    "max-depth": [
+      "warn"
+    ]
+  }
+}

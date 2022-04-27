@@ -1,0 +1,6 @@
+node_modules/
+commodities/
+economy/
+government/
+security/
+hashes.js

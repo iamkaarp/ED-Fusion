@@ -1,0 +1,30 @@
+.modal {
+  @apply fixed w-full h-screen overflow-hidden justify-center py-12;
+  z-index: 999;
+  background: rgba(0,0,0,0.5);
+  overflow: hidden !important;
+}
+
+.range {
+  &::-webkit-slider-thumb {
+    @apply bg-orange-400 w-4 h-4;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  &::-moz-range-thumb {
+    @apply bg-orange-400 w-4 h-4;
+    appearance: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  &::-ms-thumb {
+    @apply bg-orange-400 w-4 h-4;
+    appearance: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}
