@@ -1,0 +1,6 @@
+.input {
+  @apply border text-sm block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white outline-0 outline-offset-0 rounded-lg;
+  &:focus {
+    @apply outline-0 outline-offset-0 border-gray-600 shadow-none ring-0;
+  }
+}

@@ -7,15 +7,15 @@ import App from './App'
 import store from './store'
 import { Provider } from 'react-redux'
 
+import 'flowbite'
+
 const container = document.getElementById('root')
 const root = createRoot(container as HTMLDivElement)
 
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>
 )

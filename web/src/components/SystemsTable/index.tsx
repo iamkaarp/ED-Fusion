@@ -15,6 +15,7 @@ import Pagination from '../Pagination'
 import './css/index.scss'
 
 import Loader from '../Loader/index'
+import Table from '../Table'
 
 const SystemsTable: FC<ISystemsTable> = ({ page }) => {
   const [systems, setSystems] = useState<ISystem[]>([])
@@ -56,6 +57,43 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
     setDirection(direction)
   }
 
+  const th = [
+    {
+      name: 'System',
+      sort: 'name',
+      sortable: true,
+      mobile: true,
+    },
+    {
+      name: 'Population',
+      sort: 'population',
+      sortable: true,
+      mobile: false,
+    },
+    {
+      name: 'Stations',
+      sort: 'stations',
+      sortable: false,
+      mobile: false,
+    },
+    {
+      name: 'Fleet carriers',
+      sort: 'fleetcarriers',
+      sortable: false,
+      mobile: false,
+    },
+    {
+      name: 'Distance Sol',
+      sort: 'distance',
+      mobile: true,
+    },
+    {
+      name: 'Updated',
+      sort: 'updated_at',
+      mobile: true,
+    },
+  ]
+
   return (
     <>
       {firstLoad ? (
@@ -67,109 +105,41 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
       ) : (
         <>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            {loading && (
-              <div
-                className="absolute flex items-center justify-center w-full h-full"
-                style={{ background: 'rgba(0,0,0,0.5)' }}
-              >
-                <Loader />
-              </div>
-            )}
-            <table className="w-full text-sm text-left text-gray-400">
-              <thead className="text-xs text-gray-400 uppercase bg-gray-700">
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 cursor-pointer hover:text-orange-400"
-                    onClick={() => {
-                      sort('name', direction === 'asc' ? 'desc' : 'asc')
-                    }}
+            <Table th={th} loading={loading} onSort={sort} column={column} direction={direction}>
+              {systems.map((system: ISystem) => {
+                return (
+                  <tr
+                    key={system.id}
+                    className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
                   >
-                    <div className="flex items-center">
-                      System
-                      {column === 'name' && (
-                        <Icon path={direction === 'asc' ? mdiMenuUp : mdiMenuDown} size={1} />
-                      )}
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 cursor-pointer hover:text-orange-400"
-                    onClick={() => {
-                      sort('population', direction === 'asc' ? 'desc' : 'asc')
-                    }}
-                  >
-                    <div className="flex items-center">
-                      Population
-                      {column === 'population' && (
-                        <Icon path={direction === 'asc' ? mdiMenuUp : mdiMenuDown} size={1} />
-                      )}
-                    </div>
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Stations
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Fleet Carriers
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 cursor-pointer hover:text-orange-400"
-                    onClick={() => {
-                      sort('distance', direction === 'asc' ? 'desc' : 'asc')
-                    }}
-                  >
-                    <div className="flex items-center">
-                      Distance Sol
-                      {column === 'distance' && (
-                        <Icon path={direction === 'asc' ? mdiMenuUp : mdiMenuDown} size={1} />
-                      )}
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 cursor-pointer hover:text-orange-400"
-                    onClick={() => {
-                      sort('updated_at', direction === 'asc' ? 'desc' : 'asc')
-                    }}
-                  >
-                    <div className="flex items-center">
-                      Updated At
-                      {column === 'updated_at' && (
-                        <Icon path={direction === 'asc' ? mdiMenuUp : mdiMenuDown} size={1} />
-                      )}
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {systems.map((system: ISystem) => {
-                  return (
-                    <tr
-                      key={system.id}
-                      className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+                    <th
+                      scope="row"
+                      className="font-medium px-1.5 py-2 text-white md:px-6 md:py-4 whitespace-nowrap"
                     >
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-white whitespace-nowrap"
-                      >
-                        <Link to={`/system/${system.name}`} className="hover:text-orange-400">
-                          {system.name}
-                        </Link>
-                      </th>
-                      <td className="px-6 py-4">{system.population.toLocaleString()}</td>
-                      <td className="px-6 py-4">{countStations(system.stations)}</td>
-                      <td className="px-6 py-4">{countFleetcarriers(system.stations)}</td>
-                      <td className="px-6 py-4">{system.distance} Ly</td>
-                      <td className="px-6 py-4">{DateFormat.fromNow(system.updated_at)}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
+                      <Link to={`/system/${system.name}`} className="hover:text-orange-400">
+                        {system.name}
+                      </Link>
+                    </th>
+                    <td className="hidden px-1.5 py-2 md:px-6 md:py-4 md:table-cell">
+                      {system.population.toLocaleString()}
+                    </td>
+                    <td className="hidden px-1.5 py-2 md:px-6 md:py-4 md:table-cell">
+                      {countStations(system.stations)}
+                    </td>
+                    <td className="hidden px-1.5 py-2 md:px-6 md:py-4 md:table-cell">
+                      {countFleetcarriers(system.stations)}
+                    </td>
+                    <td className="px-1.5 py-2 md:px-6 md:py-4">{system.distance} Ly</td>
+                    <td className="px-1.5 py-2 md:px-6 md:py-4">
+                      {DateFormat.fromNow(system.updated_at)}
+                    </td>
+                  </tr>
+                )
+              })}
+            </Table>
           </div>
           <div className="w-full mt-4">
-            <Pagination currentPage={page} lastPage={meta.last_page} />
+            <Pagination view="systems" currentPage={page} lastPage={meta.last_page} />
           </div>
         </>
       )}

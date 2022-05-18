@@ -8,6 +8,7 @@ import IGovernment from './IGovernment'
 export default interface ISystem {
   id: number
   name: string
+  needs_permit: boolean
   address: number
   position: string
   population: number

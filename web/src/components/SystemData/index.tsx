@@ -1,54 +1,89 @@
-import React, { FC, useState, useEffect, useCallback } from 'react'
+import React, { FC, useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
 import 'chart.js/auto'
 import { Chart } from 'react-chartjs-2'
-import _debounce from 'lodash/debounce'
+import * as _ from 'lodash'
 
 import EDFusion from '../../apis/EDFusion'
+import DateFormat from '../../helpers/DateFormat'
 
 import IStation from '../../interfaces/IStation'
 import ISystem from '../../interfaces/ISystem'
 import ISystemData from './interfaces/ISystemData'
+import IFaction from '../../interfaces/IFaction'
 
 import Loader from '../Loader/index'
 import Stations from './Stations'
 import Factions from './Factions'
-import IFactions from '../../interfaces/IFactions'
-import IFaction from '../../interfaces/IFaction'
+import Bodies from './Bodies'
 
 const SystemData: FC<ISystemData> = ({ name }) => {
   const [system, setSystem] = useState<ISystem>({} as ISystem)
   const [stations, setStations] = useState<IStation[]>([])
   const [factions, setFactions] = useState<IFaction[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
+
   const [faction, setFaction] = useState<any>({})
+  const [orbital, setOrbital] = useState<IStation[]>([])
+  const [planetary, setPlanetary] = useState<IStation[]>([])
+  const [fleetCarriers, setFleetCarriers] = useState<IStation[]>([])
 
-  const [stationColumn, setStationColumn] = useState<string>('distance_from_star')
-  const [stationDirection, setStationDirection] = useState<string>('asc')
-  const [stationLoading, setStationLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [loadingOrbital, setLoadingOrbital] = useState<boolean>(true)
+  const [loadingPlanetary, setLoadingPlanetary] = useState<boolean>(true)
+  const [loadingFleetCarriers, setLoadingFleetCarriers] = useState<boolean>(true)
 
-  const [factionColumn, setFactionColumn] = useState<string>('influence')
-  const [factionDirection, setFactionDirection] = useState<string>('desc')
-  const [factionLoading, setFactionLoading] = useState<boolean>(true)
+  const [stationTab, setStationTab] = useState<string>('orbital')
 
-  const fetchDataFn = async () => {
-    const res = await EDFusion.systems.get(name)
-    setSystem(res)
-    setLoading(false)
-  }
+  const orbitalColumn = useSelector((state: any) => state.sort.orbital.column)
+  const orbitalDirection = useSelector((state: any) => state.sort.orbital.direction)
+  const planetaryColumn = useSelector((state: any) => state.sort.planetary.column)
+  const planetaryDirection = useSelector((state: any) => state.sort.planetary.direction)
+  const fleetCarriersColumn = useSelector((state: any) => state.sort.fleetCarriers.column)
+  const fleetCarriersDirection = useSelector((state: any) => state.sort.fleetCarriers.direction)
+  const dispatch = useDispatch()
+
+  const { tab } = useParams()
+  const activeTab = tab || 'system'
+
+  const tabs = ['System', 'Factions', 'Bodies']
 
   const fetchStations = async (id: number) => {
-    setStationLoading(true)
-    const res = await EDFusion.systems.stations(id, stationColumn, stationDirection)
+    const res = await EDFusion.systems.stations(id, 'updated_at', 'desc')
     setStations(res)
-    setStationLoading(false)
   }
 
   const fetchFactions = async (id: number) => {
-    const res = await EDFusion.systems.factions(id, 'influence', 'asc')
+    const res = await EDFusion.systems.factions(id, 'influence', 'desc')
     setFactions(res)
   }
 
-  const fetchData = useCallback(_debounce(fetchDataFn, 250), [])
+  const fetchData = _.memoize(async () => {
+    const res = await EDFusion.systems.get(name)
+    setSystem(res)
+    setLoading(false)
+  })
+
+  const fetchOrbital = _.memoize(async () => {
+    setLoadingOrbital(true)
+    const res = await EDFusion.systems.orbital(system.id, orbitalColumn, orbitalDirection)
+    setOrbital(res)
+    setLoadingOrbital(false)
+  })
+
+  const fetchPlanetary = _.memoize(async () => {
+    setLoadingPlanetary(true)
+    const res = await EDFusion.systems.planetary(system.id, planetaryColumn, planetaryDirection)
+    setPlanetary(res)
+    setLoadingPlanetary(false)
+  })
+
+  const fetchFleetCarriers = _.memoize(async () => {
+    setLoadingFleetCarriers(true)
+    const res = await EDFusion.systems.fleetCarriers(system.id, planetaryColumn, planetaryDirection)
+    setFleetCarriers(res)
+    setLoadingFleetCarriers(false)
+  })
 
   const stationEconomies = (stations: any) => {
     const economies: any[] = []
@@ -80,11 +115,6 @@ const SystemData: FC<ISystemData> = ({ name }) => {
     return { factionName: factions[0].faction.name, factionState }
   }
 
-  const sortStation = (column: string, direction: string) => {
-    setStationColumn(column)
-    setStationDirection(direction)
-  }
-
   useEffect(() => {
     fetchData()
   }, [name])
@@ -93,20 +123,11 @@ const SystemData: FC<ISystemData> = ({ name }) => {
     if (Object.keys(system).length > 0) {
       fetchStations(system.id)
       fetchFactions(system.id)
+      fetchOrbital()
+      fetchPlanetary()
+      fetchFleetCarriers()
     }
   }, [system])
-
-  useEffect(() => {
-    if (Object.keys(system).length > 0) {
-      fetchStations(system.id)
-    }
-  }, [stationColumn, stationDirection])
-
-  useEffect(() => {
-    if (Object.keys(system).length > 0) {
-      fetchFactions(system.id)
-    }
-  }, [factionColumn, factionDirection])
 
   useEffect(() => {
     if (factions) {
@@ -116,6 +137,33 @@ const SystemData: FC<ISystemData> = ({ name }) => {
       }
     }
   }, [factions])
+
+  useEffect(() => {
+    if (Object.keys(system).length > 0) {
+      fetchOrbital()
+    }
+  }, [orbitalColumn, orbitalDirection])
+
+  useEffect(() => {
+    if (Object.keys(system).length > 0) {
+      fetchPlanetary()
+    }
+  }, [planetaryColumn, planetaryDirection])
+
+  useEffect(() => {
+    if (Object.keys(system).length > 0) {
+      fetchFleetCarriers()
+    }
+  }, [fleetCarriersColumn, fleetCarriersDirection])
+
+  const onSort = (column: string, direction: string, type: String) => {
+    dispatch({ type: 'sort/setColumn', payload: { type, column } })
+    dispatch({ type: 'sort/setDirection', payload: { type, direction } })
+  }
+
+  const factionsData = (factions: IFaction[]) => {
+    return factions.filter((faction: any) => faction.faction.influence > 0)
+  }
 
   return (
     <>
@@ -127,134 +175,251 @@ const SystemData: FC<ISystemData> = ({ name }) => {
         </div>
       ) : (
         <>
-          <div className="w-full p-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md">
-            <div className="w-full pb-4 mb-4 border-b border-gray-700">
-              <h1 className="text-3xl">{name}</h1>
+          <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
+            <div className="flex items-center justify-between w-full pb-4 mb-4 border-b border-gray-700">
+              <p className="text-3xl">{name}</p>
+              <p>{DateFormat.fromNow(system.updated_at)}</p>
             </div>
-            <div className="flex w-full">
-              <div className="flex flex-col w-1/2">
-                <h2 className="mb-8 text-xl font-bold text-center">System Information</h2>
-                <div className="flex w-full">
-                  <div className="flex justify-end w-1/4 mr-4">Coordinates</div>
-                  <div className="w-3/4 font-bold">{system.position.split(';').join(' / ')}</div>
-                </div>
-                <div className="flex w-full">
-                  <div className="flex justify-end w-1/4 mr-4">Distance to Sol</div>
-                  <div className="w-3/4 font-bold">{system.distance.toLocaleString()} Ly</div>
-                </div>
-                <div className="flex w-full">
-                  <div className="flex justify-end w-1/4 mr-4">Population</div>
-                  <div className="w-3/4 font-bold">{system.population.toLocaleString()}</div>
-                </div>
-                <div className="flex w-full">
-                  <div className="flex justify-end w-1/4 mr-4">Economy</div>
-                  <div className="w-3/4 font-bold">
-                    <>{system.primaryEconomy.name} </>
-                    <>
-                      {stations.length ? (
+            <div className="w-full mb-4">
+              <div className="text-sm font-medium text-center text-gray-400 border-b border-gray-700">
+                <ul className="flex flex-wrap -mb-px">
+                  {tabs.map((tab: string, index: number) => (
+                    <li key={index} className="mr-2">
+                      <Link
+                        to={
+                          tab === 'System'
+                            ? `/system/${name}`
+                            : `/system/${name}/${tab.toLocaleLowerCase()}`
+                        }
+                        className={`inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 hover:text-gray-300 ${
+                          tab.toLocaleLowerCase() === activeTab
+                            ? 'border-orange-400 text-orange-400'
+                            : ''
+                        }`}
+                      >
+                        {tab}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            {activeTab === 'system' && (
+              <>
+                <div className="w-full md:flex">
+                  <div className="flex flex-col w-full pb-4 mb-4 border-b border-gray-400 md:mb-0 md:pb-0 md:w-1/2 md:border-0">
+                    <h2 className="mb-8 text-xl font-bold text-center">System Information</h2>
+                    <div className="flex w-full">
+                      <div className="flex justify-end w-1/2 mr-4 md:w-1/4">Coordinates</div>
+                      <div className="w-1/2 font-bold md:w-3/4">
+                        {system.position.split(';').join(' / ')}
+                      </div>
+                    </div>
+                    <div className="flex w-full">
+                      <div className="flex justify-end w-1/2 mr-4 md:w-1/4">Permit</div>
+                      <div className="w-1/2 font-bold md:w-3/4">
+                        {system.needs_permit ? 'Yes' : 'No'}
+                      </div>
+                    </div>
+                    <div className="flex w-full">
+                      <div className="flex justify-end w-1/2 mr-4 md:w-1/4">Distance to Sol</div>
+                      <div className="w-1/2 font-bold md:w-3/4">
+                        {system.distance.toLocaleString()} Ly
+                      </div>
+                    </div>
+                    <div className="flex w-full">
+                      <div className="flex justify-end w-1/2 mr-4 md:w-1/4">Population</div>
+                      <div className="w-1/2 font-bold md:w-3/4">
+                        {system.population.toLocaleString()}
+                      </div>
+                    </div>
+                    <div className="flex w-full">
+                      <div className="flex justify-end w-1/2 mr-4 md:w-1/4">Economy</div>
+                      <div className="w-1/2 font-bold md:w-3/4">
+                        <>{system.primaryEconomy.name} </>
                         <>
-                          (
-                          {stationEconomies(stations).map((economy, index, row) => {
-                            if (index + 1 === row.length) {
-                              return <span key={economy}>{economy}</span>
-                            } else {
-                              return <span key={economy}>{economy}, </span>
-                            }
-                          })}
-                          )
+                          {stations.length ? (
+                            <>
+                              (
+                              {stationEconomies(stations).map((economy, index, row) => {
+                                if (index + 1 === row.length) {
+                                  return <span key={economy}>{economy}</span>
+                                } else {
+                                  return <span key={economy}>{economy}, </span>
+                                }
+                              })}
+                              )
+                            </>
+                          ) : (
+                            ''
+                          )}
                         </>
-                      ) : (
-                        ''
-                      )}
-                    </>
+                      </div>
+                    </div>
+                    <div className="flex w-full">
+                      <div className="flex justify-end w-1/2 mr-4 md:w-1/4">Security</div>
+                      <div className="w-1/2 font-bold md:w-3/4">{system.security.name}</div>
+                    </div>
+                    <div className="flex w-full">
+                      <div className="flex justify-end w-1/2 mr-4 md:w-1/4">Government</div>
+                      <div className="w-1/2 font-bold md:w-3/4">{system.government.name}</div>
+                    </div>
+                    <div className="flex w-full">
+                      <div className="flex justify-end w-1/2 mr-4 md:w-1/4">Allegiance</div>
+                      <div className="w-1/2 font-bold md:w-3/4">{system.allegiance.name}</div>
+                    </div>
+                    {factions.length ? (
+                      <div className="flex w-full">
+                        <div className="flex justify-end w-1/2 mr-4 md:w-1/4">Faction</div>
+                        <div className="w-1/2 font-bold md:w-3/4">
+                          <Link className="hover:text-orange-400" to={`/factions/${faction.name}`}>
+                            {faction.name}
+                          </Link>{' '}
+                          ({faction?.state})
+                        </div>
+                      </div>
+                    ) : (
+                      ''
+                    )}
                   </div>
-                </div>
-                <div className="flex w-full">
-                  <div className="flex justify-end w-1/4 mr-4">Security</div>
-                  <div className="w-3/4 font-bold">{system.security.name}</div>
-                </div>
-                <div className="flex w-full">
-                  <div className="flex justify-end w-1/4 mr-4">Government</div>
-                  <div className="w-3/4 font-bold">{system.government.name}</div>
-                </div>
-                <div className="flex w-full">
-                  <div className="flex justify-end w-1/4 mr-4">Allegiance</div>
-                  <div className="w-3/4 font-bold">{system.allegiance.name}</div>
-                </div>
-                {factions.length ? (
-                  <div className="flex w-full">
-                    <div className="flex justify-end w-1/4 mr-4">Faction</div>
-                    <div className="w-3/4 font-bold">
-                      {faction.name} ({faction?.state})
+                  <div className="flex flex-col w-full md:w-1/2">
+                    <h2 className="text-xl font-bold text-center">Minor Factions</h2>
+                    <div className="flex justify-end w-full">
+                      <Chart
+                        type="bar"
+                        datasetIdKey="id"
+                        data={{
+                          labels: factionsData(factions).map(
+                            (faction: any) => faction.faction.name
+                          ),
+                          datasets: [
+                            {
+                              label: 'Faction Influence',
+                              data: factionsData(factions).map(
+                                (faction: any) => faction.faction.influence * 100
+                              ),
+                              backgroundColor: ['#fb923c'],
+                              borderWidth: 1,
+                            },
+                          ],
+                        }}
+                        options={{
+                          responsive: true,
+                        }}
+                      />
                     </div>
                   </div>
-                ) : (
-                  ''
-                )}
-              </div>
-              <div className="flex flex-col w-1/2">
-                <h2 className="text-xl font-bold text-center">Minor Factions</h2>
-                <div className="flex justify-end w-full">
-                  <Chart
-                    type="bar"
-                    datasetIdKey="id"
-                    data={{
-                      labels: factions.map((faction: any) => faction.faction.name),
-                      datasets: [
-                        {
-                          label: 'Faction Influence',
-                          data: factions.map((faction: any) => faction.faction.influence * 100),
-                          backgroundColor: ['#fb923c'],
-                          borderWidth: 1,
-                        },
-                      ],
-                    }}
-                    options={{
-                      responsive: true,
-                    }}
-                  />
                 </div>
-              </div>
-            </div>
-            <div className="flex flex-col w-full mt-12">
-              <div className="w-full">
-                {stations.length ? (
-                  <>
-                    <h2 className="text-xl font-bold text-center">Stations</h2>
-                    <Stations
-                      onSort={(column, direction) => {
-                        sortStation(column, direction)
-                      }}
-                      loading={stationLoading}
-                      column={stationColumn}
-                      direction={stationDirection}
-                      stations={stations}
-                    />
-                  </>
-                ) : (
-                  ''
-                )}
-              </div>
-              <div className="flex flex-col w-full mt-12">
-                {factions.length ? (
-                  <>
-                    <h2 className="text-xl font-bold text-center">Factions</h2>
-                    <Factions
-                      onSort={(column, direction) => {
-                        sortStation(column, direction)
-                      }}
-                      loading={stationLoading}
-                      column={stationColumn}
-                      direction={stationDirection}
-                      factions={factions}
-                      stations={stations}
-                    />
-                  </>
-                ) : (
-                  ''
-                )}
-              </div>
-            </div>
+                <div className="flex w-full">
+                  <div className="flex flex-col w-full mt-12 mr-3">
+                    {orbital.length || fleetCarriers.length ? (
+                      <>
+                        <div className="flex w-full">
+                          {orbital.length ? (
+                            <a
+                              onClick={(e: React.MouseEvent) => {
+                                e.preventDefault
+                                setStationTab('orbital')
+                              }}
+                              className={`text-xl font-bold cursor-pointer ${
+                                stationTab === 'orbital' ? 'text-orange-400' : ''
+                              } ${fleetCarriers.length ? 'mr-2' : ''}`}
+                            >
+                              Orbital
+                            </a>
+                          ) : (
+                            ''
+                          )}
+                          {planetary.length ? (
+                            <a
+                              onClick={(e: React.MouseEvent) => {
+                                e.preventDefault
+                                setStationTab('planetary')
+                              }}
+                              className={`text-xl font-bold cursor-pointer ${
+                                stationTab === 'planetary' ? 'text-orange-400' : ''
+                              } ${planetary.length ? 'ml-2 mr-2' : ''}`}
+                            >
+                              Planetary
+                            </a>
+                          ) : (
+                            ''
+                          )}
+                          {fleetCarriers.length ? (
+                            <a
+                              onClick={(e: React.MouseEvent) => {
+                                e.preventDefault
+                                setStationTab('fleetCarriers')
+                              }}
+                              className={`text-xl font-bold cursor-pointer ${
+                                stationTab === 'fleetCarriers' ? 'text-orange-400' : ''
+                              } ${fleetCarriers.length ? 'ml-2' : ''}`}
+                            >
+                              Fleet Carriers
+                            </a>
+                          ) : (
+                            ''
+                          )}
+                        </div>
+                        {stationTab === 'orbital' && (
+                          <Stations
+                            stations={orbital}
+                            loading={loadingOrbital}
+                            column={orbitalColumn}
+                            direction={orbitalDirection}
+                            onSort={(column, direction) => {
+                              onSort(column, direction, 'orbital')
+                            }}
+                          />
+                        )}
+                        {stationTab === 'fleetCarriers' && (
+                          <Stations
+                            stations={fleetCarriers}
+                            loading={loadingFleetCarriers}
+                            column={fleetCarriersColumn}
+                            direction={fleetCarriersDirection}
+                            onSort={(column, direction) => {
+                              onSort(column, direction, 'fleetCarriers')
+                            }}
+                          />
+                        )}
+                        {stationTab === 'planetary' && (
+                          <Stations
+                            stations={planetary}
+                            loading={loadingPlanetary}
+                            column={planetaryColumn}
+                            direction={planetaryDirection}
+                            onSort={(column, direction) => {
+                              onSort(column, direction, 'planetary')
+                            }}
+                          />
+                        )}
+                      </>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+            {activeTab === 'factions' && (
+              <>
+                <div className="flex flex-col w-full mt-12">
+                  {factions.length ? (
+                    <>
+                      <Factions systemId={system.id} stations={stations} />
+                    </>
+                  ) : (
+                    <div className="flex items-center justify-center h-full">No Factions found</div>
+                  )}
+                </div>
+              </>
+            )}
+            {activeTab === 'bodies' && (
+              <>
+                <Bodies systemId={system.id} />
+              </>
+            )}
           </div>
         </>
       )}

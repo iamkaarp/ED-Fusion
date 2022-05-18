@@ -1,101 +1,90 @@
-import React, { FC } from 'react'
+import React, { FC, useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import * as _ from 'lodash'
 
+import EDFusion from '../../apis/EDFusion'
 import DateFormat from '../../helpers/DateFormat'
+import getStationTypes from '../../helpers/StationTypes'
 
 import ISystemStations from './interfaces/ISystemStations'
 import IStation from '../../interfaces/IStation'
 
-import Loader from '../Loader/index'
+import Table from '../Table/index'
 
-const Stations: FC<ISystemStations> = ({ stations, onSort, column, direction, loading }) => {
+const Stations: FC<ISystemStations> = ({ stations, loading, column, direction, onSort }) => {
+  const th = [
+    {
+      name: 'Station',
+      sort: 'name',
+      sortable: true,
+      mobile: true,
+    },
+    {
+      name: 'Type',
+      sort: 'type',
+      sortable: true,
+      mobile: false,
+    },
+    {
+      name: 'Landingpad',
+      sort: 'max_landing_pad_size',
+      sortable: true,
+      mobile: false,
+    },
+    {
+      name: 'Government',
+      sort: 'max_landing_pad_size',
+      sortable: false,
+      mobile: false,
+    },
+    {
+      name: 'Distance from arrival',
+      sort: 'distance_from_star',
+      sortable: true,
+      mobile: false,
+    },
+    {
+      name: 'Updated',
+      sort: 'updated_at',
+      sortable: true,
+      mobile: true,
+    },
+  ]
+
   return (
-    <div className="relative overflow-x-auto min-h-128 shadow-md sm:rounded-lg mt-4">
-      {loading && (
-        <div
-          className="absolute flex justify-center items-center w-full h-full"
-          style={{ background: 'rgba(0,0,0,0.5)' }}
-        >
-          <Loader />
-        </div>
-      )}
-      <table className="w-full text-sm text-left text-gray-400">
-        <thead className="text-xs uppercase bg-gray-700 text-gray-400">
-          <tr>
-            <th
-              scope="col"
-              className="px-6 py-3 cursor-pointer hover:text-orange-400"
-              onClick={() => {
-                onSort('name', direction === 'asc' ? 'desc' : 'asc')
-              }}
-            >
-              <div className="flex items-center">Station</div>
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 cursor-pointer hover:text-orange-400"
-              onClick={() => {
-                onSort('type', direction === 'asc' ? 'desc' : 'asc')
-              }}
-            >
-              <div className="flex items-center">Type</div>
-            </th>
-            <th scope="col" className="px-6 py-3 hover:text-orange-400">
-              <div className="flex items-center">Government</div>
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 cursor-pointer hover:text-orange-400"
-              onClick={() => {
-                onSort('max_landing_pad_size', direction === 'asc' ? 'desc' : 'asc')
-              }}
-            >
-              <div className="flex items-center">Landingpad Size</div>
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 cursor-pointer hover:text-orange-400"
-              onClick={() => {
-                onSort('distance_from_star', direction === 'asc' ? 'desc' : 'asc')
-              }}
-            >
-              <div className="flex items-center">Distance From Star</div>
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 cursor-pointer hover:text-orange-400"
-              onClick={() => {
-                onSort('updated_at', direction === 'asc' ? 'desc' : 'asc')
-              }}
-            >
-              <div className="flex items-center">Updated At</div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {stations.map((station: IStation) => {
-            return (
-              <tr
-                key={station.id}
-                className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600"
+    <div className="relative mt-4 overflow-x-auto shadow-md min-h-128 sm:rounded-lg">
+      <Table th={th} loading={loading} onSort={onSort} column={column} direction={direction}>
+        {stations.map((station: IStation) => {
+          return (
+            <tr key={station.id} className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600">
+              <th
+                scope="row"
+                className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"
               >
-                <th scope="row" className="px-6 py-4 font-medium text-white whitespace-nowrap">
-                  <Link to={`/station/${station.name}`} className="hover:text-orange-400">
-                    {station.name}
-                  </Link>
-                </th>
-                <td className="px-6 py-4">{station.type.match(/[A-Z][a-z]+/g)?.join(' ')}</td>
-                <td className="px-6 py-4">{station.government?.name}</td>
-                <td className="px-6 py-4">
-                  {station.max_landing_pad_size !== '' ? station.max_landing_pad_size : '-'}
-                </td>
-                <td className="px-6 py-4">{station.distance_from_star} Ls</td>
-                <td className="px-6 py-4">{DateFormat.fromNow(station.updated_at)}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+                <Link to={`/station/${station.name}`} className="hover:text-orange-400">
+                  {station.name}
+                </Link>
+              </th>
+              <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
+                {getStationTypes(station.type)}
+              </td>
+              <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
+                {station.max_landing_pad_size !== '' ? station.max_landing_pad_size : '-'}
+              </td>
+              <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
+                {station.government?.name}
+              </td>
+              <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
+                {station.distance_from_star.toLocaleString()} Ls
+              </td>
+              <td className="px-1.5 py-2 md:px-6 md:py-4">
+                {DateFormat.fromNow(station.updated_at)}
+              </td>
+            </tr>
+          )
+        })}
+      </Table>
     </div>
   )
 }

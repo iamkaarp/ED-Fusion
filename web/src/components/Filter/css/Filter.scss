@@ -1,0 +1,64 @@
+.filters-container {
+  @apply fixed left-0 top-0 flex flex-col h-screen;
+  background: rgba(30, 41, 59, 0.9);
+  transform: translateX(-300px);
+  width: 300px;
+  z-index: 9;
+}
+
+.filters-button {
+  @apply fixed z-10 left-0 top-20;
+  transform: translateX(300px);
+}
+
+.filter-wrapper-enter {
+  transform: translateX(-300px) !important;
+}
+
+.filter-wrapper-enter-active {
+  transform: translateX(0px) !important;
+  transition: transform 0.3s;
+}
+
+.filter-wrapper-enter-done {
+  transform: translateX(0px) !important;
+}
+
+.filter-wrapper-exit {
+  transform: translateX(0px) !important;
+}
+
+.filter-wrapper-exit-active {
+  transform: translateX(-300px) !important;
+  transition: transform 0.3s;
+}
+
+.filter-wrapper-exit-done {
+  transform: translateX(-300px) !important;
+}
+
+.filter-icon-enter {
+  transform: rotate(0deg) !important;
+}
+
+.filter-icon-enter-done {
+  transform: rotate(180deg) !important;
+}
+
+.filter-icon-enter-active {
+  transform: rotate(180deg) !important;
+  transition: transform 0.3s;
+}
+
+.filter-icon-exit {
+  transform: rotate(180deg) !important;
+}
+
+.filter-icon-exit-active {
+  transform: rotate(0deg) !important;
+  transition: transform 0.3s;
+}
+
+.filter-icon-exit-done {
+  transform: rotate(0deg) !important;
+}

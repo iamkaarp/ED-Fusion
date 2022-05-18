@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const initialState: Record<string, boolean> = {
+  search: false,
+}
+
 export const modal = createSlice({
   name: 'modal',
-  initialState: {
-    search: false,
-  },
+  initialState,
   reducers: {
-    openModal: (state) => {
-      state.search = true
+    openModal: (state, action) => {
+      state[action.payload.modal] = true
     },
-    closeModal: (state) => {
-      state.search = false
+    closeModal: (state, action) => {
+      state[action.payload.modal] = false
     },
   },
 })
