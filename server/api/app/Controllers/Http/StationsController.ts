@@ -485,35 +485,34 @@ export default class StationsController {
   public async storeShips({ request, response }: HttpContextContract) {
     try {
       const message = request.input('message')
-      const stationSearch = {
-        name: request.input('name'),
-        marketId: request.input('market_id'),
+
+      const station = await Station.query()
+        .where('name', request.input('name'))
+        .where('marketId', request.input('market_id'))
+        .first()
+
+      if (station) {
+        station.related('ships').updateOrCreateMany(
+          request.input('ships').map((s) => {
+            return { name: s.toLowerCase() }
+          }),
+          'name'
+        )
+
+        await Log.create({
+          type: 'station_ships',
+          typeId: station.id,
+          event: message.message.event ? message.message.event : 'ships',
+          schema: message.$schemaRef,
+          software: message.header.softwareName,
+          softwareVersion: message.header.softwareVersion,
+          message,
+        })
+
+        return response.status(201).json({ message: 'ships added', station })
+      } else {
+        return response.status(404).json({ message: 'station not found' })
       }
-
-      const stationPayload = {
-        name: request.input('name'),
-        marketId: request.input('market_id'),
-      }
-
-      const station = await Station.updateOrCreate(stationSearch, stationPayload)
-      station.related('ships').updateOrCreateMany(
-        request.input('ships').map((s) => {
-          return { name: s.toLowerCase() }
-        }),
-        'name'
-      )
-
-      await Log.create({
-        type: 'station_ships',
-        typeId: station.id,
-        event: message.message.event ? message.message.event : 'ships',
-        schema: message.$schemaRef,
-        software: message.header.softwareName,
-        softwareVersion: message.header.softwareVersion,
-        message,
-      })
-
-      return response.status(201).json({ message: 'ships added', station })
     } catch (e) {
       return response.status(400).json({ message: e.message })
     }
@@ -521,35 +520,33 @@ export default class StationsController {
   public async storeModules({ request, response }: HttpContextContract) {
     try {
       const message = request.input('message')
-      const stationSearch = {
-        name: request.input('name'),
-        marketId: request.input('market_id'),
+      const station = await Station.query()
+        .where('name', request.input('name'))
+        .where('marketId', request.input('market_id'))
+        .first()
+
+      if (station) {
+        station.related('modules').updateOrCreateMany(
+          request.input('modules').map((s) => {
+            return { name: s.toLowerCase() }
+          }),
+          'name'
+        )
+
+        await Log.create({
+          type: 'station_modules',
+          typeId: station.id,
+          event: message.message.event ? message.message.event : 'module',
+          schema: message.$schemaRef,
+          software: message.header.softwareName,
+          softwareVersion: message.header.softwareVersion,
+          message,
+        })
+
+        return response.status(201).json({ message: 'modules added', station })
       }
 
-      const stationPayload = {
-        name: request.input('name'),
-        marketId: request.input('market_id'),
-      }
-
-      const station = await Station.updateOrCreate(stationSearch, stationPayload)
-      station.related('modules').updateOrCreateMany(
-        request.input('modules').map((s) => {
-          return { name: s.toLowerCase() }
-        }),
-        'name'
-      )
-
-      await Log.create({
-        type: 'station_modules',
-        typeId: station.id,
-        event: message.message.event ? message.message.event : 'module',
-        schema: message.$schemaRef,
-        software: message.header.softwareName,
-        softwareVersion: message.header.softwareVersion,
-        message,
-      })
-
-      return response.status(201).json({ message: 'modules added', station })
+      return response.status(201).json({ message: 'station not found' })
     } catch (e) {
       return response.status(400).json({ message: e.message })
     }
