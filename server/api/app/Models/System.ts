@@ -14,13 +14,14 @@ import Economy from 'App/Models/Economy'
 import Security from 'App/Models/Security'
 import SuperPower from 'App/Models/SuperPower'
 import SystemFaction from 'App/Models/SystemFaction'
+import Body from 'App/Models/Body'
 
 export default class System extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public stationId: number
+  public needsPermit: boolean
 
   @column()
   public primaryEconomyId: number
@@ -81,6 +82,9 @@ export default class System extends BaseModel {
 
   @hasMany(() => SystemFaction)
   public factions: HasMany<typeof SystemFaction>
+
+  @hasMany(() => Body)
+  public bodies: HasMany<typeof Body>
 
   @beforeSave()
   public static async calculateDistance(system: System) {

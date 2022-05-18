@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
-import Service from 'App/Models/Service'
 
-export default class StationService extends BaseModel {
+import Ship from 'App/Models/Ship'
+
+export default class StationShip extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -15,9 +16,9 @@ export default class StationService extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasOne(() => Service, {
-    foreignKey: 'key',
+  @hasOne(() => Ship, {
     localKey: 'name',
+    foreignKey: 'key',
   })
-  public service: HasOne<typeof Service>
+  public ship: HasOne<typeof Ship>
 }

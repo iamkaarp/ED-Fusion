@@ -5,8 +5,7 @@ export default class Systems extends BaseSchema {
 
   public async up() {
     this.schema.alterTable(this.tableName, (table) => {
-      table.string('type').notNullable().defaultTo('unknown').after('address')
-      table.boolean('needs_permit').notNullable().defaultTo(false).after('type')
+      table.boolean('needs_permit').notNullable().defaultTo(false).after('address')
     })
   }
 

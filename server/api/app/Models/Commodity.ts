@@ -1,4 +1,5 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import StationCommodity from 'App/Models/StationCommodity'
 
 export default class Commodity extends BaseModel {
   @column({ isPrimary: true })
@@ -12,4 +13,31 @@ export default class Commodity extends BaseModel {
 
   @column()
   public name: string
+
+  @column()
+  public avgSell: number
+
+  @column()
+  public avgBuy: number
+
+  @column()
+  public maxSell: number
+
+  @column()
+  public maxBuy: number
+
+  @column()
+  public minSell: number
+
+  @column()
+  public minBuy: number
+
+  @column()
+  public category: string
+
+  @hasMany(() => StationCommodity, {
+    localKey: 'key',
+    foreignKey: 'name',
+  })
+  public stationCommodities: HasMany<typeof StationCommodity>
 }

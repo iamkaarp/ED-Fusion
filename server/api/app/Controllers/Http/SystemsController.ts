@@ -8,6 +8,9 @@ import SuperPower from 'App/Models/SuperPower'
 import Government from 'App/Models/Government'
 import SystemFaction from 'App/Models/SystemFaction'
 import Station from 'App/Models/Station'
+import Body from 'App/Models/Body'
+
+import Log from 'App/Models/Log'
 
 export default class SystemsController {
   private columns = ['name', 'population', 'distance', 'updated_at']
@@ -41,6 +44,90 @@ export default class SystemsController {
       const sys = system ? system.id : 492
       const stations = await Station.query()
         .where('system_id', sys)
+        .andWhereNot('type', 'FleetCarrier')
+        .preload('economies', (query) => {
+          query.preload('economy')
+        })
+        .preload('faction', (query) => {
+          query.preload('faction')
+        })
+        .preload('government')
+        .orderBy(column, direction)
+
+      return response.status(200).json(stations)
+    } catch (e) {
+      console.log(e.message)
+      return response.status(404).json({ message: 'System not found' })
+    }
+  }
+
+  public async indexOribtalStations({ response, params }: HttpContextContract) {
+    try {
+      const columns = ['type', 'name', 'updated_at', 'distance_from_star', 'max_landing_pad_size']
+      const direction = this.directions.includes(params.direction) ? params.direction : 'asc'
+      const column = columns.includes(params.column) ? params.column : 'distance_from_star'
+      const id = decodeURI(params.id)
+      const system = await System.find(id)
+      const sys = system ? system.id : 492
+      const stationTypes = ['FleetCarrier', 'CraterOutpost', 'OnFootSettlement', 'CraterPort']
+      const stations = await Station.query()
+        .where('system_id', sys)
+        .whereNotIn('type', stationTypes)
+        .preload('economies', (query) => {
+          query.preload('economy')
+        })
+        .preload('faction', (query) => {
+          query.preload('faction')
+        })
+        .preload('government')
+        .orderBy(column, direction)
+
+      return response.status(200).json(stations)
+    } catch (e) {
+      console.log(e.message)
+      return response.status(404).json({ message: 'System not found' })
+    }
+  }
+
+  public async indexPlanetaryStations({ response, params }: HttpContextContract) {
+    try {
+      const columns = ['type', 'name', 'updated_at', 'distance_from_star', 'max_landing_pad_size']
+      const direction = this.directions.includes(params.direction) ? params.direction : 'asc'
+      const column = columns.includes(params.column) ? params.column : 'distance_from_star'
+      const id = decodeURI(params.id)
+      const system = await System.find(id)
+      const sys = system ? system.id : 492
+      const stationTypes = ['CraterOutpost', 'OnFootSettlement', 'CraterPort']
+      const stations = await Station.query()
+        .where('system_id', sys)
+        .whereIn('type', stationTypes)
+        .preload('economies', (query) => {
+          query.preload('economy')
+        })
+        .preload('faction', (query) => {
+          query.preload('faction')
+        })
+        .preload('government')
+        .orderBy(column, direction)
+
+      return response.status(200).json(stations)
+    } catch (e) {
+      console.log(e.message)
+      return response.status(404).json({ message: 'System not found' })
+    }
+  }
+
+  public async indexFleetCarriers({ response, params }: HttpContextContract) {
+    try {
+      const columns = ['type', 'name', 'updated_at', 'distance_from_star', 'max_landing_pad_size']
+      const direction = this.directions.includes(params.direction) ? params.direction : 'asc'
+      const column = columns.includes(params.column) ? params.column : 'distance_from_star'
+      const id = decodeURI(params.id)
+      const system = await System.find(id)
+      const sys = system ? system.id : 492
+      const stations = await Station.query()
+        .where('system_id', sys)
+        .andWhere('type', 'FleetCarrier')
         .preload('economies', (query) => {
           query.preload('economy')
         })
@@ -59,21 +146,86 @@ export default class SystemsController {
 
   public async indexFactions({ response, params }: HttpContextContract) {
     try {
-      const columns = ['faction.name', 'influence', 'updated_at']
+      const columns = [
+        'factions.name',
+        'influence',
+        'state',
+        'super_powers.name',
+        'governments.name',
+        'factions.updated_at',
+      ]
       const direction = this.directions.includes(params.direction) ? params.direction : 'asc'
       const column = columns.includes(params.column) ? params.column : 'influence'
       const id = decodeURI(params.id)
       const system = await System.find(id)
       const sys = system ? system.id : 492
       const stations = await SystemFaction.query()
+        .select('faction_id', 'factions.*', 'governments.name', 'super_powers.name')
         .where('system_id', sys)
         .join('factions', 'system_factions.faction_id', '=', 'factions.id')
+        .join('governments', 'factions.government_id', '=', 'governments.id')
+        .join('super_powers', 'factions.allegiance_id', '=', 'super_powers.id')
         .preload('faction', (query) => {
           query.preload('government').preload('allegiance')
         })
         .orderBy(column, direction)
 
       return response.status(200).json(stations)
+    } catch (e) {
+      console.log(e.message)
+      return response.status(404).json({ message: 'System not found' })
+    }
+  }
+
+  public async indexBodies({ response, params }: HttpContextContract) {
+    try {
+      const columns = ['name', 'class', 'atmosphere', 'mass', 'landable', 'distance', 'updated_at']
+      const direction = this.directions.includes(params.direction) ? params.direction : 'asc'
+      const column = columns.includes(params.column) ? params.column : 'name'
+      const id = decodeURI(params.id)
+      const system = await System.findOrFail(id)
+
+      const bodies = await Body.query()
+        .where('system_id', system.id)
+        .preload('planets', (query) => {
+          query.preload('compositions').preload('materials').orderBy(column, direction)
+        })
+        .first()
+
+      if (bodies) {
+        return response.status(200).json(bodies)
+      } else {
+        return response
+          .status(200)
+          .json({ id: null, system_id: system.id, updated_at: null, planets: [], stars: [] })
+      }
+    } catch (e) {
+      return response.status(404).json({ message: 'System not found' })
+    }
+  }
+
+  public async indexStars({ response, params }: HttpContextContract) {
+    try {
+      const columns = ['name', 'type', 'is_main', 'mass', 'distance', 'updated_at']
+      const direction = this.directions.includes(params.direction) ? params.direction : 'asc'
+      const column = columns.includes(params.column) ? params.column : 'name'
+      const id = decodeURI(params.id)
+      const system = await System.findOrFail(id)
+
+      const bodies = await Body.query()
+        .where('system_id', system.id)
+        .preload('stars', (query) => {
+          query.orderBy(column, direction)
+        })
+        .first()
+
+      if (bodies) {
+        return response.status(200).json(bodies)
+      } else {
+        return response
+          .status(200)
+          .json({ id: null, system_id: system.id, updated_at: null, planets: [], stars: [] })
+      }
     } catch (e) {
       return response.status(404).json({ message: 'System not found' })
     }
@@ -137,6 +289,7 @@ export default class SystemsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
+    const message = request.input('message')
     const search = {
       name: request.input('name'),
       address: request.input('address'),
@@ -157,7 +310,7 @@ export default class SystemsController {
       primaryEconomyId: economy?.id,
       allegianceId: superPower?.id,
     }
-    const system = await System.updateOrCreate(search, payload)
+    const system = await System.firstOrCreate(search, payload)
     if (request.input('factions')) {
       const factionsPayload = await Promise.all(
         request.input('factions').map(async (f) => {
@@ -186,6 +339,15 @@ export default class SystemsController {
       })
       await SystemFaction.updateOrCreateMany(['systemId', 'factionId'], systemFactions)
     }
+    await Log.create({
+      type: 'system',
+      typeId: system.id,
+      event: message.message.event ? message.message.event : 'system',
+      schema: message.$schemaRef,
+      software: message.header.softwareName,
+      softwareVersion: message.header.softwareVersion,
+      message,
+    })
     return response.status(201).json({ system })
   }
 

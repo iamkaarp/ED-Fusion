@@ -16,6 +16,9 @@ import StationEconomy from 'App/Models/StationEconomy'
 import StationFaction from 'App/Models/StationFaction'
 import StationCommodity from 'App/Models/StationCommodity'
 import StationService from 'App/Models/StationService'
+import StationShip from 'App/Models/StationShip'
+import StationModule from 'App/Models/StationModule'
+import SuperPower from 'App/Models/SuperPower'
 
 export default class Station extends BaseModel {
   @column({ isPrimary: true })
@@ -43,6 +46,15 @@ export default class Station extends BaseModel {
   public distanceFromStar: number
 
   @column()
+  public largePads: number
+
+  @column()
+  public mediumPads: number
+
+  @column()
+  public smallPads: number
+
+  @column()
   public maxLandingPadSize: string
 
   @column()
@@ -59,6 +71,12 @@ export default class Station extends BaseModel {
     localKey: 'governmentId',
   })
   public government: HasOne<typeof Government>
+
+  @hasOne(() => SuperPower, {
+    foreignKey: 'id',
+    localKey: 'allegianceId',
+  })
+  public allegiance: HasOne<typeof SuperPower>
 
   @hasOne(() => Economy, {
     foreignKey: 'id',
@@ -77,4 +95,10 @@ export default class Station extends BaseModel {
 
   @hasMany(() => StationService)
   public services: HasMany<typeof StationService>
+
+  @hasMany(() => StationShip)
+  public ships: HasMany<typeof StationShip>
+
+  @hasMany(() => StationModule)
+  public modules: HasMany<typeof StationModule>
 }
