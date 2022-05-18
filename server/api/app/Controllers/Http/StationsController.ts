@@ -468,7 +468,7 @@ export default class StationsController {
       })
 
       await Log.create({
-        type: 'station_commodity',
+        type: 'station',
         typeId: station.id,
         event: message.message.event ? message.message.event : 'commodity',
         schema: message.$schemaRef,
@@ -500,7 +500,7 @@ export default class StationsController {
         )
 
         await Log.create({
-          type: 'station_ships',
+          type: 'station',
           typeId: station.id,
           event: message.message.event ? message.message.event : 'ships',
           schema: message.$schemaRef,
@@ -534,7 +534,7 @@ export default class StationsController {
         )
 
         await Log.create({
-          type: 'station_modules',
+          type: 'station',
           typeId: station.id,
           event: message.message.event ? message.message.event : 'module',
           schema: message.$schemaRef,
