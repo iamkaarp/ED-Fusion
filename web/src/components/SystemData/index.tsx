@@ -49,38 +49,46 @@ const SystemData: FC<ISystemData> = ({ name }) => {
   const tabs = ['System', 'Factions', 'Bodies']
 
   const fetchStations = async (id: number) => {
-    const res = await EDFusion.systems.stations(id, 'updated_at', 'desc')
+    const res = await EDFusion.systems.stations.index(id, 'updated_at', 'desc')
     setStations(res)
   }
 
   const fetchFactions = async (id: number) => {
-    const res = await EDFusion.systems.factions(id, 'influence', 'desc')
+    const res = await EDFusion.systems.factions.index(id, 'influence', 'desc')
     setFactions(res)
   }
 
   const fetchData = _.memoize(async () => {
-    const res = await EDFusion.systems.get(name)
+    const res = await EDFusion.systems.show(name)
     setSystem(res)
     setLoading(false)
   })
 
   const fetchOrbital = _.memoize(async () => {
     setLoadingOrbital(true)
-    const res = await EDFusion.systems.orbital(system.id, orbitalColumn, orbitalDirection)
+    const res = await EDFusion.systems.stations.orbital(system.id, orbitalColumn, orbitalDirection)
     setOrbital(res)
     setLoadingOrbital(false)
   })
 
   const fetchPlanetary = _.memoize(async () => {
     setLoadingPlanetary(true)
-    const res = await EDFusion.systems.planetary(system.id, planetaryColumn, planetaryDirection)
+    const res = await EDFusion.systems.stations.planetary(
+      system.id,
+      planetaryColumn,
+      planetaryDirection
+    )
     setPlanetary(res)
     setLoadingPlanetary(false)
   })
 
   const fetchFleetCarriers = _.memoize(async () => {
     setLoadingFleetCarriers(true)
-    const res = await EDFusion.systems.fleetCarriers(system.id, planetaryColumn, planetaryDirection)
+    const res = await EDFusion.systems.stations.fleetCarriers(
+      system.id,
+      planetaryColumn,
+      planetaryDirection
+    )
     setFleetCarriers(res)
     setLoadingFleetCarriers(false)
   })

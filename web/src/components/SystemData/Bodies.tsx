@@ -119,14 +119,14 @@ const Bodies: FC<ISystemBodies> = ({ systemId }) => {
 
   const fetchPlanets = _.memoize(async () => {
     setLoadingPlanets(true)
-    const bodies = await EDFusion.systems.bodies(systemId, planetColumn, planetDirection)
+    const bodies = await EDFusion.systems.bodies.planets(systemId, planetColumn, planetDirection)
     setPlanets(bodies.planets)
     setLoadingPlanets(false)
   })
 
   const fetchStars = _.memoize(async () => {
     setLoadingStars(true)
-    const bodies = await EDFusion.systems.stars(systemId, starColumn, starDirection)
+    const bodies = await EDFusion.systems.bodies.stars(systemId, starColumn, starDirection)
     setStars(bodies.stars)
     setLoadingStars(false)
   })

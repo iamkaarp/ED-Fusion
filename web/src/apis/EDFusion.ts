@@ -26,6 +26,7 @@ interface Stations {
     total: number
   }
 }
+
 class EDFusion {
   http: Axios = axios.create({
     //baseURL: 'https://api.ed-fusion.com',
@@ -39,76 +40,145 @@ class EDFusion {
   })
 
   systems = {
-    get: async (system: string): Promise<ISystem> => {
+    show: async (system: string): Promise<ISystem> => {
       const response = await this.http.get(`/systems/${system}`)
       return response.data.system
     },
-    index: async (page: number, sortBy: string, order: string): Promise<Systems> => {
-      const response = await this.http.get(`/systems/${page}/${sortBy}/${order}`)
+    index: async (
+      page: number,
+      column: string,
+      direction: string,
+      params: object = {}
+    ): Promise<Systems> => {
+      const p = { ...params, page, column, direction }
+      const response = await this.http.get('/systems', {
+        params: p,
+      })
       return response.data.systems
     },
     search: async (query: string): Promise<ISystem[]> => {
-      const response = await this.http.get('/systems/search/', {
+      const response = await this.http.get('/systems/find', {
         params: {
           q: query,
         },
       })
       return response.data.systems
     },
-    stations: async (id: number, sortBy: string, order: string): Promise<any> => {
-      const response = await this.http.get(`/system/${id}/stations/${sortBy}/${order}`)
-      return response.data
+    stations: {
+      index: async (
+        id: number,
+        column: string,
+        direction: string,
+        params: object = {}
+      ): Promise<any> => {
+        const p = { ...params, column, direction }
+        const response = await this.http.get(`/systems/${id}/stations`, {
+          params: p,
+        })
+        return response.data
+      },
+      orbital: async (
+        id: number,
+        column: string,
+        direction: string,
+        params: object = {}
+      ): Promise<any> => {
+        const p = { ...params, column, direction }
+        const response = await this.http.get(`/systems/${id}/stations/orbital`, {
+          params: p,
+        })
+        return response.data
+      },
+      planetary: async (
+        id: number,
+        column: string,
+        direction: string,
+        params: object = {}
+      ): Promise<any> => {
+        const p = { ...params, column, direction }
+        const response = await this.http.get(`/systems/${id}/stations/planetary`, {
+          params: p,
+        })
+        return response.data
+      },
+      fleetCarriers: async (
+        id: number,
+        column: string,
+        direction: string,
+        params: object = {}
+      ): Promise<any> => {
+        const p = { ...params, column, direction }
+        const response = await this.http.get(`/systems/${id}/stations/fleetcarrier`, {
+          params: p,
+        })
+        return response.data
+      },
     },
-    orbital: async (id: number, sortBy: string, order: string): Promise<any> => {
-      const response = await this.http.get(`/system/${id}/stations/orbital/${sortBy}/${order}`)
-      return response.data
+    factions: {
+      index: async (
+        id: number,
+        column: string,
+        direction: string,
+        params: object = {}
+      ): Promise<any> => {
+        const p = { ...params, column, direction }
+        const response = await this.http.get(`/systems/${id}/factions`, {
+          params: p,
+        })
+        return response.data
+      },
     },
-    planetary: async (id: number, sortBy: string, order: string): Promise<any> => {
-      const response = await this.http.get(`/system/${id}/stations/planetary/${sortBy}/${order}`)
-      return response.data
+    bodies: {
+      planets: async (
+        id: number,
+        column: string,
+        direction: string,
+        params: object = {}
+      ): Promise<any> => {
+        const p = { ...params, column, direction }
+        const response = await this.http.get(`/systems/${id}/bodies/planets`, {
+          params: p,
+        })
+        return response.data
+      },
+      stars: async (
+        id: number,
+        column: string,
+        direction: string,
+        params: object = {}
+      ): Promise<any> => {
+        const p = { ...params, column, direction }
+        const response = await this.http.get(`/systems/${id}/bodies/stars`, {
+          params: p,
+        })
+        return response.data
+      },
     },
-    fleetCarriers: async (id: number, sortBy: string, order: string): Promise<any> => {
-      const response = await this.http.get(
-        `/system/${id}/stations/fleetCarriers/${sortBy}/${order}`
-      )
-      return response.data
-    },
-    bodies: async (id: number, sortBy: string, order: string): Promise<any> => {
-      const response = await this.http.get(`/system/${id}/bodies/${sortBy}/${order}`)
-      return response.data
-    },
-    stars: async (id: number, sortBy: string, order: string): Promise<any> => {
-      const response = await this.http.get(`/system/${id}/stars/${sortBy}/${order}`)
-      return response.data
-    },
-    factions: async (id: number, sortBy: string, order: string): Promise<any> => {
-      const response = await this.http.get(`/system/${id}/factions/${sortBy}/${order}`)
-      return response.data
-    },
-    positions: async (distance: number = 150): Promise<any> => {
-      const response = await this.http.get(`/systems/positions/${distance}`)
+
+    positions: async (distance: number = 150, params: object = {}): Promise<any> => {
+      const p = { ...params, distance }
+      const response = await this.http.get('/systems/positions', {
+        params: p,
+      })
       return response.data
     },
   }
 
   stations = {
-    get: async (system: string): Promise<IStation> => {
-      const response = await this.http.get(`/stations/${system}`)
-      return response.data.station
-    },
     index: async (
       page: number,
-      sortBy: string,
-      order: string,
+      column: string,
+      direction: string,
       params: object = {}
     ): Promise<Stations> => {
-      const response = await this.http.get(`/stations/${page}/${sortBy}/${order}`, {
-        params,
+      const p = { ...params, page, column, direction }
+      const response = await this.http.get('/stations', {
+        params: p,
       })
       return response.data.stations
     },
     search: async (query: string): Promise<IStation[]> => {
-      const response = await this.http.get('/stations/search', {
+      const response = await this.http.get('/stations/find', {
         params: {
           q: query,
         },
@@ -123,17 +193,43 @@ class EDFusion {
       const response = await this.http.get(`/station/${id}/ships`)
       return response.data
     },
-    indexModules: async (id: number, sortBy: string, order: string): Promise<any> => {
-      const response = await this.http.get(`/station/${id}/modules/${sortBy}/${order}`)
-      return response.data
-    },
-    market: async (id: number, sortBy: string, order: string): Promise<any> => {
-      const response = await this.http.get(`/station/${id}/commodities/${sortBy}/${order}`)
-      return response.data
-    },
     show: async (name: string): Promise<IStation> => {
-      const response = await this.http.get(`/station/${name}`)
+      const response = await this.http.get(`/stations/${name}`)
       return response.data.station
+    },
+    ships: {
+      index: async (id: number): Promise<any> => {
+        const response = await this.http.get(`/stations/${id}/ships`)
+        return response.data
+      },
+    },
+    outfitting: {
+      index: async (
+        id: number,
+        column: string,
+        direction: string,
+        params: object = {}
+      ): Promise<any> => {
+        const p = { ...params, column, direction }
+        const response = await this.http.get(`/stations/${id}/outfitting`, {
+          params: p,
+        })
+        return response.data
+      },
+    },
+    commodities: {
+      index: async (
+        id: number,
+        column: string,
+        direction: string,
+        params: object = {}
+      ): Promise<any> => {
+        const p = { ...params, column, direction }
+        const response = await this.http.get(`/stations/${id}/commodities`, {
+          params: p,
+        })
+        return response.data
+      },
     },
   }
 
@@ -150,7 +246,7 @@ class EDFusion {
       return response
     },
     categories: async (): Promise<any> => {
-      const response = await this.http.get('/commodity/categories')
+      const response = await this.http.get('/commodities/categories')
       return response
     },
   }

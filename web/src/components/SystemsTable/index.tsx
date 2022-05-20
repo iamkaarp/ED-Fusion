@@ -8,6 +8,7 @@ import EDFusion from '../../apis/EDFusion'
 
 import ISystem from '../../interfaces/ISystem'
 import ISystemsTable from './interfaces/ISystemsTable'
+import IFilters from '../SystemsTable/interfaces/IFilters'
 
 import DateFormat from '../../helpers/DateFormat'
 import Pagination from '../Pagination'
@@ -16,6 +17,8 @@ import './css/index.scss'
 
 import Loader from '../Loader/index'
 import Table from '../Table'
+import Filter from '../Filter'
+import Filters from './Filters'
 
 const SystemsTable: FC<ISystemsTable> = ({ page }) => {
   const [systems, setSystems] = useState<ISystem[]>([])
@@ -25,9 +28,13 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
   const [loading, setLoading] = useState<boolean>(true)
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
 
+  const [filters, setFilters] = useState<IFilters>({
+    showPopulated: true,
+  })
+
   const fetchData = async () => {
     setLoading(true)
-    const res = await EDFusion.systems.index(page, column, direction)
+    const res = await EDFusion.systems.index(page, column, direction, filters)
     setSystems(res.data)
     setMeta(res.meta)
     setLoading(false)
@@ -43,7 +50,7 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
 
   useEffect(() => {
     fetchData()
-  }, [page, column, direction])
+  }, [page, column, direction, filters])
 
   useEffect(() => {
     setFirstLoad(true)
@@ -55,6 +62,16 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
   const sort = (column: string, direction: string) => {
     setColumns(column)
     setDirection(direction)
+  }
+
+  const onFilter = (value: string, items: any | any[] = []): void => {
+    let f = { ...filters }
+    switch (value) {
+      case 'showPopulated':
+        f = { ...filters, showPopulated: !filters.showPopulated }
+        break
+    }
+    setFilters(f)
   }
 
   const th = [
@@ -85,11 +102,13 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
     {
       name: 'Distance Sol',
       sort: 'distance',
+      sortable: true,
       mobile: true,
     },
     {
       name: 'Updated',
       sort: 'updated_at',
+      sortable: true,
       mobile: true,
     },
   ]
@@ -104,6 +123,14 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
         </div>
       ) : (
         <>
+          <div className="flex w-full mb-4">
+            <Filter>
+              <Filters
+                onFilter={(value: string, items: any[] = []) => onFilter(value, items)}
+                filters={filters}
+              />
+            </Filter>
+          </div>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <Table th={th} loading={loading} onSort={sort} column={column} direction={direction}>
               {systems.map((system: ISystem) => {

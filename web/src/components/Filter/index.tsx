@@ -37,7 +37,7 @@ const Filter: FC<IFilterProps> = ({ children }) => {
             <div className="tooltip-arrow" data-popper-arrow />
           </div>
         </div>
-        <div className="h-full px-4 py-20 overflow-auto md:py-8">{children}</div>
+        <div className="h-full px-4 py-20 overflow-auto">{children}</div>
       </div>
     </CSSTransition>
   )

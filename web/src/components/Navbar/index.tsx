@@ -141,6 +141,15 @@ const NavBar: FC = () => {
                   Map
                 </Link>
               </li>
+              <li>
+                <Link
+                  onClick={() => setMenu(false)}
+                  to="/about"
+                  className="block py-2 pl-3 pr-4 text-gray-400 border-b border-gray-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                >
+                  About
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

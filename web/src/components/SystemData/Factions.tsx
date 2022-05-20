@@ -30,7 +30,7 @@ const Factions: FC<ISystemFactions> = ({ systemId, stations }) => {
 
   const fetchFactions = _.memoize(async () => {
     setLoading(true)
-    const factions = await EDFusion.systems.factions(systemId, column, direction)
+    const factions = await EDFusion.systems.factions.index(systemId, column, direction)
     setFactions(factions)
     setLoading(false)
   })

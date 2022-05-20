@@ -49,30 +49,36 @@ const Shipyard: FC<Shipyard> = ({ ships, discount }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-2 md:gap-4 md:grid-cols-5">
-      {ships.map((ship: IShipyard) => {
-        return (
-          <Link key={ship.id} to={`/shipyard/${ship.ship.name}`}>
-            <div className="bg-gray-700 border-gray-900 rounded-lg shadow-md shipyard ">
-              <div
-                className="w-full ship-image"
-                style={{ backgroundImage: `url(${shipyard[ship.name]})` }}
-              />
-              <div className="p-5">
-                <span className="text-lg font-bold text-white ship-name">{ship.ship.name}</span>
-                <p className="text-sm font-bold text-gray-300">{ship.ship.manufacturer}</p>
-                <p className="mb-3 font-normal text-gray-400">
-                  {price(ship.ship.price, ship.ship.manufacturer, ship.ship.name)}
-                </p>
-                <p className="mb-3 text-xs text-gray-400">
-                  {ship.ship.rank !== '' ? ship.ship.rank : '\u00A0'}
-                </p>
-              </div>
-            </div>
-          </Link>
-        )
-      })}
-    </div>
+    <>
+      {ships.length > 0 ? (
+        <div className="grid grid-cols-1 gap-2 md:gap-4 md:grid-cols-5">
+          {ships.map((ship: IShipyard) => {
+            return (
+              <Link key={ship.id} to={`/shipyard/${ship.ship.name}`}>
+                <div className="bg-gray-700 border-gray-900 rounded-lg shadow-md shipyard ">
+                  <div
+                    className="w-full ship-image"
+                    style={{ backgroundImage: `url(${shipyard[ship.name]})` }}
+                  />
+                  <div className="p-5">
+                    <span className="text-lg font-bold text-white ship-name">{ship.ship.name}</span>
+                    <p className="text-sm font-bold text-gray-300">{ship.ship.manufacturer}</p>
+                    <p className="mb-3 font-normal text-gray-400">
+                      {price(ship.ship.price, ship.ship.manufacturer, ship.ship.name)}
+                    </p>
+                    <p className="mb-3 text-xs text-gray-400">
+                      {ship.ship.rank !== '' ? ship.ship.rank : '\u00A0'}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-full">No ships found</div>
+      )}
+    </>
   )
 }
 

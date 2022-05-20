@@ -90,57 +90,63 @@ const Outfitting: FC<OutfittingProps> = ({ modules, loading, column, direction, 
 
   return (
     <>
-      <div className="relative mt-4 overflow-x-auto shadow-md min-h-128 sm:rounded-lg">
-        <Input
-          type="text"
-          title="Filter"
-          placeholder="8A Fuel Scoop"
-          classes=""
-          value={filter}
-          onChange={onChange}
-        />
-      </div>
-      <div className="relative mt-4 overflow-x-auto shadow-md min-h-128 sm:rounded-lg">
-        <Table th={th} loading={loading} onSort={onSort} column={column} direction={direction}>
-          {filteredModules.map((module: IOutfitting) => {
-            return (
-              <tr
-                key={module.id}
-                className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
-              >
-                <th
-                  scope="row"
-                  className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"
-                >
-                  {module.module.class}
-                  {module.module.rating} {module.module.name}
-                </th>
-                <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
-                  {module.module.category}
-                </td>
-                <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
-                  {module.module.mount}
-                </td>
-                <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
-                  {module.module.guidance}
-                </td>
-                <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
-                  {module.module.ship}
-                </td>
-                <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
-                  {module.module.class}
-                </td>
-                <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
-                  {module.module.rating}
-                </td>
-                <td className="px-1.5 py-2 md:px-6 md:py-4">
-                  {module.module.price.toLocaleString()} Cr
-                </td>
-              </tr>
-            )
-          })}
-        </Table>
-      </div>
+      {filteredModules.length > 0 ? (
+        <>
+          <div className="relative mt-4 overflow-x-auto shadow-md min-h-128 sm:rounded-lg">
+            <Input
+              type="text"
+              title="Filter"
+              placeholder="8A Fuel Scoop"
+              classes=""
+              value={filter}
+              onChange={onChange}
+            />
+          </div>
+          <div className="relative mt-4 overflow-x-auto shadow-md min-h-128 sm:rounded-lg">
+            <Table th={th} loading={loading} onSort={onSort} column={column} direction={direction}>
+              {filteredModules.map((module: IOutfitting) => {
+                return (
+                  <tr
+                    key={module.id}
+                    className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+                  >
+                    <th
+                      scope="row"
+                      className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"
+                    >
+                      {module.module.class}
+                      {module.module.rating} {module.module.name}
+                    </th>
+                    <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
+                      {module.module.category}
+                    </td>
+                    <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
+                      {module.module.mount}
+                    </td>
+                    <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
+                      {module.module.guidance}
+                    </td>
+                    <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
+                      {module.module.ship}
+                    </td>
+                    <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
+                      {module.module.class}
+                    </td>
+                    <td className="px-1.5 py-2 hidden md:table-cell md:px-6 md:py-4">
+                      {module.module.rating}
+                    </td>
+                    <td className="px-1.5 py-2 md:px-6 md:py-4">
+                      {module.module.price.toLocaleString()} Cr
+                    </td>
+                  </tr>
+                )
+              })}
+            </Table>
+          </div>
+        </>
+      ) : (
+        <div className="flex items-center justify-center h-full">No Outfitting found</div>
+      )}
     </>
   )
 }

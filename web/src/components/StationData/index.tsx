@@ -59,13 +59,13 @@ const Station: FC<StationData> = ({ name }) => {
   })
 
   const fetchShips = _.memoize(async () => {
-    const res = await EDFusion.stations.indexShips(station.id)
+    const res = await EDFusion.stations.ships.index(station.id)
     setShips(res)
   })
 
   const fetchOutfitting = _.memoize(async () => {
     setLoadingOutfitting(true)
-    const res = await EDFusion.stations.indexModules(
+    const res = await EDFusion.stations.outfitting.index(
       station.id,
       outfittingColumn,
       outfittingDirection
@@ -76,7 +76,7 @@ const Station: FC<StationData> = ({ name }) => {
 
   const fetchMarket = _.memoize(async () => {
     setLoadingMarket(true)
-    const res = await EDFusion.stations.market(station.id, marketColumn, marketDirection)
+    const res = await EDFusion.stations.commodities.index(station.id, marketColumn, marketDirection)
     setMarket(res)
     setLoadingMarket(false)
   })

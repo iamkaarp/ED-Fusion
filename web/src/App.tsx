@@ -13,6 +13,7 @@ import MapV2 from './views/MapV2'
 import MapV3 from './views/MapV3'
 
 import ModalHandler from './components/Modals'
+import Footer from './components/Footer'
 import ShipyardView from './views/Shipyard'
 
 const App = () => {

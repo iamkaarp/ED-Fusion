@@ -67,62 +67,68 @@ const Market: FC<IMarketProps> = ({ commodities, loading, column, direction, onS
   ]
 
   return (
-    <div className="relative mt-4 overflow-x-auto shadow-md min-h-128 sm:rounded-lg">
-      <Table loading={loading} th={th} onSort={onSort} column={column} direction={direction}>
-        {categories.map((category: string) => {
-          return (
-            <Fragment key={category}>
-              {commodities.find(
-                (commodity: IMarket) => commodity.commodity.category === category
-              ) && (
-                <>
-                  <tr className="bg-gray-900 border-b border-gray-700 hover:bg-gray-600">
-                    <th
-                      className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"
-                      colSpan={th.length}
-                    >
-                      {category}
-                    </th>
-                  </tr>
-                  {commodities.map((commodity: IMarket) => {
-                    if (commodity.commodity.category === category) {
-                      return (
-                        <tr
-                          key={commodity.id}
-                          className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+    <>
+      {commodities.length > 0 ? (
+        <div className="relative mt-4 overflow-x-auto shadow-md min-h-128 sm:rounded-lg">
+          <Table loading={loading} th={th} onSort={onSort} column={column} direction={direction}>
+            {categories.map((category: string) => {
+              return (
+                <Fragment key={category}>
+                  {commodities.find(
+                    (commodity: IMarket) => commodity.commodity.category === category
+                  ) && (
+                    <>
+                      <tr className="bg-gray-900 border-b border-gray-700 hover:bg-gray-600">
+                        <th
+                          className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"
+                          colSpan={th.length}
                         >
-                          <th
-                            scope="row"
-                            className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"
-                          >
-                            {commodity.commodity.name}
-                          </th>
-                          <td className="px-1.5 py-2 md:px-6 md:py-4">
-                            {commodity.sell_price.toLocaleString()}
-                          </td>
-                          <td className="px-1.5 py-2 md:px-6 md:py-4">
-                            {commodity.buy_price.toLocaleString()}
-                          </td>
-                          <td className="px-1.5 py-2 md:px-6 md:py-4">
-                            {commodity.demand.toLocaleString()}
-                          </td>
-                          <td className="px-1.5 py-2 md:px-6 md:py-4">
-                            {commodity.stock.toLocaleString()}
-                          </td>
-                          <td className="px-1.5 py-2 md:px-6 md:py-4">
-                            {DateFormat.fromNow(commodity.updated_at)}
-                          </td>
-                        </tr>
-                      )
-                    }
-                  })}
-                </>
-              )}
-            </Fragment>
-          )
-        })}
-      </Table>
-    </div>
+                          {category}
+                        </th>
+                      </tr>
+                      {commodities.map((commodity: IMarket) => {
+                        if (commodity.commodity.category === category) {
+                          return (
+                            <tr
+                              key={commodity.id}
+                              className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+                            >
+                              <th
+                                scope="row"
+                                className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"
+                              >
+                                {commodity.commodity.name}
+                              </th>
+                              <td className="px-1.5 py-2 md:px-6 md:py-4">
+                                {commodity.sell_price.toLocaleString()}
+                              </td>
+                              <td className="px-1.5 py-2 md:px-6 md:py-4">
+                                {commodity.buy_price.toLocaleString()}
+                              </td>
+                              <td className="px-1.5 py-2 md:px-6 md:py-4">
+                                {commodity.demand.toLocaleString()}
+                              </td>
+                              <td className="px-1.5 py-2 md:px-6 md:py-4">
+                                {commodity.stock.toLocaleString()}
+                              </td>
+                              <td className="px-1.5 py-2 md:px-6 md:py-4">
+                                {DateFormat.fromNow(commodity.updated_at)}
+                              </td>
+                            </tr>
+                          )
+                        }
+                      })}
+                    </>
+                  )}
+                </Fragment>
+              )
+            })}
+          </Table>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-full">No Commodities found</div>
+      )}
+    </>
   )
 }
 

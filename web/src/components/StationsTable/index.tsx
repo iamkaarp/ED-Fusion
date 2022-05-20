@@ -169,7 +169,10 @@ const StationsTable: FC<IStationsTable> = ({ page }) => {
                     key={station.id}
                     className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
                   >
-                    <th scope="row" className="px-6 py-4 font-medium text-white whitespace-nowrap">
+                    <th
+                      scope="row"
+                      className="font-medium px-1.5 py-2 text-white md:px-6 md:py-4 whitespace-nowrap"
+                    >
                       <Link to={`/station/${station.name}`} className="hover:text-orange-400">
                         {station.name}
                       </Link>
