@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const SOURCE_URL = 'tcp://eddn.edcd.io:9500';
 
-const whitelist = ['EDDiscovery', 'E:D Market Connector [Windows]', 'E:D Market Connector [Linux]', 'E:D Market Connector [Mac OS]', 'EDSM', 'EDDI']
+const whitelist = ['EDDiscovery', 'E:D Market Connector [Windows]', 'E:D Market Connector [Linux]', 'GameGlass',  'E:D Market Connector [Mac OS]', 'EDSM', 'EDDI']
 
 async function run() {
   const sock = new zmq.Subscriber;
@@ -15,6 +15,13 @@ async function run() {
 
   for await (const [src] of sock) {
     const msg = JSON.parse(zlib.inflateSync(src));
+    //console.log(msg)
+    try {
+      const response = await axios.post(`http://localhost:3333/eddn/receive`, { data: msg })
+      //console.log(response.data)
+    } catch(e) {
+      console.log(e)
+    }
     if(whitelist.includes(msg.header.softwareName)) {
 
       if(msg['$schemaRef'] === 'https://eddn.edcd.io/schemas/fssdiscoveryscan/1') {
@@ -89,7 +96,7 @@ async function run() {
         }
         //console.log(payload)
         try {
-          await axios.post(`http://localhost:3333/stations/${payload.name}/commodities`, payload)
+          //await axios.post(`http://localhost:3333/stations/${payload.name}/commodities`, payload)
           //console.log(response.data)
         } catch(e) {
           console.log(e)
