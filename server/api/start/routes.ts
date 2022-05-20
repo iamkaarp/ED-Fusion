@@ -24,135 +24,133 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.group(() => {
-  Route.post('/eddn/journal', 'EDDNController.journal')
-}).namespace('App/Controllers/Http')
+// EDDN ROUTES
 
 Route.group(() => {
-  Route.get('systems/:page?/:column?/:direction?', 'SystemsController.index')
-    .where('page', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.get('systems/search', 'SystemsController.find')
-  Route.get('systems/positions/:distance?', 'SystemsController.positions').where(
-    'distance',
-    /^[0-9]+$/
-  )
-  Route.get('systems/:name', 'SystemsController.show')
-  Route.get(
-    'system/:id/stations/orbital/:column?/:direction?',
-    'SystemsController.indexOribtalStations'
-  )
-    .where('id', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.get(
-    'system/:id/stations/planetary/:column?/:direction?',
-    'SystemsController.indexPlanetaryStations'
-  )
-    .where('id', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.get(
-    'system/:id/stations/fleetCarriers/:column?/:direction?',
-    'SystemsController.indexFleetCarriers'
-  )
-    .where('id', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.get('system/:id/stations/:column?/:direction?', 'SystemsController.indexStations')
-    .where('id', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-
-  Route.get('system/:id/factions/:column?/:direction?', 'SystemsController.indexFactions')
-    .where('id', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.get('system/:id/fleetcarriers/:column?/:direction?', 'SystemsController.indexFleetCarriers')
-    .where('id', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.get('systems/distance/:a/:b', 'SystemsController.distance')
-    .where('a', /^[\w\d\s\W]+$/)
-    .where('b', /^[\w\d\s\W]+$/)
-  Route.get('system/:id/bodies/:column?/:direction?', 'SystemsController.indexBodies')
-    .where('id', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.get('system/:id/stars/:column?/:direction?', 'SystemsController.indexStars')
-    .where('id', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.post('systems', 'SystemsController.store')
+  Route.post('/eddn/receive', 'EDDNController.receive')
 }).namespace('App/Controllers/Http')
+
+// SYSTEM ROUTES
+Route.group(() => {
+  Route.get('systems/find', 'SystemsController.find')
+  Route.get('systems/positions', 'SystemsController.positions')
+
+  Route.resource('systems', 'SystemsController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      index: ['auth'],
+      show: ['auth'],
+    })
+  Route.get('systems/:system_id/stations/orbital', 'SystemStationsController.orbital')
+  Route.get('systems/:system_id/stations/planetary', 'SystemStationsController.planetary')
+  Route.get('systems/:system_id/stations/fleetcarrier', 'SystemStationsController.fleetCarrier')
+  Route.resource('systems.stations', 'SystemStationsController').only(['index'])
+  Route.resource('systems.factions', 'SystemFactionsController').only(['index'])
+  Route.get('systems/:system_id/bodies/stars', 'SystemBodiesController.stars')
+  Route.get('systems/:system_id/bodies/planets', 'SystemBodiesController.planets')
+  Route.resource('systems.bodies', 'SystemBodiesController').only(['index'])
+}).namespace('App/Controllers/Http')
+
+// STATION ROUTES
 
 Route.group(() => {
-  Route.get('stations/:page?/:column?/:direction?', 'StationsController.index')
-    .where('page', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.get('stations/search', 'StationsController.find')
-  Route.get('stations/types', 'StationsController.indexTypes')
-  Route.get('station/:name', 'StationsController.show')
-  Route.get('station/:id/ships', 'StationsController.indexShips')
-  Route.get('station/:id/modules/:column/:direction?', 'StationsController.indexModules')
-    .where('id', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.get('station/:id/commodities/:column?/:direction?', 'StationsController.indexCommodities')
-    .where('id', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.post('stations', 'StationsController.store')
-  Route.post('stations/:name/commodities', 'StationsController.storeCommodities').where(
-    'name',
-    /^[\w\d\s\W]+$/
-  )
-
-  Route.post('stations/:name/ships', 'StationsController.storeShips').where('name', /^[\w\d\s\W]+$/)
-  Route.post('stations/:name/modules', 'StationsController.storeModules').where(
-    'name',
-    /^[\w\d\s\W]+$/
-  )
+  Route.get('stations/find', 'StationsController.find')
+  Route.get('stations/types', 'StationsController.types')
+  Route.resource('stations', 'StationsController').only([
+    'index',
+    'show',
+    'store',
+    'update',
+    'destroy',
+  ])
+  Route.resource('stations.ships', 'StationShipsController').only([
+    'index',
+    'show',
+    'store',
+    'update',
+    'destroy',
+  ])
+  Route.resource('stations.commodities', 'StationCommoditiesController').only([
+    'index',
+    'show',
+    'store',
+    'update',
+    'destroy',
+  ])
+  Route.resource('stations.outfitting', 'StationModulesController').only([
+    'index',
+    'show',
+    'store',
+    'update',
+    'destroy',
+  ])
 }).namespace('App/Controllers/Http')
 
-Route.group(() => {
-  Route.get('trading/routes', 'TradeRoutesController.find')
-}).namespace('App/Controllers/Http')
-
-Route.group(() => {
-  Route.get('factions/:page?/:column?/:direction?', 'FactionsController.index')
-    .where('page', /^[0-9]+$/)
-    .where('column', /^[\w\d\s\W]+$/)
-    .where('direction', /^[asc|desc]+$/)
-  Route.get('factions/:name', 'FactionsController.show')
-}).namespace('App/Controllers/Http')
+// BODY ROUTES
 
 Route.group(() => {
   Route.post('bodies/stars', 'BodiesController.storeStar')
   Route.post('bodies/planets', 'BodiesController.storePlanet')
 }).namespace('App/Controllers/Http')
 
-Route.group(() => {
-  Route.get('services', 'ServicesController.index')
-}).namespace('App/Controllers/Http')
+// FACTION ROUTES
 
 Route.group(() => {
-  Route.get('commodities', 'CommoditiesController.index')
-  Route.get('commodity/categories', 'CommoditiesController.indexCategories')
+  Route.resource('factions', 'FactionsController').only([
+    'index',
+    'show',
+    'store',
+    'update',
+    'destroy',
+  ])
 }).namespace('App/Controllers/Http')
 
-Route.group(() => {
-  Route.get('modules', 'ModulesController.index')
-}).namespace('App/Controllers/Http')
+// SERVICE ROUTES
 
 Route.group(() => {
-  Route.get('ships', 'ShipsController.index')
-  Route.get('ships/:name', 'ShipsController.show').where('name', /^[\w\d\s\W]+$/)
+  Route.resource('services', 'ServicesController')
 }).namespace('App/Controllers/Http')
 
+// COMMODITY ROUTES
+
 Route.group(() => {
-  Route.get('discounts', 'DiscountsController.index')
-  Route.get('discounts/:system', 'DiscountsController.indexBySystem').where('name', /^[\w\d\s\W]+$/)
+  Route.get('commodities/categories', 'CommoditiesController.categories')
+  Route.resource('commodities', 'CommoditiesController').only([
+    'index',
+    'show',
+    'store',
+    'update',
+    'destroy',
+  ])
+}).namespace('App/Controllers/Http')
+
+// MODULE ROUTES
+
+Route.group(() => {
+  Route.resource('modules', 'ModulesController').only([
+    'index',
+    'show',
+    'store',
+    'update',
+    'destroy',
+  ])
+}).namespace('App/Controllers/Http')
+
+// SHIP ROUTE
+
+Route.group(() => {
+  Route.resource('ships', 'ShipsController').only(['index', 'show', 'store', 'update', 'destroy'])
+}).namespace('App/Controllers/Http')
+
+// DISCOUNT ROUTES
+
+Route.group(() => {
+  Route.resource('discounts', 'DiscountsController').only(['index', 'store', 'update', 'destroy'])
+}).namespace('App/Controllers/Http')
+
+// USER ROUTE
+Route.group(() => {
+  Route.get('users/hash', 'UsersController.hash')
+  Route.post('users/login', 'UsersController.login')
+  Route.resource('users', 'UsersController').only(['index', 'show', 'store', 'update', 'destroy'])
 })

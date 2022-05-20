@@ -6,7 +6,7 @@ export default class Stations extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.integer('system_id').unsigned().references('systems.id')
+      table.integer('system_id').unsigned().references('systems.id').onDelete('CASCADE')
       table.bigInteger('market_id').notNullable().defaultTo(0)
       table.integer('allegiance_id').notNullable().defaultTo(1)
       table.integer('government_id').notNullable().defaultTo(10)

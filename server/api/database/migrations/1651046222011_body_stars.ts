@@ -6,7 +6,7 @@ export default class BodyStars extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.integer('body_id').unsigned().references('bodies.id')
+      table.integer('body_id').unsigned().references('bodies.id').onDelete('CASCADE')
       table.string('name').notNullable()
       table.string('type').notNullable().defaultTo('-')
       table.boolean('is_main').defaultTo(false)

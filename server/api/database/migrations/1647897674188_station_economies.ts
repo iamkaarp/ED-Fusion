@@ -6,7 +6,7 @@ export default class Economies extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.integer('station_id').unsigned().references('stations.id')
+      table.integer('station_id').unsigned().references('stations.id').onDelete('CASCADE')
       table.string('name').notNullable()
       table.float('proportion').nullable().defaultTo(0)
       /**

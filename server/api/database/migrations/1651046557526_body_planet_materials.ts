@@ -6,7 +6,7 @@ export default class BodyPlanetMaterials extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.integer('body_planet_id').unsigned().references('body_planets.id')
+      table.integer('body_planet_id').unsigned().references('body_planets.id').onDelete('CASCADE')
       table.string('type').notNullable()
       table.float('amount', 8, 4).notNullable()
       /**

@@ -7,10 +7,7 @@ export default class Factions extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.integer('station_id').unsigned().references('stations.id').onDelete('CASCADE')
-      table.integer('faction_id').unsigned().references('factions.id').onDelete('CASCADE')
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
+      table.integer('faction_id').unsigned().references('factions.id')
       table.timestamp('updated_at', { useTz: true })
     })
   }

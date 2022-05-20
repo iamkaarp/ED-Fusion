@@ -6,7 +6,7 @@ export default class BodyPlanets extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.integer('body_id').unsigned().references('bodies.id')
+      table.integer('body_id').unsigned().references('bodies.id').onDelete('CASCADE')
       table.string('name').notNullable()
       table.float('mass', 24, 2).notNullable()
       table.string('class').notNullable()

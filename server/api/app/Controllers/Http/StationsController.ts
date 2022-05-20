@@ -2,22 +2,10 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Database from '@ioc:Adonis/Lucid/Database'
 
-//import Body from 'App/Models/Body'
-//import BodyPlanet from 'App/Models/BodyPlanet'
-//import BodyStar from 'App/Models/BodyStar'
-import Commodity from 'App/Models/Commodity'
-import Economy from 'App/Models/Economy'
-import Faction from 'App/Models/Faction'
-import Government from 'App/Models/Government'
 import Station from 'App/Models/Station'
 import StationCommodity from 'App/Models/StationCommodity'
 import StationShip from 'App/Models/StationShip'
 import StationModule from 'App/Models/StationModule'
-import SuperPower from 'App/Models/SuperPower'
-import System from 'App/Models/System'
-import SystemFaction from 'App/Models/SystemFaction'
-
-import Log from 'App/Models/Log'
 
 export default class StationsController {
   private columns = [
@@ -40,12 +28,12 @@ export default class StationsController {
   ]
 
   private directions = ['asc', 'desc']
-  public async index({ response, params, request }: HttpContextContract) {
+  public async index({ response, request }: HttpContextContract) {
     let st = this.stationTypes
     const qs = request.qs()
-    const page = params.page ? parseInt(params.page) : 1
-    const column = this.columns.includes(params.column) ? params.column : 'systems.distance'
-    const direction = this.directions.includes(params.direction) ? params.direction : 'asc'
+    const page = qs.page ? parseInt(qs.page) : 1
+    const column = this.columns.includes(qs.column) ? qs.column : 'systems.distance'
+    const direction = this.directions.includes(qs.direction) ? qs.direction : 'asc'
     const stationsQuery = Station.query()
 
     // Primary Query
@@ -133,7 +121,7 @@ export default class StationsController {
     return response.status(200).json({ stations })
   }
 
-  public async indexTypes({ response }: HttpContextContract) {
+  public async types({ response }: HttpContextContract) {
     try {
       const types = await Station.query().distinct('type')
 
@@ -143,63 +131,11 @@ export default class StationsController {
     }
   }
 
-  public async indexShips({ response, params }: HttpContextContract) {
-    try {
-      const ships = await StationShip.query()
-        .select('station_ships.*')
-        .join('ships', 'station_ships.name', '=', 'ships.key')
-        .preload('ship')
-        .where('station_id', params.id)
-        .orderBy('price', 'asc')
-      return response.status(200).json(ships)
-    } catch (e) {
-      return response.status(500).json({ message: 'Error fetching station ships', msg: e.message })
-    }
-  }
-
-  public async indexModules({ response, params }: HttpContextContract) {
-    const columns = ['modules.name', 'price', 'class', 'rating', 'updated_at']
-    const direction = this.directions.includes(params.direction) ? params.direction : 'asc'
-    const column = columns.includes(params.column) ? params.column : 'name'
-    try {
-      const modules = await StationModule.query()
-        .select('station_modules.*')
-        .join('modules', 'station_modules.name', '=', 'modules.key')
-        .preload('module')
-        .where('station_id', params.id)
-        .orderBy(column, direction)
-      return response.status(200).json(modules)
-    } catch (e) {
-      return response
-        .status(500)
-        .json({ message: 'Error fetching station modules', msg: e.message })
-    }
-  }
-
-  public async indexCommodities({ response, params }: HttpContextContract) {
-    const columns = ['commodities.name', 'sell_price', 'buy_price', 'demand', 'stock', 'updated_at']
-    const direction = this.directions.includes(params.direction) ? params.direction : 'asc'
-    const column = columns.includes(params.column) ? params.column : 'name'
-    try {
-      const modules = await StationCommodity.query()
-        .select('station_commodities.*')
-        .preload('commodity')
-        .join('commodities', 'station_commodities.name', '=', 'commodities.key')
-        .where('station_id', params.id)
-        .orderBy(column, direction)
-      return response.status(200).json(modules)
-    } catch (e) {
-      return response
-        .status(500)
-        .json({ message: 'Error fetching station commodities', msg: e.message })
-    }
-  }
-
   public async show({ response, params }: HttpContextContract) {
     const slug = params.name ? decodeURI(params.name) : ''
     try {
       const stationQuery = Station.query()
-        .where('name', slug)
+        .where('name', decodeURI(params.id))
         .preload('system')
         .preload('government')
         .preload('economy')
@@ -250,305 +186,5 @@ export default class StationsController {
       .preload('allegiance')
       .limit(10)
     return response.status(200).json({ stations })
-  }
-
-  public async store({ request, response }: HttpContextContract) {
-    try {
-      const message = request.input('message')
-      const search = {
-        name: request.input('system_name'),
-        address: request.input('address'),
-      }
-      const stationSearch = {
-        name: request.input('name'),
-        market_id: request.input('market_id'),
-      }
-      const systemPayload = {
-        name: request.input('system_name'),
-        position: request.input('position'),
-        address: request.input('address'),
-      }
-
-      const economiesPayload = request.input('economies').map((e) => {
-        return {
-          name: e.Name,
-          proportion: e.Proportion,
-        }
-      })
-
-      const factionPayload = {
-        name: request.input('faction').Name,
-        state: request.input('faction').FactionState ? request.input('faction').FactionState : '',
-      }
-      const factionSearch = {
-        name: request.input('faction').Name,
-      }
-      const allegianceReq =
-        request.input('allegiance') !== '' ? request.input('allegiance') : 'Independent'
-      const system = await System.firstOrCreate(search, systemPayload)
-      const faction = await Faction.updateOrCreate(factionSearch, factionPayload)
-      const government = await Government.query().where('key', request.input('government')).first()
-      const economy = await Economy.query().where('key', request.input('economy')).first()
-      const allegiance = await SuperPower.query().where('name', allegianceReq).first()
-
-      if (request.input('factions')) {
-        const factionsPayload = await Promise.all(
-          request.input('factions').map(async (f) => {
-            const allegiance = await SuperPower.query().where('name', f.alignment).first()
-            const government = await Government.query().where('name', f.government).first()
-            return {
-              name: f.name,
-              state: f.state,
-              allegiance_id: allegiance ? allegiance.id : 5,
-              government_id: government ? government.id : 10,
-              happiness: f.happiness,
-              influence: f.influence,
-              activeStates: f.activeStates,
-              pendingStates: f.pendingStates,
-              recoveringStates: f.recoveringStates,
-            }
-          })
-        )
-
-        const factions = await Faction.updateOrCreateMany('name', factionsPayload)
-        const systemFactions = factions.map((faction) => {
-          return {
-            systemId: system.id,
-            factionId: faction.id,
-          }
-        })
-        await SystemFaction.updateOrCreateMany(['systemId', 'factionId'], systemFactions)
-      }
-      const landingPads = request.input('landingPads')
-      let stationPayload
-      if (landingPads) {
-        let maxPadSize
-        if (landingPads.Large > 0) {
-          maxPadSize = 'L'
-        } else if (landingPads.Medium > 0 && landingPads.Large === 0) {
-          maxPadSize = 'M'
-        } else if (landingPads.Small > 0 && landingPads.Medium === 0 && landingPads.Large === 0) {
-          maxPadSize = 'S'
-        }
-
-        stationPayload = {
-          name: request.input('name'),
-          system_id: system.id,
-          market_id: request.input('market_id'),
-          distance_from_star: request.input('distance_from_star_LS'),
-          allegianceId: allegiance?.id,
-          governmentId: government?.id,
-          type: request.input('type'),
-          economyId: economy?.id,
-          largePads: landingPads.Large,
-          mediumPads: landingPads.Medium,
-          smallPads: landingPads.Small,
-          max_landing_pad_size: maxPadSize,
-        }
-      } else {
-        stationPayload = {
-          name: request.input('name'),
-          system_id: system.id,
-          market_id: request.input('market_id'),
-          distance_from_star: request.input('distance_from_star_LS'),
-          allegianceId: allegiance?.id,
-          governmentId: government?.id,
-          type: request.input('type'),
-          economyId: economy?.id,
-        }
-      }
-
-      const stationFactionSearch = {
-        factionId: faction.id,
-      }
-
-      const servicesPayload = request.input('services').map((e) => {
-        return {
-          name: e,
-        }
-      })
-
-      const station = await Station.updateOrCreate(stationSearch, stationPayload)
-      await station.related('economies').updateOrCreateMany(economiesPayload)
-      await station.related('services').updateOrCreateMany(servicesPayload)
-      await station.related('faction').updateOrCreate(stationFactionSearch, stationFactionSearch)
-      await Log.create({
-        type: 'station',
-        typeId: station.id,
-        event: message.message.event ? message.message.event : 'station',
-        schema: message.$schemaRef,
-        software: message.header.softwareName,
-        softwareVersion: message.header.softwareVersion,
-        message,
-      })
-      await Log.create({
-        type: 'system',
-        typeId: system.id,
-        event: message.message.event ? message.message.event : 'station',
-        schema: message.$schemaRef,
-        software: message.header.softwareName,
-        softwareVersion: message.header.softwareVersion,
-        message,
-      })
-      return response.status(201).json({ message: 'Station created', station })
-    } catch (e) {
-      return response.status(400).json({ message: e.message })
-    }
-  }
-
-  public async storeCommodities({ request, response }: HttpContextContract) {
-    try {
-      const message = request.input('message')
-      const stationSearch = {
-        name: request.input('name'),
-        market_id: request.input('market_id'),
-      }
-
-      const system = await System.firstOrCreate(
-        { name: request.input('system_name') },
-        { name: request.input('system_name') }
-      )
-
-      const stationPayload = {
-        name: request.input('name'),
-        system_id: system.id,
-        market_id: request.input('market_id'),
-      }
-
-      const commodities = await Promise.all(
-        request.input('commodities').map(async (c) => {
-          const commodity = await Commodity.query().where('key', c.name).first()
-
-          if (commodity) {
-            return {
-              name: c.name,
-              commodityId: commodity?.id,
-              buyPrice: c.buyPrice,
-              sellPrice: c.sellPrice,
-              demand: c.demand,
-              stock: c.stock,
-              demandBracket: c.demandBracket,
-              stockBracket: c.stockBracket,
-              meanPrice: c.meanPrice,
-            }
-          }
-        })
-      )
-
-      const com = commodities.filter((c) => c !== undefined)
-
-      const station = await Station.updateOrCreate(stationSearch, stationPayload)
-      await station.related('commodities').updateOrCreateMany(com)
-
-      request.input('commodities').forEach(async (c) => {
-        const sc = await StationCommodity.query()
-          .where('name', c.key)
-          .min({ minSell: 'sell_price', minBuy: 'buy_price' })
-          .max({ maxSell: 'sell_price', maxBuy: 'buy_price' })
-          .avg({ avgSell: 'sell_price', avgBuy: 'buy_price' })
-        console.log(sc[0])
-        /*await Commodity.query().where('key', c.name).update({
-            minSell: sc[0].$extras.minSell,
-            maxSell: sc[0].$extras.maxSell,
-            avgSell: sc[0].$extras.avgSell,
-            minBuy: sc[0].$extras.minBuy,
-            maxBuy: sc[0].$extras.maxBuy,
-            avgBuy: sc[0].$extras.avgBuy,
-          })*/
-      })
-
-      await Log.create({
-        type: 'system',
-        typeId: system.id,
-        event: message.message.event ? message.message.event : 'commodity',
-        schema: message.$schemaRef,
-        software: message.header.softwareName,
-        softwareVersion: message.header.softwareVersion,
-        message,
-      })
-
-      await Log.create({
-        type: 'station',
-        typeId: station.id,
-        event: message.message.event ? message.message.event : 'commodity',
-        schema: message.$schemaRef,
-        software: message.header.softwareName,
-        softwareVersion: message.header.softwareVersion,
-        message,
-      })
-      return response.status(201).json({ message: 'commodities added', station })
-    } catch (e) {
-      return response.status(400).json({ message: e.message })
-    }
-  }
-
-  public async storeShips({ request, response }: HttpContextContract) {
-    try {
-      const message = request.input('message')
-
-      const station = await Station.query()
-        .where('name', request.input('name'))
-        .where('marketId', request.input('market_id'))
-        .first()
-
-      if (station) {
-        station.related('ships').updateOrCreateMany(
-          request.input('ships').map((s) => {
-            return { name: s.toLowerCase() }
-          }),
-          'name'
-        )
-
-        await Log.create({
-          type: 'station',
-          typeId: station.id,
-          event: message.message.event ? message.message.event : 'ships',
-          schema: message.$schemaRef,
-          software: message.header.softwareName,
-          softwareVersion: message.header.softwareVersion,
-          message,
-        })
-
-        return response.status(201).json({ message: 'ships added', station })
-      } else {
-        return response.status(404).json({ message: 'station not found' })
-      }
-    } catch (e) {
-      return response.status(400).json({ message: e.message })
-    }
-  }
-  public async storeModules({ request, response }: HttpContextContract) {
-    try {
-      const message = request.input('message')
-      const station = await Station.query()
-        .where('name', request.input('name'))
-        .where('marketId', request.input('market_id'))
-        .first()
-
-      if (station) {
-        station.related('modules').updateOrCreateMany(
-          request.input('modules').map((s) => {
-            return { name: s.toLowerCase() }
-          }),
-          'name'
-        )
-
-        await Log.create({
-          type: 'station',
-          typeId: station.id,
-          event: message.message.event ? message.message.event : 'module',
-          schema: message.$schemaRef,
-          software: message.header.softwareName,
-          softwareVersion: message.header.softwareVersion,
-          message,
-        })
-
-        return response.status(201).json({ message: 'modules added', station })
-      }
-
-      return response.status(201).json({ message: 'station not found' })
-    } catch (e) {
-      return response.status(400).json({ message: e.message })
-    }
   }
 }

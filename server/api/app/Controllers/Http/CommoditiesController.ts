@@ -14,7 +14,7 @@ export default class CommoditiesController {
     }
   }
 
-  public async indexCategories({ response }: HttpContextContract) {
+  public async categories({ response }: HttpContextContract) {
     try {
       const categories = await Commodity.query().distinct('category')
       return response.status(200).json(categories)

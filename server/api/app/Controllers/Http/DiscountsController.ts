@@ -12,9 +12,9 @@ export default class DiscountsController {
     }
   }
 
-  public async indexBySystem({ params, response }: HttpContextContract) {
+  public async show({ params, response }: HttpContextContract) {
     try {
-      const discount = await Discount.query().where('system_name', decodeURI(params.system))
+      const discount = await Discount.query().where('system_name', decodeURI(params.id))
       if (!discount) {
         return response.status(200).json([])
       }

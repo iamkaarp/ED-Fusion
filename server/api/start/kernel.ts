@@ -39,10 +39,13 @@ Server.middleware.register([() => import('@ioc:Adonis/Core/BodyParser')])
 |
 */
 Server.middleware.registerNamed({})
-
+Server.middleware.registerNamed({
+  auth: () => import('App/Middleware/Auth'),
+})
 /*console.log = function (msg, ...options) {
-  const ignore = '.returning() is not supported by mysql and will not have any effect.'
-  if (msg.indexOf(ignore) === -1) {
-    console.info(msg, ...options)
+  const ignore = '.returning()'
+  if (msg.includes(ignore)) {
+    return
   }
+  console.info(msg, ...options)
 }*/

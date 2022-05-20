@@ -6,7 +6,7 @@ export default class Commodities extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.integer('station_id').unsigned().references('stations.id')
+      table.integer('station_id').unsigned().references('stations.id').onDelete('CASCADE')
       table.integer('commodity_id').notNullable().defaultTo(0)
       table.string('name').notNullable()
       table.integer('buy_price', 12).notNullable()

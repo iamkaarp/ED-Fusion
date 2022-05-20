@@ -15,7 +15,7 @@ export default class ShipsController {
   public async show({ params, response }: HttpContextContract) {
     try {
       const ship = await Ship.query()
-        .where('name', decodeURI(params.name))
+        .where('name', decodeURI(params.id))
         .preload('stats', (query) => {
           query
             .preload('core')
