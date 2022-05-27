@@ -30,6 +30,13 @@ Route.group(() => {
   Route.post('/eddn/receive', 'EDDNController.receive')
 }).namespace('App/Controllers/Http')
 
+// PROXY ROUTES
+Route.group(() => {
+  Route.get('fdev/url', 'FDevController.url')
+  Route.post('fdev/token', 'FDevController.token').middleware('auth')
+  Route.post('fdev/profile', 'FDevController.profile').middleware('auth')
+}).namespace('App/Controllers/Http')
+
 // SYSTEM ROUTES
 Route.group(() => {
   Route.get('systems/find', 'SystemsController.find')
@@ -38,8 +45,9 @@ Route.group(() => {
   Route.resource('systems', 'SystemsController')
     .only(['index', 'show', 'store', 'update', 'destroy'])
     .middleware({
-      index: ['auth'],
-      show: ['auth'],
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
     })
   Route.get('systems/:system_id/stations/orbital', 'SystemStationsController.orbital')
   Route.get('systems/:system_id/stations/planetary', 'SystemStationsController.planetary')
@@ -56,34 +64,34 @@ Route.group(() => {
 Route.group(() => {
   Route.get('stations/find', 'StationsController.find')
   Route.get('stations/types', 'StationsController.types')
-  Route.resource('stations', 'StationsController').only([
-    'index',
-    'show',
-    'store',
-    'update',
-    'destroy',
-  ])
-  Route.resource('stations.ships', 'StationShipsController').only([
-    'index',
-    'show',
-    'store',
-    'update',
-    'destroy',
-  ])
-  Route.resource('stations.commodities', 'StationCommoditiesController').only([
-    'index',
-    'show',
-    'store',
-    'update',
-    'destroy',
-  ])
-  Route.resource('stations.outfitting', 'StationModulesController').only([
-    'index',
-    'show',
-    'store',
-    'update',
-    'destroy',
-  ])
+  Route.resource('stations', 'StationsController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
+  Route.resource('stations.ships', 'StationShipsController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
+  Route.resource('stations.commodities', 'StationCommoditiesController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
+  Route.resource('stations.outfitting', 'StationModulesController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
 }).namespace('App/Controllers/Http')
 
 // BODY ROUTES
@@ -91,66 +99,110 @@ Route.group(() => {
 Route.group(() => {
   Route.post('bodies/stars', 'BodiesController.storeStar')
   Route.post('bodies/planets', 'BodiesController.storePlanet')
-}).namespace('App/Controllers/Http')
+})
+  .namespace('App/Controllers/Http')
+  .middleware(['auth'])
 
 // FACTION ROUTES
 
 Route.group(() => {
-  Route.resource('factions', 'FactionsController').only([
-    'index',
-    'show',
-    'store',
-    'update',
-    'destroy',
-  ])
+  Route.resource('factions', 'FactionsController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
 }).namespace('App/Controllers/Http')
 
 // SERVICE ROUTES
 
 Route.group(() => {
   Route.resource('services', 'ServicesController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
 }).namespace('App/Controllers/Http')
 
 // COMMODITY ROUTES
 
 Route.group(() => {
   Route.get('commodities/categories', 'CommoditiesController.categories')
-  Route.resource('commodities', 'CommoditiesController').only([
-    'index',
-    'show',
-    'store',
-    'update',
-    'destroy',
-  ])
+  Route.resource('commodities', 'CommoditiesController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
 }).namespace('App/Controllers/Http')
 
 // MODULE ROUTES
 
 Route.group(() => {
-  Route.resource('modules', 'ModulesController').only([
-    'index',
-    'show',
-    'store',
-    'update',
-    'destroy',
-  ])
+  Route.resource('modules', 'ModulesController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
 }).namespace('App/Controllers/Http')
 
 // SHIP ROUTE
 
 Route.group(() => {
-  Route.resource('ships', 'ShipsController').only(['index', 'show', 'store', 'update', 'destroy'])
+  Route.get('ships/nearest', 'ShipsController.nearest')
+  Route.resource('ships', 'ShipsController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
 }).namespace('App/Controllers/Http')
 
 // DISCOUNT ROUTES
 
 Route.group(() => {
-  Route.resource('discounts', 'DiscountsController').only(['index', 'store', 'update', 'destroy'])
+  Route.resource('discounts', 'DiscountsController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
 }).namespace('App/Controllers/Http')
 
 // USER ROUTE
 Route.group(() => {
   Route.get('users/hash', 'UsersController.hash')
   Route.post('users/login', 'UsersController.login')
-  Route.resource('users', 'UsersController').only(['index', 'show', 'store', 'update', 'destroy'])
+  Route.post('users/logout', 'UsersController.logout').middleware('auth')
+  Route.get('users/me', 'UsersController.me').middleware('auth')
+  Route.put('users/me', 'UsersController.update').middleware('auth')
+  Route.post('users/signup', 'UsersController.signup')
+  Route.resource('users', 'UsersController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      index: ['auth'],
+      show: ['auth'],
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
 })
+
+// GOVERNMENT ROUTES
+Route.group(() => {
+  Route.resource('governments', 'GovernmentsController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
+}).namespace('App/Controllers/Http')

@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { BaseModel, column, beforeSave } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, beforeSave, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
 
+import Profile from 'App/Models/Profile'
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -27,4 +28,7 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
+
+  @hasOne(() => Profile)
+  public profile: HasOne<typeof Profile>
 }

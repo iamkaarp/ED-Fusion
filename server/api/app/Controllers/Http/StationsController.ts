@@ -3,9 +3,6 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 
 import Station from 'App/Models/Station'
-import StationCommodity from 'App/Models/StationCommodity'
-import StationShip from 'App/Models/StationShip'
-import StationModule from 'App/Models/StationModule'
 
 export default class StationsController {
   private columns = [
@@ -132,7 +129,6 @@ export default class StationsController {
   }
 
   public async show({ response, params }: HttpContextContract) {
-    const slug = params.name ? decodeURI(params.name) : ''
     try {
       const stationQuery = Station.query()
         .where('name', decodeURI(params.id))
@@ -149,7 +145,12 @@ export default class StationsController {
           query.preload('commodity')
         })
         .preload('services', (query) => {
-          query.preload('service')
+          query
+            .distinct('name')
+            .orderBy('name', 'asc')
+            .preload('service', (query) => {
+              query.where('shown', true)
+            })
         })
         .preload('allegiance')
         .firstOrFail()

@@ -1,5 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import SystemFaction from 'App/Models/SystemFaction'
+
 import Faction from 'App/Models/Faction'
 
 export default class FactionsController {

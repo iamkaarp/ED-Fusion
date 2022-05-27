@@ -8,6 +8,9 @@
     "build"
   ],
   "compilerOptions": {
+    "lib": [
+      "dom"
+    ],
     "outDir": "build",
     "rootDir": "./",
     "sourceMap": true,
@@ -29,7 +32,6 @@
       "@adonisjs/core",
       "@adonisjs/repl",
       "@adonisjs/lucid",
-      "adonis5-swagger",
       "@adonisjs/auth"
     ]
   }
