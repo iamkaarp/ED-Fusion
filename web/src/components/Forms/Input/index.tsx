@@ -4,7 +4,7 @@ interface Input {
   type: string
   title: string
   placeholder: string
-  classes: string
+  classes?: string
   value: string
   onChange: (e: React.ChangeEvent<any>) => void
 }

@@ -2,6 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState: Record<string, boolean> = {
   search: false,
+  ref: false,
+  signin: false,
+  signup: false,
 }
 
 export const modal = createSlice({

@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect, Fragment } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import * as _ from 'lodash'
@@ -90,8 +90,7 @@ const Station: FC<StationData> = ({ name }) => {
   const fetchServices = _.memoize(async () => {
     const res = await EDFusion.services.index()
     const services = res.data
-    console.log(services)
-    //setServices(services)
+    setServices(services)
   })
 
   useEffect(() => {
@@ -177,8 +176,14 @@ const Station: FC<StationData> = ({ name }) => {
               <div className="flex flex-col w-full md:w-1/2">
                 <h2 className="mb-8 text-xl font-bold text-center">Station Services</h2>
                 <div className="flex flex-wrap w-full">
-                  {services.map((service: Service) => {
-                    return <span key={service.id}>{service.name}</span>
+                  {station.services.map((service) => {
+                    return (
+                      <Fragment key={service.name}>
+                        {service.service && (
+                          <div className="w-1/2 mb-4 md:w-1/4 md:mb-0">{service.service.name}</div>
+                        )}
+                      </Fragment>
+                    )
                   })}
                 </div>
               </div>

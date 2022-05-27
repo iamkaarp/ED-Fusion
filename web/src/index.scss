@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'euro caps';
+  src: url('./assets/fonts/EUROCAPS.TTF');
+}
+
 html,body {
   height: 100%;
 }
@@ -14,4 +19,8 @@ html,body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-600;
+}
+
+.frontier {
+  font-family: 'euro caps';
 }

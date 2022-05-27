@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
-import { openModal } from '../../store/slices/modal'
 
 import './css/search.scss'
 
@@ -18,7 +17,7 @@ const Search: FC = () => {
 
   return (
     <>
-      <div className="relative mr-3 md:mr-0 md:block md:w-full">
+      <div className="relative md:mr-0 md:block md:w-full">
         <div className="relative">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg

@@ -9,10 +9,7 @@ import Loader from '../Loader'
 import DateFormat from '../../helpers/DateFormat'
 import getStationType from '../../helpers/StationTypes'
 
-interface ModalProps {
-  isOpen: any
-  closeModal: () => void
-}
+import ModalProps from './interfaces/ModalProps'
 
 interface LoadingObj {
   systems: boolean

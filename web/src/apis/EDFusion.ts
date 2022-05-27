@@ -5,6 +5,8 @@ import ISystems from './interfaces/ISystems'
 
 import IStation from '../interfaces/IStation'
 
+import store from '../store'
+
 interface Systems {
   data: ISystem[]
   meta: {
@@ -29,15 +31,26 @@ interface Stations {
 
 class EDFusion {
   http: Axios = axios.create({
-    //baseURL: 'https://api.ed-fusion.com',
     baseURL:
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:3333'
         : 'https://api.ed-fusion.com',
     headers: {
       'Content-Type': 'application/json',
+      'Accept': 'application/json',
     },
   })
+
+  constructor() {
+    store.subscribe(this.listener)
+  }
+
+  private listener = () => {
+    let token = store.getState().user.token
+    if (token) {
+      this.http.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    }
+  }
 
   systems = {
     show: async (system: string): Promise<ISystem> => {
@@ -267,12 +280,75 @@ class EDFusion {
       const response = await this.http.get(`/ships/${name}`)
       return response
     },
+    nearest: async (name: string, params: object = {}): Promise<any> => {
+      const p = { ...params, name }
+      const response = await this.http.get('/ships/nearest', {
+        params: p,
+      })
+      return response
+    },
   }
 
   discount = {
     index: async (): Promise<any> => {},
     find: async (name: string): Promise<any> => {
       const response = await this.http.get(`/discounts/${name}`)
+      return response
+    },
+  }
+
+  user = {
+    signIn: async (email: string, password: string): Promise<any> => {
+      const response = await this.http.post('/users/login', {
+        email,
+        password,
+      })
+      return response
+    },
+    signOut: async (): Promise<any> => {
+      const response = await this.http.post('/users/logout')
+      return response.data
+    },
+    signUp: async (
+      email: string,
+      username: string,
+      password: string,
+      passwordConfirm: string,
+      image: string
+    ): Promise<any> => {
+      const response = await this.http.post('/users/signup', {
+        username,
+        email,
+        password,
+        passwordConfirm,
+        image,
+      })
+      return response
+    },
+    me: async (): Promise<any> => {
+      const response = await this.http.get('/users/me')
+      return response.data
+    },
+    update: async (params: object): Promise<any> => {
+      const response = await this.http.put('/users/me', params)
+      return response.data
+    },
+  }
+
+  fdev = {
+    url: async (): Promise<any> => {
+      const response = await this.http.get('/fdev/url')
+      return response.data
+    },
+    token: async (code: string, verifier: string): Promise<any> => {
+      const response = await this.http.post('/fdev/token', {
+        code,
+        verifier,
+      })
+      return response.data
+    },
+    profile: async (): Promise<any> => {
+      const response = await this.http.post('/fdev/profile')
       return response
     },
   }
