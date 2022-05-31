@@ -101,7 +101,7 @@ export default class EDDNController {
           'name'
         )
 
-        await Log.create({
+        /*await Log.create({
           type: 'station',
           typeId: station.id,
           event: data.message.event ? data.message.event : 'ships',
@@ -109,7 +109,7 @@ export default class EDDNController {
           software: data.header.softwareName,
           softwareVersion: data.header.softwareVersion,
           message: data,
-        })
+        })*/
       }
     } catch (e) {
       console.log(e)
@@ -132,7 +132,7 @@ export default class EDDNController {
           'name'
         )
 
-        await Log.create({
+        /*await Log.create({
           type: 'station',
           typeId: station.id,
           event: data.message.event ? data.message.event : 'modules',
@@ -140,7 +140,7 @@ export default class EDDNController {
           software: data.header.softwareName,
           softwareVersion: data.header.softwareVersion,
           message: data,
-        })
+        })*/
       }
     } catch (e) {
       console.log(e)
@@ -180,8 +180,11 @@ export default class EDDNController {
         market_id: marketId,
       }
 
-      const station = await Station.firstOrCreate({ marketId }, stationPayload)
-      await station.related('commodities').updateOrCreateMany(commoditiesPayload)
+      const station = await Station.firstOrCreate({}, stationPayload)
+      const com = await station
+        .related('commodities')
+        .updateOrCreateMany(commoditiesPayload, 'stationId')
+      console.log(com)
       /*if (process.env.NODE_ENV === 'production') {
         commoditiesPayload.forEach(async (c) => {
           const sc = await StationCommodity.query()
@@ -258,8 +261,8 @@ export default class EDDNController {
         address: SystemAddress,
       }
 
-      const system = await System.updateOrCreate(search, payload)
-      await Log.create({
+      await System.updateOrCreate(search, payload)
+      /*await Log.create({
         type: 'system',
         typeId: system.id,
         event: data.message.event ? data.message.event : 'system',
@@ -267,7 +270,7 @@ export default class EDDNController {
         software: data.header.softwareName,
         softwareVersion: data.header.softwareVersion,
         message: data,
-      })
+      })*/
     } catch (e) {
       console.log(e)
     }
@@ -361,7 +364,7 @@ export default class EDDNController {
         .related('faction')
         .updateOrCreate({ factionId: faction.id }, { factionId: faction.id })
 
-      await Log.create({
+      /*await Log.create({
         type: 'station',
         typeId: station.id,
         event: data.message.event ? data.message.event : 'station',
@@ -378,7 +381,7 @@ export default class EDDNController {
         software: data.header.softwareName,
         softwareVersion: data.header.softwareVersion,
         message: data,
-      })
+      })*/
 
       return { station, system }
     } catch (e) {
@@ -388,7 +391,7 @@ export default class EDDNController {
 
   private async processLocation(data: any) {
     try {
-      const { station, system } = await this.processDocked(data)
+      const { system } = await this.processDocked(data)
       const { Factions } = data.message
 
       if (Factions) {
@@ -426,7 +429,7 @@ export default class EDDNController {
         await SystemFaction.updateOrCreateMany(['systemId', 'factionId'], systemFactions)
       }
 
-      await Log.create({
+      /*await Log.create({
         type: 'station',
         typeId: station.id,
         event: data.message.event ? data.message.event : 'station',
@@ -443,7 +446,7 @@ export default class EDDNController {
         software: data.header.softwareName,
         softwareVersion: data.header.softwareVersion,
         message: data,
-      })
+      })*/
     } catch (e) {
       console.log(e)
     }
@@ -515,7 +518,7 @@ export default class EDDNController {
         })
         await SystemFaction.updateOrCreateMany(['systemId', 'factionId'], systemFactions)
       }
-      await Log.create({
+      /*await Log.create({
         type: 'system',
         typeId: system.id,
         event: data.message.event ? data.message.event : 'system',
@@ -523,7 +526,7 @@ export default class EDDNController {
         software: data.header.softwareName,
         softwareVersion: data.header.softwareVersion,
         message: data,
-      })
+      })*/
     } catch (e) {
       console.log(e)
     }
@@ -542,7 +545,7 @@ export default class EDDNController {
       const system = await System.firstOrCreate({ address: SystemAddress }, systemPayload)
       const body = await Body.updateOrCreate({ systemId: system.id }, { systemId: system.id })
 
-      await Log.create({
+      /*await Log.create({
         type: 'system',
         typeId: system.id,
         event: data.message.event ? data.message.event : 'system',
@@ -550,7 +553,7 @@ export default class EDDNController {
         software: data.header.softwareName,
         softwareVersion: data.header.softwareVersion,
         message: data,
-      })
+      })*/
 
       return body
     } catch (e) {
@@ -560,7 +563,24 @@ export default class EDDNController {
 
   private async processScanStar(data: any) {
     try {
-      const { StarType, BodyName, StellarMass, DistanceFromArrivalLS } = data.message
+      const {
+        StarType,
+        BodyName,
+        StellarMass,
+        DistanceFromArrivalLS,
+        AbsoluteMagnitude,
+        AxialTilt,
+        Eccentricity,
+        OrbitalInclination,
+        OrbitalPeriod,
+        RotationPeriod,
+        Luminosity,
+        SurfaceTemperature,
+        Subclass,
+        SemiMajorAxis,
+        Radius,
+        Rings,
+      } = data.message
 
       const body = await this.processBody(data)
       if (body) {
@@ -571,6 +591,18 @@ export default class EDDNController {
           type: StarType,
           distance: DistanceFromArrivalLS,
           isMain: DistanceFromArrivalLS === 0,
+          age: data.message.Age_MY,
+          absoluteMagnitude: AbsoluteMagnitude,
+          axialTilt: AxialTilt,
+          eccentricity: Eccentricity,
+          inclination: OrbitalInclination,
+          orbitalPeriod: OrbitalPeriod,
+          rotationPeriod: RotationPeriod,
+          luminosity: Luminosity,
+          temperature: SurfaceTemperature,
+          subClass: Subclass,
+          semiMajorAxis: SemiMajorAxis,
+          radius: Radius,
         }
 
         const star = await BodyStar.updateOrCreate(
@@ -578,7 +610,31 @@ export default class EDDNController {
           bodyStarPayload
         )
 
-        await Log.create({
+        if (Rings) {
+          const ringsPayload = Rings.map((ring) => {
+            return {
+              bodyId: star.id,
+              name: ring.Name,
+              innerRad: ring.InnerRad,
+              outerRad: ring.OuterRad,
+              mass: ring.MassMT,
+              class: ring.RingClass,
+            }
+          })
+          star.related('rings').updateOrCreateMany(ringsPayload)
+
+          /*await Log.create({
+            type: 'ring',
+            typeId: star.id,
+            event: data.message.event ? data.message.event : 'ring',
+            schema: data.$schemaRef,
+            software: data.header.softwareName,
+            softwareVersion: data.header.softwareVersion,
+            message: data,
+          })*/
+        }
+
+        /*await Log.create({
           type: 'star',
           typeId: star.id,
           event: data.message.event ? data.message.event : 'star',
@@ -586,7 +642,7 @@ export default class EDDNController {
           software: data.header.softwareName,
           softwareVersion: data.header.softwareVersion,
           message: data,
-        })
+        })*/
       }
     } catch (e) {
       console.log(e)
@@ -604,6 +660,20 @@ export default class EDDNController {
         Materials,
         Landable,
         AtmosphereType,
+        AxialTilt,
+        Eccentricity,
+        Radius,
+        OrbitalInclination,
+        OrbitalPeriod,
+        RotationPeriod,
+        SurfaceTemperature,
+        SurfaceGravity,
+        SurfacePressure,
+        TerraformState,
+        Volcanism,
+        SemiMajorAxis,
+        Periapsis,
+        Rings,
       } = data.message
 
       const body = await this.processBody(data)
@@ -621,6 +691,19 @@ export default class EDDNController {
           landable: Landable,
           atmosphere: AtmosphereType ? AtmosphereType : 'None',
           distance: DistanceFromArrivalLS,
+          axialTilt: AxialTilt,
+          periapsis: Periapsis,
+          eccentricity: Eccentricity,
+          inclination: OrbitalInclination,
+          orbitalPeriod: OrbitalPeriod,
+          rotationPeriod: RotationPeriod,
+          surfaceTemperature: SurfaceTemperature,
+          surfaceGravity: SurfaceGravity,
+          surfacePressure: SurfacePressure,
+          terraformState: TerraformState,
+          volcanism: Volcanism,
+          semiMajorAxis: SemiMajorAxis,
+          radius: Radius,
         }
 
         const planet = await BodyPlanet.updateOrCreate(planetSearch, planetPayload)
@@ -637,13 +720,37 @@ export default class EDDNController {
           : []
 
         if (compositions.length > 0) {
-          await planet.related('compositions').createMany(compositions)
+          await planet.related('compositions').updateOrCreateMany(compositions, 'bodyPlanetId')
         }
         if (materials.length > 0) {
-          await planet.related('materials').createMany(materials)
+          await planet.related('materials').updateOrCreateMany(compositions, 'bodyPlanetId')
         }
 
-        await Log.create({
+        if (Rings) {
+          const ringsPayload = Rings.map((ring) => {
+            return {
+              bodyId: planet.id,
+              name: ring.Name,
+              innerRad: ring.InnerRad,
+              outerRad: ring.OuterRad,
+              mass: ring.MassMT,
+              class: ring.RingClass,
+            }
+          })
+          planet.related('rings').updateOrCreateMany(ringsPayload)
+
+          /*await Log.create({
+            type: 'ring',
+            typeId: planet.id,
+            event: data.message.event ? data.message.event : 'ring',
+            schema: data.$schemaRef,
+            software: data.header.softwareName,
+            softwareVersion: data.header.softwareVersion,
+            message: data,
+          })*/
+        }
+
+        /*await Log.create({
           type: 'planet',
           typeId: planet.id,
           event: data.message.event ? data.message.event : 'planet',
@@ -651,7 +758,7 @@ export default class EDDNController {
           software: data.header.softwareName,
           softwareVersion: data.header.softwareVersion,
           message: data,
-        })
+        })*/
       }
     } catch (e) {
       console.log(e)

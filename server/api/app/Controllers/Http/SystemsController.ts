@@ -74,7 +74,9 @@ export default class SystemsController {
         .preload('primaryEconomy')
         .preload('allegiance')
         .first()
-
+      if (!system) {
+        return response.status(404).json({ message: 'System not found' })
+      }
       return response.status(200).json({ system })
     } catch (e) {
       return response.status(404).json({ message: 'System not found' })

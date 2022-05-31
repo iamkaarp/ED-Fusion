@@ -167,7 +167,9 @@ export default class StationsController {
         //console.log(Math.trunc(p.distance) === Math.trunc(station.distanceFromStar), p.name)
         return Math.trunc(p.distance) === Math.trunc(station.distanceFromStar)
       })*/
-
+      if (!station) {
+        return response.status(404).json({ message: 'Station not found' })
+      }
       return response.status(200).json({ station })
     } catch (e) {
       return response.status(404).json({ message: 'Station not found' })

@@ -97,11 +97,10 @@ Route.group(() => {
 // BODY ROUTES
 
 Route.group(() => {
-  Route.post('bodies/stars', 'BodiesController.storeStar')
-  Route.post('bodies/planets', 'BodiesController.storePlanet')
-})
-  .namespace('App/Controllers/Http')
-  .middleware(['auth'])
+  Route.post('bodies/stars', 'BodiesController.storeStar').middleware(['auth'])
+  Route.post('bodies/planets', 'BodiesController.storePlanet').middleware(['auth'])
+  Route.resource('bodies', 'BodiesController').only(['index', 'show'])
+}).namespace('App/Controllers/Http')
 
 // FACTION ROUTES
 
@@ -130,7 +129,11 @@ Route.group(() => {
 // COMMODITY ROUTES
 
 Route.group(() => {
+  Route.get('commodities/prices', 'CommoditiesController.prices')
   Route.get('commodities/categories', 'CommoditiesController.categories')
+  Route.get('commodities/:name/stations', 'StationCommoditiesController.showByName')
+  Route.get('commodities/:name/stations/min', 'StationCommoditiesController.showMin')
+  Route.get('commodities/:name/stations/max', 'StationCommoditiesController.showMax')
   Route.resource('commodities', 'CommoditiesController')
     .only(['index', 'show', 'store', 'update', 'destroy'])
     .middleware({

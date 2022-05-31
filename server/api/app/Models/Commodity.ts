@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import StationCommodity from 'App/Models/StationCommodity'
 
@@ -34,6 +35,9 @@ export default class Commodity extends BaseModel {
 
   @column()
   public category: string
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  public updatedAt: DateTime
 
   @hasMany(() => StationCommodity, {
     localKey: 'key',

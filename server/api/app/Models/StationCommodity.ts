@@ -4,6 +4,8 @@ import Station from 'App/Models/Station'
 import Commodity from 'App/Models/Commodity'
 
 export default class StationCommodity extends BaseModel {
+  public serializeExtras = true
+
   @column({ isPrimary: true })
   public id: number
 
