@@ -1,8 +1,5 @@
 import React, { FC, useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import _debounce from 'lodash/debounce'
-import Icon from '@mdi/react'
-import { mdiMenuDown, mdiMenuUp } from '@mdi/js'
 
 import EDFusion from '../../apis/EDFusion'
 
@@ -123,7 +120,7 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
         </div>
       ) : (
         <>
-          <div className="flex w-full mb-4">
+          <div className="flex w-full">
             <Filter>
               <Filters
                 onFilter={(value: string, items: any[] = []) => onFilter(value, items)}
@@ -131,6 +128,7 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
               />
             </Filter>
           </div>
+          <h1 className="mb-8 text-3xl text-gray-400">Systems</h1>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <Table th={th} loading={loading} onSort={sort} column={column} direction={direction}>
               {systems.map((system: ISystem) => {

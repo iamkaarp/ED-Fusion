@@ -164,7 +164,7 @@ const Bodies: FC<ISystemBodies> = ({ systemId }) => {
                         scope="row"
                         className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"
                       >
-                        <Link to={`/bodies/${star.name}`} className="hover:text-orange-400">
+                        <Link to={`/body/${star.name}`} className="hover:text-orange-400">
                           {star.name}
                         </Link>
                       </th>
@@ -205,7 +205,7 @@ const Bodies: FC<ISystemBodies> = ({ systemId }) => {
                         scope="row"
                         className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"
                       >
-                        <Link to={`/bodies/${planet.name}`} className="hover:text-orange-400">
+                        <Link to={`/body/${planet.name}`} className="hover:text-orange-400">
                           {planet.name}
                         </Link>
                       </th>

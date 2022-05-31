@@ -35,7 +35,7 @@ const ShipyardTable: FC = () => {
       ) : (
         <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
           <div className="flex justify-between w-full pb-4 mb-4 border-b border-gray-700">
-            <p className="text-3xl">Shipyard</p>
+            <h1 className="text-3xl">Shipyard</h1>
           </div>
           <div className="grid grid-cols-1 gap-2 md:gap-4 md:grid-cols-5">
             {ships.map((ship: IShip) => {

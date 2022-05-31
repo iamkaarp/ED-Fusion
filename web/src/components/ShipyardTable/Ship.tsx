@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { Helmet } from 'react-helmet'
 import * as _ from 'lodash'
 
 import EDFusion from '../../apis/EDFusion'
@@ -82,6 +83,26 @@ const Ship: FC<ShipProps> = ({ name }) => {
 
   return (
     <>
+      <Helmet>
+        <title>ED-Fusion - Shipyard - {name}</title>
+        <meta name="description" content={`Ship ${name} in Elite: Dangerous `} />
+        <meta
+          name="keywords"
+          content={`Elite, Elite: Dangerous, Frontier, Frontier Development, Bodies, Systems, Stations, Market, Trading, Ships, ${name}`}
+        />
+        <meta name="twitter:site" content="@user" />
+        <meta name="twitter:creator" content="@user" />
+        <meta name="twitter:title" content={`Ship ${name} in Elite: Dangerous `} />
+        <meta name="twitter:description" content={`Ship ${name} in Elite: Dangerous `} />
+        <meta name="twitter:image" content={`https://ed-fusion.com${shipyard[ship.key]}`} />
+        <meta property="og:title" content={`Ship ${name} in Elite: Dangerous `} />
+        <meta property="og:description" content={`Ship ${name} in Elite: Dangerous `} />
+        <meta property="og:url" content={`https://ed-fusion.com/ship/${name}}`} />
+        <meta property="og:site_name" content={`Ship ${name} in Elite: Dangerous `} />
+        <meta property="og:image" content={`https://ed-fusion.com${shipyard[ship.key]}`} />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="article" />
+      </Helmet>
       {loading ? (
         <div className="flex items-center justify-center w-full mt-48">
           <div>
@@ -91,7 +112,7 @@ const Ship: FC<ShipProps> = ({ name }) => {
       ) : (
         <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
           <div className="flex justify-between w-full pb-4 mb-4 border-b border-gray-700">
-            <p className="text-3xl">Shipyard - {name}</p>
+            <h1 className="text-3xl">{name}</h1>
           </div>
           <div className="flex flex-col md:flex-row">
             <div className="order-1 w-full mr-2 md:w-1/3">

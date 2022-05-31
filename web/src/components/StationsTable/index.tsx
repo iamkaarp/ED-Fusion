@@ -153,7 +153,7 @@ const StationsTable: FC<IStationsTable> = ({ page }) => {
         </div>
       ) : (
         <>
-          <div className="flex w-full mb-4">
+          <div className="flex w-full">
             <Filter>
               <Filters
                 onFilter={(value: string, items: any[] = []) => onFilter(value, items)}
@@ -161,6 +161,7 @@ const StationsTable: FC<IStationsTable> = ({ page }) => {
               />
             </Filter>
           </div>
+          <h1 className="mb-8 text-3xl text-gray-400">Stations</h1>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <Table th={th} loading={loading} onSort={sort} column={column} direction={direction}>
               {stations.map((station: IStation) => {

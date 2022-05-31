@@ -9,11 +9,20 @@ interface TableProps {
   column: string
   direction: string
   loading: boolean
+  fixed?: boolean
   onSort: (column: string, direction: string) => void
   children: JSX.Element | JSX.Element[]
 }
 
-const Table: FC<TableProps> = ({ th, loading, onSort, column, direction, children }) => {
+const Table: FC<TableProps> = ({
+  th,
+  loading,
+  onSort,
+  column,
+  direction,
+  children,
+  fixed = false,
+}) => {
   return (
     <>
       {loading && (
@@ -24,7 +33,7 @@ const Table: FC<TableProps> = ({ th, loading, onSort, column, direction, childre
           <Loader />
         </div>
       )}
-      <table className="w-full text-sm text-left text-gray-400">
+      <table className={`w-full text-sm text-left text-gray-400 ${fixed ? 'table-fixed' : ''}`}>
         <thead className="text-xs text-gray-400 uppercase bg-gray-700">
           <tr>
             {th.map((item, index) => {
@@ -33,7 +42,7 @@ const Table: FC<TableProps> = ({ th, loading, onSort, column, direction, childre
                   <th
                     key={index}
                     scope="col"
-                    className={`px-1.5 py-2 md:px-6 md:py-3 cursor-pointer hover:text-orange-400 ${
+                    className={`sticky top-0 px-1.5 py-2 md:px-6 md:py-3 cursor-pointer hover:text-orange-400 ${
                       item.mobile ? '' : 'hidden md:table-cell'
                     } `}
                     onClick={() => {
@@ -64,7 +73,7 @@ const Table: FC<TableProps> = ({ th, loading, onSort, column, direction, childre
             })}
           </tr>
         </thead>
-        <tbody>{children}</tbody>
+        <tbody className="divide-y">{children}</tbody>
       </table>
     </>
   )

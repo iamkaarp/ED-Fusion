@@ -53,9 +53,13 @@ class EDFusion {
   }
 
   systems = {
-    show: async (system: string): Promise<ISystem> => {
-      const response = await this.http.get(`/systems/${system}`)
-      return response.data.system
+    show: async (system: string): Promise<any> => {
+      try {
+        const response = await this.http.get(`/systems/${system}`)
+        return response
+      } catch (err: any) {
+        return err.response
+      }
     },
     index: async (
       page: number,
@@ -69,7 +73,7 @@ class EDFusion {
       })
       return response.data.systems
     },
-    search: async (query: string): Promise<ISystem[]> => {
+    search: async (query: string): Promise<any[]> => {
       const response = await this.http.get('/systems/find', {
         params: {
           q: query,
@@ -206,9 +210,13 @@ class EDFusion {
       const response = await this.http.get(`/station/${id}/ships`)
       return response.data
     },
-    show: async (name: string): Promise<IStation> => {
-      const response = await this.http.get(`/stations/${name}`)
-      return response.data.station
+    show: async (name: string): Promise<any> => {
+      try {
+        const response = await this.http.get(`/stations/${name}`)
+        return response
+      } catch (e: any) {
+        return e.response
+      }
     },
     ships: {
       index: async (id: number): Promise<any> => {
@@ -254,13 +262,43 @@ class EDFusion {
   }
 
   commodities = {
-    index: async (): Promise<any> => {
-      const response = await this.http.get('/commodities')
+    index: async (column: string, direction: string, params: object = {}): Promise<any> => {
+      const p = { ...params, column, direction }
+      const response = await this.http.get('/commodities', {
+        params: p,
+      })
       return response
+    },
+    show: async (name: string): Promise<any> => {
+      const response = await this.http.get(`/commodities/${name}`)
+      return response.data
     },
     categories: async (): Promise<any> => {
       const response = await this.http.get('/commodities/categories')
       return response
+    },
+    stations: {
+      index: async (name: string, params: object = {}): Promise<any> => {
+        const p = { ...params }
+        const response = await this.http.get(`/commodities/${name}/stations`, {
+          params: p,
+        })
+        return response.data
+      },
+      min: async (name: string, params: object = {}): Promise<any> => {
+        const p = { ...params }
+        const response = await this.http.get(`/commodities/${name}/stations/min`, {
+          params: p,
+        })
+        return response.data
+      },
+      max: async (name: string, params: object = {}): Promise<any> => {
+        const p = { ...params }
+        const response = await this.http.get(`/commodities/${name}/stations/max`, {
+          params: p,
+        })
+        return response.data
+      },
     },
   }
 
@@ -350,6 +388,25 @@ class EDFusion {
     profile: async (): Promise<any> => {
       const response = await this.http.post('/fdev/profile')
       return response
+    },
+  }
+
+  bodies = {
+    index: async (
+      page: number,
+      column: string,
+      direction: string,
+      params: object = {}
+    ): Promise<any> => {
+      const p = { ...params, page, column, direction }
+      const response = await this.http.get('/bodies', {
+        params: p,
+      })
+      return response.data
+    },
+    show: async (name: string): Promise<any> => {
+      const response = await this.http.get(`/bodies/${name}`)
+      return response.data
     },
   }
 }

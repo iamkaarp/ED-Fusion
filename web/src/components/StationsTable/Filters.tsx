@@ -55,7 +55,7 @@ const Filters: FC<IFiltersProps> = ({ onFilter, filters }) => {
   })
 
   const fetchCommodities = _.memoize(async () => {
-    const res = await EDFusion.commodities.index()
+    const res = await EDFusion.commodities.index('name', 'asc')
     setCommodities(res.data)
   })
 

@@ -11,11 +11,15 @@ import Stations from './views/Stations'
 import Station from './views/Station'
 import MapV2 from './views/MapV2'
 import MapV3 from './views/MapV3'
-
-import ModalHandler from './components/Modals'
 import ShipyardView from './views/Shipyard'
 import Frontier from './views/Frontier'
 import Settings from './views/Settings'
+import Bodies from './views/Bodies'
+import Body from './views/Body'
+import Market from './views/Market'
+import NotFound from './views/NotFound'
+
+import ModalHandler from './components/Modals'
 
 import EDFusion from './apis/EDFusion'
 
@@ -112,7 +116,19 @@ const App = () => {
           <Route path="/frontier">
             <Route index element={<Frontier />} />
           </Route>
+          <Route path="/bodies">
+            <Route index element={<Bodies />} />
+            <Route path=":page" element={<Bodies />} />
+          </Route>
+          <Route path="/body/:name">
+            <Route index element={<Body />} />
+          </Route>
+          <Route path="/market">
+            <Route index element={<Market />} />
+            <Route path=":name" element={<Market />} />
+          </Route>
           <Route path="/settings" element={<Settings />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </>
