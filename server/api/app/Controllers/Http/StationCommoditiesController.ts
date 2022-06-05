@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 
 import StationCommodity from 'App/Models/StationCommodity'
+import System from 'App/Models/System'
 
 export default class StationCommoditiesController {
   private directions = ['asc', 'desc']
@@ -111,14 +112,14 @@ export default class StationCommoditiesController {
     const ref = qs.ref ? decodeURI(qs.ref) : 'sol'
     const limit = qs.limit ? qs.limit : 10
     try {
+      const system = await System.findByOrFail('name', ref)
       const commoditiesQuery = StationCommodity.query()
         .select(
           'station_commodities.*',
-          Database.raw(
-            `distanceBetweenSystems((SELECT id FROM systems WHERE name = '${ref}'), stations.system_id) as distance`
-          )
+          Database.raw(`distanceBetweenSystems('${system.position}', systems.position) as distance`)
         )
         .join('stations', 'stations.id', '=', 'station_commodities.station_id')
+        .join('systems', 'systems.id', '=', 'stations.system_id')
         .join('commodities', 'station_commodities.name', '=', 'commodities.key')
         .preload('station', (query) => {
           query.preload('system')

@@ -17,6 +17,8 @@ import SystemFaction from 'App/Models/SystemFaction'
 import Body from 'App/Models/Body'
 
 export default class System extends BaseModel {
+  public serializeExtras = true
+
   @column({ isPrimary: true })
   public id: number
 

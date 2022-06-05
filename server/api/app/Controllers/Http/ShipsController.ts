@@ -48,7 +48,7 @@ export default class ShipsController {
       const ships = await StationShip.query()
         .select(
           'station_ships.*',
-          Database.raw(`distanceBetweenSystems(${system.id}, stations.system_id) as dist`)
+          Database.raw(`distanceBetweenSystems('${system.position}', stations.system_id) as dist`)
         )
         .join('stations', 'stations.id', '=', 'station_ships.station_id')
         .where('station_ships.name', qs.name)
