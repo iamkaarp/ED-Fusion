@@ -295,7 +295,7 @@ export default class EDDNController {
         LandingPads,
       } = data.message
 
-      const system = await System.firstOrCreate(
+      const system = await System.updateOrCreate(
         { name: StarSystem, address: SystemAddress },
         { name: StarSystem, address: SystemAddress, position: StarPos.join(';') }
       )
@@ -485,7 +485,7 @@ export default class EDDNController {
         primaryEconomyId: economy?.id,
         allegianceId: superPower?.id,
       }
-      const system = await System.firstOrCreate(search, payload)
+      const system = await System.updateOrCreate(search, payload)
       if (Factions) {
         const factionsPayload = await Promise.all(
           Factions.map(async (f) => {
@@ -542,7 +542,7 @@ export default class EDDNController {
         address: SystemAddress,
       }
 
-      const system = await System.firstOrCreate({ address: SystemAddress }, systemPayload)
+      const system = await System.updateOrCreate({ address: SystemAddress }, systemPayload)
       const body = await Body.updateOrCreate({ systemId: system.id }, { systemId: system.id })
 
       /*await Log.create({
