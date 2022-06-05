@@ -78,7 +78,7 @@ const Market: FC<IMarketProps> = ({ commodities, loading, column, direction, onS
                     (commodity: IMarket) => commodity.commodity.category === category
                   ) && (
                     <>
-                      <tr className="bg-gray-900 border-b border-gray-700 hover:bg-gray-600">
+                      <tr className="bg-neutral-900 border-b border-neutral-700 hover:bg-neutral-600">
                         <th
                           className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"
                           colSpan={th.length}
@@ -91,7 +91,7 @@ const Market: FC<IMarketProps> = ({ commodities, loading, column, direction, onS
                           return (
                             <tr
                               key={commodity.id}
-                              className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+                              className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
                             >
                               <th
                                 scope="row"

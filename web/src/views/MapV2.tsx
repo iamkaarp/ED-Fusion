@@ -145,9 +145,9 @@ const MapV2: FC = () => {
   return (
     <div className="relative flex w-full min-h-full">
       <div className="absolute left-8 right-8">
-        <div className="w-full p-4 mt-20 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:w-3/12">
+        <div className="w-full p-4 mt-20 text-neutral-400 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md md:w-3/12">
           <div className="relative pt-1">
-            <label htmlFor="step" className="font-bold text-gray-400">
+            <label htmlFor="step" className="font-bold text-neutral-400">
               Show distance from Sol ({distance} Ly)
             </label>
             <input
@@ -157,7 +157,7 @@ const MapV2: FC = () => {
               step="10"
               value={distance}
               onChange={handleDistanceChange}
-              className="w-full h-2 bg-gray-700 appearance-none range"
+              className="w-full h-2 bg-neutral-700 appearance-none range"
             />
           </div>
         </div>

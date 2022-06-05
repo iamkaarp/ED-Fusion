@@ -70,6 +70,12 @@ const App = () => {
     if (!fdev.connected && user.token) {
       fetchToken('')
     }
+
+    /*const sharethis = document.getElementById('st-2')
+    const elemHeight = sharethis?.getBoundingClientRect().height
+    const height = window.innerHeight
+    const pos = height / 2 - elemHeight! / 2
+    sharethis!.style.top = `${pos}px`*/
   }, [])
 
   useEffect(() => {

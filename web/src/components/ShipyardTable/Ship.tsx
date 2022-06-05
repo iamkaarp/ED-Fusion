@@ -110,8 +110,8 @@ const Ship: FC<ShipProps> = ({ name }) => {
           </div>
         </div>
       ) : (
-        <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
-          <div className="flex justify-between w-full pb-4 mb-4 border-b border-gray-700">
+        <div className="w-full p-2 mb-6 text-neutral-400 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md md:p-6">
+          <div className="flex justify-between w-full pb-4 mb-4 border-b border-neutral-700">
             <h1 className="text-3xl">{name}</h1>
           </div>
           <div className="flex flex-col md:flex-row">
@@ -131,13 +131,13 @@ const Ship: FC<ShipProps> = ({ name }) => {
                 style={{ backgroundImage: `url(${shipyard[ship.key]})` }}
               />
               <div className="flex flex-col order-2 w-full mt-4 mb-4">
-                <span className="mb-2 font-bold text-gray-400 uppercase text-md">
+                <span className="mb-2 font-bold text-neutral-400 uppercase text-md">
                   Specifications
                 </span>
                 <Stats ship={ship} />
               </div>
               <div className="flex flex-col order-2 w-full mt-4 mb-4">
-                <span className="mb-2 font-bold text-gray-400 uppercase text-md">
+                <span className="mb-2 font-bold text-neutral-400 uppercase text-md">
                   Nearest station from {refSytem}
                 </span>
                 <Table th={th} onSort={() => {}} loading={false} column="dist" direction="asc">
@@ -145,7 +145,7 @@ const Ship: FC<ShipProps> = ({ name }) => {
                     return (
                       <tr
                         key={station.id}
-                        className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+                        className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
                       >
                         <th
                           scope="row"
@@ -189,13 +189,13 @@ const Ship: FC<ShipProps> = ({ name }) => {
               <div className="w-full md:flex md:flex-row">
                 <div className="w-full md:w-1/2 md:mr-2">
                   <Hardpoints hardpoints={ship.stats.hardpoints} />
-                  <span className="font-bold text-gray-400 uppercase text-md">
+                  <span className="font-bold text-neutral-400 uppercase text-md">
                     Utility Mounts
                     {utiliy(ship.stats.utility).map((u: any, index: number) => {
                       return (
-                        <div key={index} className="w-full py-1.5 pr-3 bg-gray-700 mb-1.5">
-                          <div className="flex justify-end w-full text-3xl text-gray-400">0</div>
-                          <div className="flex justify-end w-full text-xs text-gray-500 uppercase">
+                        <div key={index} className="w-full py-1.5 pr-3 bg-neutral-700 mb-1.5">
+                          <div className="flex justify-end w-full text-3xl text-neutral-400">0</div>
+                          <div className="flex justify-end w-full text-xs text-neutral-500 uppercase">
                             Utility Mount
                           </div>
                         </div>
@@ -204,21 +204,21 @@ const Ship: FC<ShipProps> = ({ name }) => {
                   </span>
                 </div>
                 <div className="w-full md:w-1/2 md:ml-2">
-                  <span className="font-bold text-gray-400 uppercase text-md">
+                  <span className="font-bold text-neutral-400 uppercase text-md">
                     <Optional optionals={ship.stats.optionals} />
                   </span>
-                  <span className="font-bold text-gray-400 uppercase text-md">
+                  <span className="font-bold text-neutral-400 uppercase text-md">
                     Core internals
                     <Core core={ship.stats.core} />
                   </span>
-                  <span className="font-bold text-gray-400 uppercase text-md">
+                  <span className="font-bold text-neutral-400 uppercase text-md">
                     Armour
-                    <div className="w-full flex flex-wrap justify-between py-1.5 px-3 bg-gray-700 mb-1.5">
-                      <div className="w-1/2 text-sm text-gray-200 uppercase">
+                    <div className="w-full flex flex-wrap justify-between py-1.5 px-3 bg-neutral-700 mb-1.5">
+                      <div className="w-1/2 text-sm text-neutral-200 uppercase">
                         1I Lightweight Alloy
                       </div>
-                      <div className="flex justify-end w-1/2 text-3xl text-gray-400">1</div>
-                      <div className="flex justify-end w-full text-xs text-gray-500 uppercase">
+                      <div className="flex justify-end w-1/2 text-3xl text-neutral-400">1</div>
+                      <div className="flex justify-end w-full text-xs text-neutral-500 uppercase">
                         bulkheads
                       </div>
                     </div>

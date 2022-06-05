@@ -24,6 +24,7 @@ const StationsTable: FC<IStationsTable> = ({ page }) => {
   const [direction, setDirection] = useState<string>('asc')
   const [loading, setLoading] = useState<boolean>(true)
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
+  const [showFilters, setShowFilters] = useState<boolean>(false)
 
   const [filters, setFilters] = useState<IFilters>({
     showFc: false,
@@ -153,22 +154,36 @@ const StationsTable: FC<IStationsTable> = ({ page }) => {
         </div>
       ) : (
         <>
-          <div className="flex w-full">
-            <Filter>
-              <Filters
-                onFilter={(value: string, items: any[] = []) => onFilter(value, items)}
-                filters={filters}
-              />
-            </Filter>
+          <div className="flex items-center justify-between w-full px-4 md:px-0">
+            <h1 className="mb-4 text-3xl text-neutral-400">Stations</h1>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                setShowFilters(!showFilters)
+              }}
+              className="text-neutral-400 cursor-pointer hover:text-orange-400"
+            >
+              {showFilters ? 'Hide' : 'Show'} Filters
+            </a>
           </div>
-          <h1 className="mb-8 text-3xl text-gray-400">Stations</h1>
+          <div className={`${showFilters ? 'flex' : 'hidden'} w-full`}>
+            <div className="w-full p-2 mb-6 text-neutral-400 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md md:p-6">
+              <div className="w-full">
+                <Filters
+                  onFilter={(value: string, items: any[] = []) => onFilter(value, items)}
+                  filters={filters}
+                />
+              </div>
+            </div>
+          </div>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <Table th={th} loading={loading} onSort={sort} column={column} direction={direction}>
               {stations.map((station: IStation) => {
                 return (
                   <tr
                     key={station.id}
-                    className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+                    className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
                   >
                     <th
                       scope="row"

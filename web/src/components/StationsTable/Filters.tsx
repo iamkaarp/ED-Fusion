@@ -119,86 +119,99 @@ const Filters: FC<IFiltersProps> = ({ onFilter, filters }) => {
   }, 500)
 
   return (
-    <div className="flex flex-col w-full">
-      <div>
-        <label htmlFor="fleetCarriers" className="relative inline-flex items-center cursor-pointer">
+    <div className="flex flex-col w-full md:flex-row">
+      <div className="flex md:w-1/3 md:mr-2">
+        <div className="w-full">
+          <div>
+            <label
+              htmlFor="fleetCarriers"
+              className="relative inline-flex items-center cursor-pointer"
+            >
+              <input
+                onChange={() => onFilter('showFc')}
+                type="checkbox"
+                value=""
+                id="fleetCarriers"
+                className="sr-only peer"
+                checked={filters.showFc}
+              />
+              <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-neutral-700 peer-checked:after:tranneutral-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-neutral-600 peer-checked:bg-orange-400" />
+              <span className="ml-3 text-sm font-medium text-neutral-300">
+                Include Fleet Carriers
+              </span>
+            </label>
+          </div>
+          <div>
+            <label htmlFor="planetary" className="relative inline-flex items-center cursor-pointer">
+              <input
+                onChange={() => onFilter('showPlanetary')}
+                type="checkbox"
+                value=""
+                id="planetary"
+                className="sr-only peer"
+                checked={filters.showPlanetary}
+              />
+              <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-neutral-700 peer-checked:after:tranneutral-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-neutral-600 peer-checked:bg-orange-400" />
+              <span className="ml-3 text-sm font-medium text-neutral-300">Include Planetary</span>
+            </label>
+          </div>
+        </div>
+        <div className="w-full">
+          <label htmlFor="arrival" className="block mb-2 text-sm font-medium text-neutral-300">
+            Max Distance to Arrival
+          </label>
           <input
-            onChange={() => onFilter('showFc')}
-            type="checkbox"
-            value=""
-            id="fleetCarriers"
-            className="sr-only peer"
-            checked={filters.showFc}
+            type="number"
+            id="arrival"
+            onChange={(e) => onDistanceChange(Number(e.target.value))}
+            className="filter-input"
+            placeholder="ls"
           />
-          <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-orange-400" />
-          <span className="ml-3 text-sm font-medium text-gray-300">Include Fleet Carriers</span>
-        </label>
+        </div>
       </div>
-      <div>
-        <label htmlFor="planetary" className="relative inline-flex items-center cursor-pointer">
-          <input
-            onChange={() => onFilter('showPlanetary')}
-            type="checkbox"
-            value=""
-            id="planetary"
-            className="sr-only peer"
-            checked={filters.showPlanetary}
+      <div className="md:w-1/3 md:mr-2 md:ml-2">
+        <div className="">
+          <Autocomplete
+            onItemsChange={onTypeChange}
+            items={types}
+            placeholder="Orbis"
+            title="Station Type"
           />
-          <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-orange-400" />
-          <span className="ml-3 text-sm font-medium text-gray-300">Include Planetary</span>
-        </label>
+        </div>
+        <div className="mt-4">
+          <Autocomplete
+            onItemsChange={onServiceChange}
+            items={services}
+            placeholder="Outfitting"
+            title="Station Services"
+          />
+        </div>
       </div>
-      <div className="mt-4">
-        <label htmlFor="arrival" className="block mb-2 text-sm font-medium text-gray-300">
-          Max Distance to Arrival
-        </label>
-        <input
-          type="number"
-          id="arrival"
-          onChange={(e) => onDistanceChange(Number(e.target.value))}
-          className="filter-input"
-          placeholder="ls"
-        />
-      </div>
-      <div className="mt-4">
-        <Autocomplete
-          onItemsChange={onTypeChange}
-          items={types}
-          placeholder="Orbis"
-          title="Station Type"
-        />
-      </div>
-      <div className="mt-4">
-        <Autocomplete
-          onItemsChange={onServiceChange}
-          items={services}
-          placeholder="Outfitting"
-          title="Station Services"
-        />
-      </div>
-      <div className="mt-4">
-        <Autocomplete
-          onItemsChange={onCommodityChange}
-          items={commodities}
-          placeholder="Gold"
-          title="Sells Commodities"
-        />
-      </div>
-      <div className="mt-4">
-        <Autocomplete
-          onItemsChange={onModuleChange}
-          items={modules}
-          placeholder="6A Fuel Scoop"
-          title="Sells Modules"
-        />
-      </div>
-      <div className="mt-4">
-        <Autocomplete
-          onItemsChange={onShipChange}
-          items={ships}
-          placeholder="Diamondback Explorer"
-          title="Sells Ships"
-        />
+      <div className="md:w-1/3 md:ml-2">
+        <div className="mt-4 md:mt-0">
+          <Autocomplete
+            onItemsChange={onCommodityChange}
+            items={commodities}
+            placeholder="Gold"
+            title="Sells Commodities"
+          />
+        </div>
+        <div className="mt-4">
+          <Autocomplete
+            onItemsChange={onModuleChange}
+            items={modules}
+            placeholder="6A Fuel Scoop"
+            title="Sells Modules"
+          />
+        </div>
+        <div className="mt-4">
+          <Autocomplete
+            onItemsChange={onShipChange}
+            items={ships}
+            placeholder="Diamondback Explorer"
+            title="Sells Ships"
+          />
+        </div>
       </div>
     </div>
   )

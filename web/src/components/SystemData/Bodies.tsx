@@ -158,7 +158,7 @@ const Bodies: FC<ISystemBodies> = ({ systemId }) => {
                   return (
                     <tr
                       key={star.id}
-                      className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+                      className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
                     >
                       <th
                         scope="row"
@@ -199,7 +199,7 @@ const Bodies: FC<ISystemBodies> = ({ systemId }) => {
                   return (
                     <tr
                       key={planet.id}
-                      className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+                      className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
                     >
                       <th
                         scope="row"

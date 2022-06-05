@@ -65,7 +65,7 @@ const Pagination: FC<PaginationProps> = ({ currentPage, lastPage, view }) => {
           <li>
             <Link
               to={`/${view}/1`}
-              className="hidden px-3 py-2 ml-0 leading-tight text-gray-400 bg-gray-800 border border-gray-700 md:rounded-l-lg md:block hover:bg-gray-700 hover:text-white"
+              className="hidden px-3 py-2 ml-0 leading-tight text-neutral-400 bg-neutral-800 border border-neutral-700 md:rounded-l-lg md:block hover:bg-neutral-700 hover:text-white"
             >
               <span className="sr-only">First page</span>
               <Icon path={mdiChevronTripleLeft} size={'20px'} />
@@ -74,7 +74,7 @@ const Pagination: FC<PaginationProps> = ({ currentPage, lastPage, view }) => {
           <li>
             <Link
               to={`/${view}/${previous()}`}
-              className="block px-3 py-2 ml-0 leading-tight text-gray-400 bg-gray-800 border border-gray-700 rounded-l-lg md:rounded-none hover:bg-gray-700 hover:text-white"
+              className="block px-3 py-2 ml-0 leading-tight text-neutral-400 bg-neutral-800 border border-neutral-700 rounded-l-lg md:rounded-none hover:bg-neutral-700 hover:text-white"
             >
               <span className="sr-only">Previous</span>
               <Icon path={mdiChevronLeft} size={'20px'} />
@@ -85,13 +85,13 @@ const Pagination: FC<PaginationProps> = ({ currentPage, lastPage, view }) => {
               <li>
                 <Link
                   to={'/${view}/1'}
-                  className="hidden px-3 py-2 text-base leading-tight text-gray-400 bg-gray-800 border border-gray-700 md:block hover:bg-gray-700 hover:text-white"
+                  className="hidden px-3 py-2 text-base leading-tight text-neutral-400 bg-neutral-800 border border-neutral-700 md:block hover:bg-neutral-700 hover:text-white"
                 >
                   <span className="sr-only">Page 1</span>1
                 </Link>
               </li>
               <li>
-                <a className="hidden px-3 py-2 text-base leading-tight text-gray-400 bg-gray-800 border border-gray-700 md:block hover:bg-gray-700 hover:text-white">
+                <a className="hidden px-3 py-2 text-base leading-tight text-neutral-400 bg-neutral-800 border border-neutral-700 md:block hover:bg-neutral-700 hover:text-white">
                   ...
                 </a>
               </li>
@@ -103,7 +103,7 @@ const Pagination: FC<PaginationProps> = ({ currentPage, lastPage, view }) => {
                 <li key={page}>
                   <Link
                     to={`/${view}/${page}`}
-                    className="block px-3 py-2 text-base font-bold leading-tight text-orange-400 bg-gray-800 border border-gray-700 hover:bg-gray-700 hover:text-white"
+                    className="block px-3 py-2 text-base font-bold leading-tight text-orange-400 bg-neutral-800 border border-neutral-700 hover:bg-neutral-700 hover:text-white"
                   >
                     <span className="sr-only">Page {page}</span>
                     {page}
@@ -115,7 +115,7 @@ const Pagination: FC<PaginationProps> = ({ currentPage, lastPage, view }) => {
               <li key={page}>
                 <Link
                   to={`/${view}/${page}`}
-                  className="block px-3 py-2 text-base leading-tight text-gray-400 bg-gray-800 border border-gray-700 hover:bg-gray-700 hover:text-white"
+                  className="block px-3 py-2 text-base leading-tight text-neutral-400 bg-neutral-800 border border-neutral-700 hover:bg-neutral-700 hover:text-white"
                 >
                   <span className="sr-only">Page {page}</span>
                   {page}
@@ -126,14 +126,14 @@ const Pagination: FC<PaginationProps> = ({ currentPage, lastPage, view }) => {
           {lastPage - currentPage > 5 && (
             <>
               <li>
-                <a className="hidden px-3 py-2 text-base leading-tight text-gray-400 bg-gray-800 border border-gray-700 md:block hover:bg-gray-700 hover:text-white">
+                <a className="hidden px-3 py-2 text-base leading-tight text-neutral-400 bg-neutral-800 border border-neutral-700 md:block hover:bg-neutral-700 hover:text-white">
                   ...
                 </a>
               </li>
               <li>
                 <Link
                   to={`/${view}/${lastPage}`}
-                  className="hidden px-3 py-2 text-base leading-tight text-gray-400 bg-gray-800 border border-gray-700 md:block hover:bg-gray-700 hover:text-white"
+                  className="hidden px-3 py-2 text-base leading-tight text-neutral-400 bg-neutral-800 border border-neutral-700 md:block hover:bg-neutral-700 hover:text-white"
                 >
                   <span className="sr-only">Page {lastPage}</span>
                   {lastPage}
@@ -144,7 +144,7 @@ const Pagination: FC<PaginationProps> = ({ currentPage, lastPage, view }) => {
           <li>
             <Link
               to={`/${view}/${next()}`}
-              className="block px-3 py-2 text-base leading-tight text-gray-400 bg-gray-800 border border-gray-700 rounded-r-lg md:rounded-none hover:bg-gray-700 hover:text-white"
+              className="block px-3 py-2 text-base leading-tight text-neutral-400 bg-neutral-800 border border-neutral-700 rounded-r-lg md:rounded-none hover:bg-neutral-700 hover:text-white"
             >
               <span className="sr-only">Next</span>
               <Icon path={mdiChevronRight} className="text-base" size={'20px'} />
@@ -153,7 +153,7 @@ const Pagination: FC<PaginationProps> = ({ currentPage, lastPage, view }) => {
           <li>
             <Link
               to={`/${view}/${lastPage}`}
-              className="hidden px-3 py-2 text-base leading-tight text-gray-400 bg-gray-800 border border-gray-700 md:rounded-r-lg md:block hover:bg-gray-700 hover:text-white"
+              className="hidden px-3 py-2 text-base leading-tight text-neutral-400 bg-neutral-800 border border-neutral-700 md:rounded-r-lg md:block hover:bg-neutral-700 hover:text-white"
             >
               <span className="sr-only">Last Page</span>
               <Icon path={mdiChevronTripleRight} className="text-base" size={'20px'} />

@@ -13,8 +13,8 @@ const Star: FC<Star> = ({ data }) => {
   const scoopable = ['O', 'B', 'A', 'F', 'G', 'K', 'M']
   const SOL_RAD = 696340
   return (
-    <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
-      <div className="flex items-center justify-between w-full pb-4 mb-4 border-b border-gray-700">
+    <div className="w-full p-2 mb-6 text-neutral-400 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md md:p-6">
+      <div className="flex items-center justify-between w-full pb-4 mb-4 border-b border-neutral-700">
         <h1 className="text-3xl">
           {data.name} {data.type} {data.luminosity}
           {data.sub_class} {scoopable.includes(data.type) ? ' - Scoopable' : ''}
@@ -22,7 +22,7 @@ const Star: FC<Star> = ({ data }) => {
         <p>{DateFormat.fromNow(data.updated_at)}</p>
       </div>
       <div className="w-full md:flex">
-        <div className="flex flex-col w-full pb-4 mb-4 border-b border-gray-400 md:mb-0 md:pb-0 md:w-1/2 md:border-0">
+        <div className="flex flex-col w-full pb-4 mb-4 border-b border-neutral-400 md:mb-0 md:pb-0 md:w-1/2 md:border-0">
           <h2 className="mb-8 text-xl font-bold text-center" />
           <div className="flex w-full">
             <div className="flex justify-end w-1/2 mr-4 md:w-1/4">System</div>

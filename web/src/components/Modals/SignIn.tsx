@@ -24,13 +24,13 @@ const SignIn: FC<ModalProps> = ({ isOpen, closeModal }) => {
       {isOpen && (
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex flex-col w-full p-2 bg-gray-800 border border-gray-700 rounded-lg shadow-md h-1/2 overflow md:p-6 md:w-1/2"
+          className="flex flex-col w-full p-2 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md h-1/2 overflow md:p-6 md:w-1/2"
         >
-          <div className="w-full text-xl text-gray-400">Signin</div>
+          <div className="w-full text-xl text-neutral-400">Signin</div>
           <div className="w-full mt-8">
             <form onSubmit={handleSubmit}>
               <div className="mb-6">
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-300">
+                <label htmlFor="email" className="block mb-2 text-sm font-medium text-neutral-300">
                   Email
                 </label>
                 <input
@@ -43,7 +43,10 @@ const SignIn: FC<ModalProps> = ({ isOpen, closeModal }) => {
                 />
               </div>
               <div className="mb-6">
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-300">
+                <label
+                  htmlFor="password"
+                  className="block mb-2 text-sm font-medium text-neutral-300"
+                >
                   Password
                 </label>
                 <input

@@ -116,7 +116,7 @@ const Outfitting: FC<OutfittingProps> = ({ modules, loading, column, direction, 
                     return (
                       <tr
                         key={module.id}
-                        className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+                        className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
                       >
                         <th
                           scope="row"

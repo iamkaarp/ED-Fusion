@@ -62,7 +62,7 @@ const NavBar: FC = () => {
 
   return (
     <>
-      <nav className="fixed w-full px-2 sm:px-4 border-gray-600 border-b py-2.5 bg-gray-800 z-50">
+      <nav className="fixed w-full px-2 sm:px-4 border-neutral-600 border-b py-2.5 bg-neutral-800 z-50">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
           <Link to="/" className="flex items-center">
             <img src={logo} className="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
@@ -77,7 +77,7 @@ const NavBar: FC = () => {
             <div ref={wrapperRef} className="relative flex items-center ml-4 user-menu-wrapper">
               <button
                 type="button"
-                className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0"
+                className="flex mr-3 text-sm bg-neutral-800 rounded-full md:mr-0"
                 id="user-menu-button"
                 aria-expanded="false"
                 onClick={() => setShowUser(!showUser)}
@@ -96,7 +96,7 @@ const NavBar: FC = () => {
               <div
                 className={`${
                   showUser ? '' : 'hidden'
-                } absolute z-50 w-44 right-0 my-4 top-6 text-base list-none bg-gray-700 divide-y divide-gray-600 rounded shadow`}
+                } absolute z-50 w-44 right-0 my-4 top-6 text-base list-none bg-neutral-700 divide-y divide-neutral-600 rounded shadow`}
                 id="dropdown"
               >
                 <div className="px-4 py-3">
@@ -109,7 +109,7 @@ const NavBar: FC = () => {
                     <a
                       onClick={(e) => setOpenModal(e, 'ref')}
                       href="#"
-                      className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-600 hover:text-white"
+                      className="block px-4 py-2 text-sm text-neutral-200 hover:bg-neutral-600 hover:text-white"
                     >
                       Set Current Location
                     </a>
@@ -120,7 +120,7 @@ const NavBar: FC = () => {
                         <li>
                           <a
                             href={url}
-                            className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-600 hover:text-white"
+                            className="block px-4 py-2 text-sm text-neutral-200 hover:bg-neutral-600 hover:text-white"
                           >
                             Connect with Frontier
                           </a>
@@ -129,7 +129,7 @@ const NavBar: FC = () => {
                       <li>
                         <Link
                           to="/settings"
-                          className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-600 hover:text-white"
+                          className="block px-4 py-2 text-sm text-neutral-200 hover:bg-neutral-600 hover:text-white"
                         >
                           Settings
                         </Link>
@@ -138,7 +138,7 @@ const NavBar: FC = () => {
                         <a
                           onClick={(e) => signOut(e)}
                           href="#"
-                          className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-600 hover:text-white"
+                          className="block px-4 py-2 text-sm text-neutral-200 hover:bg-neutral-600 hover:text-white"
                         >
                           Sign out
                         </a>
@@ -150,7 +150,7 @@ const NavBar: FC = () => {
                         <a
                           onClick={(e) => setOpenModal(e, 'signin')}
                           href="#"
-                          className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-600 hover:text-white"
+                          className="block px-4 py-2 text-sm text-neutral-200 hover:bg-neutral-600 hover:text-white"
                         >
                           Sign in
                         </a>
@@ -159,7 +159,7 @@ const NavBar: FC = () => {
                         <a
                           onClick={(e) => setOpenModal(e, 'signup')}
                           href="#"
-                          className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-600 hover:text-white"
+                          className="block px-4 py-2 text-sm text-neutral-200 hover:bg-neutral-600 hover:text-white"
                         >
                           Sign up
                         </a>
@@ -172,7 +172,7 @@ const NavBar: FC = () => {
             <button
               data-collapse-toggle="mobile-menu-2"
               type="button"
-              className="inline-flex items-center p-2 ml-1 text-sm text-gray-400 rounded-lg md:hidden focus:outline-none hover:bg-gray-700"
+              className="inline-flex items-center p-2 ml-1 text-sm text-neutral-400 rounded-lg md:hidden focus:outline-none hover:bg-neutral-700"
               aria-controls="mobile-menu-2"
               aria-expanded="false"
               onClick={() => setMenu(!menu)}
@@ -206,7 +206,7 @@ const NavBar: FC = () => {
           </div>
           <div
             style={{ zIndex: '9999' }}
-            className={`md:flex p-2 top-14 bg-gray-800 left-0 right-0 items-center w-full justify-between md:w-auto md:order-2 ${
+            className={`md:flex p-2 top-14 bg-neutral-800 left-0 right-0 items-center w-full justify-between md:w-auto md:order-2 ${
               menu ? '' : 'hidden'
             } `}
           >
@@ -218,7 +218,7 @@ const NavBar: FC = () => {
                 <Link
                   onClick={() => setMenu(false)}
                   to="/systems"
-                  className="block py-2 pl-3 pr-4 text-gray-400 border-b border-gray-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  className="block py-2 pl-3 pr-4 text-neutral-400 border-b border-neutral-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-neutral-700 hover:text-white md:hover:bg-transparent"
                   aria-current="page"
                 >
                   Systems
@@ -228,7 +228,7 @@ const NavBar: FC = () => {
                 <Link
                   onClick={() => setMenu(false)}
                   to="/stations"
-                  className="block py-2 pl-3 pr-4 text-gray-400 border-b border-gray-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  className="block py-2 pl-3 pr-4 text-neutral-400 border-b border-neutral-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-neutral-700 hover:text-white md:hover:bg-transparent"
                 >
                   Stations
                 </Link>
@@ -237,7 +237,7 @@ const NavBar: FC = () => {
                 <Link
                   onClick={() => setMenu(false)}
                   to="/factions"
-                  className="block py-2 pl-3 pr-4 text-gray-400 border-b border-gray-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  className="block py-2 pl-3 pr-4 text-neutral-400 border-b border-neutral-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-neutral-700 hover:text-white md:hover:bg-transparent"
                 >
                   Factions
                 </Link>
@@ -246,7 +246,7 @@ const NavBar: FC = () => {
                 <Link
                   onClick={() => setMenu(false)}
                   to="/bodies"
-                  className="block py-2 pl-3 pr-4 text-gray-400 border-b border-gray-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  className="block py-2 pl-3 pr-4 text-neutral-400 border-b border-neutral-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-neutral-700 hover:text-white md:hover:bg-transparent"
                 >
                   Bodies
                 </Link>
@@ -255,7 +255,7 @@ const NavBar: FC = () => {
                 <Link
                   onClick={() => setMenu(false)}
                   to="/market"
-                  className="block py-2 pl-3 pr-4 text-gray-400 border-b border-gray-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  className="block py-2 pl-3 pr-4 text-neutral-400 border-b border-neutral-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-neutral-700 hover:text-white md:hover:bg-transparent"
                 >
                   Market
                 </Link>
@@ -264,7 +264,7 @@ const NavBar: FC = () => {
                 <Link
                   onClick={() => setMenu(false)}
                   to="/shipyard"
-                  className="block py-2 pl-3 pr-4 text-gray-400 border-b border-gray-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  className="block py-2 pl-3 pr-4 text-neutral-400 border-b border-neutral-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-neutral-700 hover:text-white md:hover:bg-transparent"
                 >
                   Shipyard
                 </Link>
@@ -273,7 +273,7 @@ const NavBar: FC = () => {
                 <Link
                   onClick={() => setMenu(false)}
                   to="/outfitting"
-                  className="block py-2 pl-3 pr-4 text-gray-400 border-b border-gray-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  className="block py-2 pl-3 pr-4 text-neutral-400 border-b border-neutral-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-neutral-700 hover:text-white md:hover:bg-transparent"
                 >
                   Outfitting
                 </Link>
@@ -282,7 +282,7 @@ const NavBar: FC = () => {
                 <Link
                   onClick={() => setMenu(false)}
                   to="/map"
-                  className="block py-2 pl-3 pr-4 text-gray-400 border-b border-gray-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  className="block py-2 pl-3 pr-4 text-neutral-400 border-b border-neutral-700 md:border-0 md:p-0 md:hover:text-orange-400 hover:bg-neutral-700 hover:text-white md:hover:bg-transparent"
                 >
                   Map
                 </Link>
