@@ -36,15 +36,15 @@ const UserSettings: FC = () => {
 
   return (
     <>
-      <div className="w-full p-2 mb-6 text-neutral-400 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md md:p-6">
-        <div className="flex justify-between w-full pb-4 mb-4 border-b border-neutral-700">
+      <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
+        <div className="flex justify-between w-full pb-4 mb-4 border-b border-gray-700">
           <p className="text-3xl">{user.name}</p>
         </div>
 
         <div>
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
-              <label htmlFor="password" className="block mb-2 text-sm font-medium text-neutral-300">
+              <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-300">
                 New password
               </label>
               <input
@@ -60,14 +60,14 @@ const UserSettings: FC = () => {
             <button
               onClick={handleSubmit}
               type="submit"
-              className="text-white bg-orange-400 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-white bg-orange-400 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
             >
               Submit
             </button>
           </form>
         </div>
         <div className="w-full mt-4">
-          <p className="text-xl text-neutral-400">Avatar</p>
+          <p className="text-xl text-gray-400">Avatar</p>
           <div className="grid grid-cols-1 gap-2 mt-4 md:gap-4 md:grid-cols-5">
             {keys.map((key: string) => {
               if (key !== 'elite') {
@@ -79,7 +79,7 @@ const UserSettings: FC = () => {
                       key === user.profile.image
                         ? 'outline outline-4 outline-orange-400 image-border cursor-none'
                         : ''
-                    } bg-neutral-700 border-neutral-900 rounded-lg cursor-pointer hover:outline hover:outline-4`}
+                    } bg-gray-700 border-gray-900 rounded-lg cursor-pointer hover:outline hover:outline-4`}
                     style={{ height: '400px' }}
                   >
                     <div

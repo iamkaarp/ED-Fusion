@@ -97,7 +97,7 @@ const Autocomplete: FC<AutocompleteProps> = ({ title, placeholder, items, onItem
   return (
     <div className="autocomplete">
       <div>
-        <label htmlFor={id} className="block mb-2 text-sm font-medium text-neutral-300">
+        <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-300">
           {title}
         </label>
         <input
@@ -125,7 +125,7 @@ const Autocomplete: FC<AutocompleteProps> = ({ title, placeholder, items, onItem
             <div
               key={item.id}
               onClick={() => removeItem(item)}
-              className="flex items-center px-3 py-2 m-1 text-xs text-white bg-neutral-700 rounded-full"
+              className="flex items-center px-3 py-2 m-1 text-xs text-white bg-gray-700 rounded-full"
             >
               <Icon path={mdiCloseThick} size={0.6} className="mr-1 cursor-pointer" />
               <span>{item.name}</span>

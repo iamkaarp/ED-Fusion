@@ -55,18 +55,18 @@ const Shipyard: FC<Shipyard> = ({ ships, discount }) => {
           {ships.map((ship: IShipyard) => {
             return (
               <Link key={ship.id} to={`/shipyard/${ship.ship.name}`}>
-                <div className="bg-neutral-700 border-neutral-900 rounded-lg shadow-md shipyard ">
+                <div className="bg-gray-700 border-gray-900 rounded-lg shadow-md shipyard ">
                   <div
                     className="w-full ship-image"
                     style={{ backgroundImage: `url(${shipyard[ship.name]})` }}
                   />
                   <div className="p-5">
                     <span className="text-lg font-bold text-white ship-name">{ship.ship.name}</span>
-                    <p className="text-sm font-bold text-neutral-300">{ship.ship.manufacturer}</p>
-                    <p className="mb-3 font-normal text-neutral-400">
+                    <p className="text-sm font-bold text-gray-300">{ship.ship.manufacturer}</p>
+                    <p className="mb-3 font-normal text-gray-400">
                       {price(ship.ship.price, ship.ship.manufacturer, ship.ship.name)}
                     </p>
-                    <p className="mb-3 text-xs text-neutral-400">
+                    <p className="mb-3 text-xs text-gray-400">
                       {ship.ship.rank !== '' ? ship.ship.rank : '\u00A0'}
                     </p>
                   </div>

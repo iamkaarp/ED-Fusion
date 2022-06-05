@@ -74,12 +74,12 @@ const Search: FC<ModalProps> = ({ isOpen, closeModal }) => {
     isOpen && (
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full h-full p-2 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md overflow md:p-6 md:w-1/2"
+        className="w-full h-full p-2 bg-gray-800 border border-gray-700 rounded-lg shadow-md overflow md:p-6 md:w-1/2"
       >
         <div className="relative">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
-              className="w-5 h-5 text-neutral-500"
+              className="w-5 h-5 text-gray-500"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -105,9 +105,9 @@ const Search: FC<ModalProps> = ({ isOpen, closeModal }) => {
           <>
             {systems.length > 0 && (
               <div className="w-full">
-                <span className="font-bold text-neutral-400 text-md">Systems</span>
-                <table className="w-full mt-2 text-sm text-left text-neutral-400">
-                  <thead className="text-xs text-neutral-400 uppercase bg-neutral-700">
+                <span className="font-bold text-gray-400 text-md">Systems</span>
+                <table className="w-full mt-2 text-sm text-left text-gray-400">
+                  <thead className="text-xs text-gray-400 uppercase bg-gray-700">
                     <tr>
                       <th className="px-1.5 py-2 md:px-3 md:py-1.5">Name</th>
                       <th className="px-1.5 py-2 hidden md:table-cell md:px-3 md:py-1.5">
@@ -127,7 +127,7 @@ const Search: FC<ModalProps> = ({ isOpen, closeModal }) => {
                     {systems.map((system: ISystem) => (
                       <tr
                         key={system.id}
-                        className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
+                        className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
                       >
                         <th
                           scope="row"
@@ -166,9 +166,9 @@ const Search: FC<ModalProps> = ({ isOpen, closeModal }) => {
 
           {stations.length > 0 && (
             <div className="w-full mt-3">
-              <span className="font-bold text-neutral-400 text-md">Stations</span>
-              <table className="w-full mt-3 text-sm text-left text-neutral-400">
-                <thead className="text-xs text-neutral-400 uppercase bg-neutral-700">
+              <span className="font-bold text-gray-400 text-md">Stations</span>
+              <table className="w-full mt-3 text-sm text-left text-gray-400">
+                <thead className="text-xs text-gray-400 uppercase bg-gray-700">
                   <tr>
                     <th className="px-1.5 py-2 md:px-3 md:py-1.5">Name</th>
                     <th className="px-1.5 py-2 hidden md:table-cell md:px-3 md:py-1.5">System</th>
@@ -184,7 +184,7 @@ const Search: FC<ModalProps> = ({ isOpen, closeModal }) => {
                   {stations.map((station: IStation) => (
                     <tr
                       key={station.id}
-                      className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
+                      className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
                     >
                       <th
                         scope="row"

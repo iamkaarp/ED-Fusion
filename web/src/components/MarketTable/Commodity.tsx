@@ -326,13 +326,13 @@ const Commodity: FC<CommodityProps> = ({ name }) => {
           </div>
         </div>
       ) : (
-        <div className="w-full p-2 mb-6 text-neutral-400 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md md:p-6">
-          <div className="flex items-center justify-between w-full pb-4 mb-4 border-b border-neutral-700">
+        <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
+          <div className="flex items-center justify-between w-full pb-4 mb-4 border-b border-gray-700">
             <h1 className="text-3xl">{name}</h1>
             <p>{DateFormat.fromNow(commodity.updated_at)}</p>
           </div>
           <div className="w-full md:flex">
-            <div className="flex flex-col w-full pb-4 mb-4 border-b border-neutral-400 md:mb-0 md:pb-0 md:w-1/2 md:border-0">
+            <div className="flex flex-col w-full pb-4 mb-4 border-b border-gray-400 md:mb-0 md:pb-0 md:w-1/2 md:border-0">
               <h2 className="mb-8 text-xl font-bold text-center" />
               <div className="flex w-full">
                 <div className="flex justify-end w-1/2 mr-4 md:w-1/4">Average Sell Price</div>
@@ -413,13 +413,13 @@ const Commodity: FC<CommodityProps> = ({ name }) => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap w-full pb-4 mb-4 border-b border-neutral-400 md:mb-0 md:pb-0 md:w-1/2 md:border-0">
+            <div className="flex flex-wrap w-full pb-4 mb-4 border-b border-gray-400 md:mb-0 md:pb-0 md:w-1/2 md:border-0">
               <div className="w-full mb-4">
                 <div className="autocomplete">
                   <div>
                     <label
                       htmlFor="system"
-                      className="block mb-2 text-sm font-medium text-neutral-300"
+                      className="block mb-2 text-sm font-medium text-gray-300"
                     >
                       Current System
                     </label>
@@ -473,8 +473,8 @@ const Commodity: FC<CommodityProps> = ({ name }) => {
                       className="sr-only peer"
                       checked={filters.showFc}
                     />
-                    <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-neutral-700 peer-checked:after:tranneutral-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-neutral-600 peer-checked:bg-orange-400" />
-                    <span className="ml-3 text-sm font-medium text-neutral-300">
+                    <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:trangray-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-orange-400" />
+                    <span className="ml-3 text-sm font-medium text-gray-300">
                       Include Fleet Carriers
                     </span>
                   </label>
@@ -492,15 +492,15 @@ const Commodity: FC<CommodityProps> = ({ name }) => {
                       className="sr-only peer"
                       checked={filters.showPlanetary}
                     />
-                    <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-neutral-700 peer-checked:after:tranneutral-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-neutral-600 peer-checked:bg-orange-400" />
-                    <span className="ml-3 text-sm font-medium text-neutral-300">
+                    <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:trangray-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-orange-400" />
+                    <span className="ml-3 text-sm font-medium text-gray-300">
                       Include Planetary
                     </span>
                   </label>
                 </div>
               </div>
               <div className="w-1/2 mb-4">
-                <label htmlFor="system" className="block mb-2 text-sm font-medium text-neutral-300">
+                <label htmlFor="system" className="block mb-2 text-sm font-medium text-gray-300">
                   Min Supply
                 </label>
                 <input
@@ -517,10 +517,7 @@ const Commodity: FC<CommodityProps> = ({ name }) => {
           <div className="flex-col w-full mt-4 md:flex">
             <div className="w-full mb-2">
               <h2 className="mb-2 text-xl font-bold">Buy From</h2>
-              <div
-                className="relative overflow-x-auto shadow-md min-h-96 sm:rounded-lg"
-                style={{ minHeight: '18em' }}
-              >
+              <div className="relative overflow-x-auto shadow-md min-h-[16rem] sm:rounded-lg">
                 <Table
                   th={thBuy}
                   loading={loadingMin}
@@ -532,7 +529,7 @@ const Commodity: FC<CommodityProps> = ({ name }) => {
                     return (
                       <tr
                         key={commodity.id}
-                        className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
+                        className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
                       >
                         <th
                           scope="row"
@@ -579,10 +576,7 @@ const Commodity: FC<CommodityProps> = ({ name }) => {
             </div>
             <div className="w-full mt-2">
               <h2 className="mb-2 text-xl font-bold">Sell To</h2>
-              <div
-                className="relative overflow-x-auto shadow-md sm:rounded-lg"
-                style={{ minHeight: '18em' }}
-              >
+              <div className="relative min-h-[16rem] overflow-x-auto shadow-md sm:rounded-lg">
                 <Table
                   th={thSell}
                   loading={loadingMax}
@@ -594,7 +588,7 @@ const Commodity: FC<CommodityProps> = ({ name }) => {
                     return (
                       <tr
                         key={commodity.id}
-                        className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
+                        className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
                       >
                         <th
                           scope="row"

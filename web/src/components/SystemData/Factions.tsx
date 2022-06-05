@@ -154,7 +154,7 @@ const Factions: FC<ISystemFactions> = ({ systemId, stations }) => {
                 onClick={() => {
                   openFactionInfo(faction.id)
                 }}
-                className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
+                className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
               >
                 <th
                   scope="row"
@@ -194,7 +194,7 @@ const Factions: FC<ISystemFactions> = ({ systemId, stations }) => {
               </tr>
               {filterStations(faction).length > 0 && (
                 <tr
-                  className="hidden border-b border-neutral-700 faction-info"
+                  className="hidden border-b border-gray-700 faction-info"
                   id={`faction-row-${faction.id}`}
                 >
                   <td colSpan={7} className="px-6 py-4 whitespace-nowrap">

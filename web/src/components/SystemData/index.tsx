@@ -215,13 +215,13 @@ const SystemData: FC<ISystemData> = ({ name }) => {
             </div>
           ) : (
             <>
-              <div className="w-full p-2 mb-6 text-neutral-400 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md md:p-6">
-                <div className="flex items-center justify-between w-full pb-4 mb-4 border-b border-neutral-700">
+              <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
+                <div className="flex items-center justify-between w-full pb-4 mb-4 border-b border-gray-700">
                   <h1 className="text-3xl">{name}</h1>
                   <p>{DateFormat.fromNow(system.updated_at)}</p>
                 </div>
                 <div className="w-full mb-4">
-                  <div className="text-sm font-medium text-center text-neutral-400 border-b border-neutral-700">
+                  <div className="text-sm font-medium text-center text-gray-400 border-b border-gray-700">
                     <ul className="flex flex-wrap -mb-px">
                       {tabs.map((tab: string, index: number) => (
                         <li key={index} className="mr-2">
@@ -231,7 +231,7 @@ const SystemData: FC<ISystemData> = ({ name }) => {
                                 ? `/system/${name}`
                                 : `/system/${name}/${tab.toLocaleLowerCase()}`
                             }
-                            className={`inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:border-neutral-300 hover:text-neutral-300 ${
+                            className={`inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 hover:text-gray-300 ${
                               tab.toLocaleLowerCase() === activeTab
                                 ? 'border-orange-400 text-orange-400'
                                 : ''
@@ -247,7 +247,7 @@ const SystemData: FC<ISystemData> = ({ name }) => {
                 {activeTab === 'system' && (
                   <>
                     <div className="w-full md:flex">
-                      <div className="flex flex-col w-full pb-4 mb-4 border-b border-neutral-400 md:mb-0 md:pb-0 md:w-1/2 md:border-0">
+                      <div className="flex flex-col w-full pb-4 mb-4 border-b border-gray-400 md:mb-0 md:pb-0 md:w-1/2 md:border-0">
                         <h2 className="mb-8 text-xl font-bold text-center">System Information</h2>
                         <div className="flex w-full">
                           <div className="flex justify-end w-1/2 mr-4 md:w-1/4">Coordinates</div>

@@ -21,7 +21,7 @@ const Search: FC = () => {
         <div className="relative">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
-              className="w-5 h-5 text-neutral-500"
+              className="w-5 h-5 text-gray-500"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +33,7 @@ const Search: FC = () => {
               />
             </svg>
           </div>
-          <div className="absolute inset-y-0 right-0 items-center hidden pr-3 text-sm italic text-neutral-500 pointer-events-none md:flex">
+          <div className="absolute inset-y-0 right-0 items-center hidden pr-3 text-sm italic text-gray-500 pointer-events-none md:flex">
             Ctrl + K
           </div>
           <input

@@ -93,13 +93,13 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
       {isOpen && (
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex flex-col w-full h-full p-2 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md overflow md:p-6 md:w-1/2"
+          className="flex flex-col w-full h-full p-2 bg-gray-800 border border-gray-700 rounded-lg shadow-md overflow md:p-6 md:w-1/2"
         >
-          <div className="w-full text-xl text-neutral-400">Signin</div>
+          <div className="w-full text-xl text-gray-400">Signin</div>
           <div className="w-full mt-8">
             <form onSubmit={handleSubmit}>
               <div className="mb-6">
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-neutral-300">
+                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-300">
                   Email
                 </label>
                 <input
@@ -107,7 +107,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
                   onBlur={() => handleFocus('email')}
                   type="email"
                   id="email"
-                  className={`email ${errors.email ? 'border-red-500' : 'border-neutral-600'}`}
+                  className={`email ${errors.email ? 'border-red-500' : 'border-gray-600'}`}
                   required
                 />
                 {errors.email && (
@@ -115,7 +115,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
                 )}
               </div>
               <div className="mb-6">
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-neutral-300">
+                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-300">
                   Username
                 </label>
                 <input
@@ -123,9 +123,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
                   onBlur={() => handleFocus('username')}
                   type="text"
                   id="username"
-                  className={`username ${
-                    errors.username ? 'border-red-500' : 'border-neutral-600'
-                  }`}
+                  className={`username ${errors.username ? 'border-red-500' : 'border-gray-600'}`}
                   required
                 />
                 {errors.username && (
@@ -133,10 +131,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
                 )}
               </div>
               <div className="mb-6">
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-neutral-300"
-                >
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-300">
                   Password
                 </label>
                 <input
@@ -144,9 +139,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
                   onBlur={() => handleFocus('password')}
                   type="password"
                   id="password"
-                  className={`password ${
-                    errors.password ? 'border-red-500' : 'border-neutral-600'
-                  }`}
+                  className={`password ${errors.password ? 'border-red-500' : 'border-gray-600'}`}
                   autoComplete="off"
                   required
                 />
@@ -158,7 +151,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
               <div className="mb-6">
                 <label
                   htmlFor="passwordConfirm"
-                  className="block mb-2 text-sm font-medium text-neutral-300"
+                  className="block mb-2 text-sm font-medium text-gray-300"
                 >
                   Confirm password
                 </label>
@@ -168,7 +161,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
                   type="password"
                   id="passwordConfirm"
                   className={`password ${
-                    errors.passwordConfirm ? 'border-red-500' : 'border-neutral-600'
+                    errors.passwordConfirm ? 'border-red-500' : 'border-gray-600'
                   }`}
                   autoComplete="off"
                   required
@@ -177,7 +170,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
                   <div className="mt-2 text-xs italic text-red-500">{errors.passwordConfirm}</div>
                 )}
               </div>
-              <span className="block mb-2 text-sm font-medium text-neutral-300">Avatar</span>
+              <span className="block mb-2 text-sm font-medium text-gray-300">Avatar</span>
               <div className="flex w-full py-4 mb-4 overflow-x-auto" style={{ height: '200px' }}>
                 {keys.map((key: string) => {
                   if (key !== 'elite') {
@@ -189,7 +182,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
                           key === image
                             ? 'outline outline-4 outline-orange-400 image-border cursor-none'
                             : ''
-                        } bg-neutral-700 mx-2 flex-none md:flex border-neutral-900 rounded-lg cursor-pointer hover:outline hover:outline-4 hover:outline-orange-400`}
+                        } bg-gray-700 mx-2 flex-none md:flex border-gray-900 rounded-lg cursor-pointer hover:outline hover:outline-4 hover:outline-orange-400`}
                         style={{ width: '100px', height: '150px' }}
                       >
                         <div
@@ -204,7 +197,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="text-white bg-orange-400 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white bg-orange-400 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
               >
                 Sign Up
               </button>

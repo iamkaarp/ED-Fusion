@@ -15,7 +15,7 @@ const Input: FC<Input> = ({ type, title, classes, placeholder, onChange, value }
   const id = uuidv4()
   return (
     <div>
-      <label htmlFor={id} className="block mb-2 text-sm font-medium text-neutral-300">
+      <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-300">
         {title}
       </label>
       <input

@@ -24,14 +24,14 @@ const Filter: FC<IFilterProps> = ({ children }) => {
             data-tooltip-target="tooltip-right"
             onClick={handleFilter}
             type="button"
-            className="text-neutral-400 bg-neutral-800 hover:bg-neutral-700 hover:text-orange-400 font-medium rounded-r-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none flex items-center"
+            className="text-gray-400 bg-gray-800 hover:bg-gray-700 hover:text-orange-400 font-medium rounded-r-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none flex items-center"
           >
             <Icon path={mdiFilter} size={0.8} />
           </button>
           <div
             id="tooltip-right"
             role="tooltip"
-            className="absolute invisible inline-block px-3 py-2 text-sm font-medium text-white bg-neutral-900 rounded-lg shadow-sm opacity-0 z-9 tooltip dark:bg-neutral-700"
+            className="absolute invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 z-9 tooltip dark:bg-gray-700"
           >
             Tooltip on right
             <div className="tooltip-arrow" data-popper-arrow />

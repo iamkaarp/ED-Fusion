@@ -119,7 +119,7 @@ const MarketTable: FC = () => {
         </div>
       ) : (
         <>
-          <h1 className="mb-8 text-3xl text-neutral-400">Market</h1>
+          <h1 className="mb-8 text-3xl text-gray-400">Market</h1>
           {market.length > 0 ? (
             <div className="relative mt-4 overflow-x-auto shadow-md min-h-128 sm:rounded-lg">
               <Table
@@ -137,7 +137,7 @@ const MarketTable: FC = () => {
                           commodity.category === category && commodity.category !== 'NonMarketable'
                       ) && (
                         <>
-                          <tr className="bg-neutral-900 border-b border-neutral-700 hover:bg-neutral-600">
+                          <tr className="bg-gray-900 border-b border-gray-700 hover:bg-gray-600">
                             <th
                               className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"
                               colSpan={th.length}
@@ -154,7 +154,7 @@ const MarketTable: FC = () => {
                               return (
                                 <tr
                                   key={commodity.id}
-                                  className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
+                                  className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
                                 >
                                   <th
                                     scope="row"

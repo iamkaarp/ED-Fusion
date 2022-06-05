@@ -2,11 +2,11 @@ import React, { FC } from 'react'
 
 const Footer: FC = () => {
   return (
-    <footer className="w-full bg-neutral-800" style={{ zIndex: 999 }}>
+    <footer className="w-full bg-gray-800" style={{ zIndex: 999 }}>
       <div className="grid grid-cols-2 gap-8 px-6 py-8 md:grid-cols-4">
         <div>
-          <h2 className="mb-6 text-sm font-semibold text-neutral-400 uppercase">Company</h2>
-          <ul className="text-neutral-300">
+          <h2 className="mb-6 text-sm font-semibold text-gray-400 uppercase">Company</h2>
+          <ul className="text-gray-300">
             <li className="mb-4">
               <a href="#" className=" hover:underline">
                 About
@@ -30,8 +30,8 @@ const Footer: FC = () => {
           </ul>
         </div>
         <div>
-          <h2 className="mb-6 text-sm font-semibold text-neutral-400 uppercase">Help center</h2>
-          <ul className="text-neutral-300">
+          <h2 className="mb-6 text-sm font-semibold text-gray-400 uppercase">Help center</h2>
+          <ul className="text-gray-300">
             <li className="mb-4">
               <a href="#" className="hover:underline">
                 Discord Server
@@ -55,8 +55,8 @@ const Footer: FC = () => {
           </ul>
         </div>
         <div>
-          <h2 className="mb-6 text-sm font-semibold text-neutral-400 uppercase">Legal</h2>
-          <ul className="text-neutral-300">
+          <h2 className="mb-6 text-sm font-semibold text-gray-400 uppercase">Legal</h2>
+          <ul className="text-gray-300">
             <li className="mb-4">
               <a href="#" className="hover:underline">
                 Privacy Policy
@@ -75,8 +75,8 @@ const Footer: FC = () => {
           </ul>
         </div>
         <div>
-          <h2 className="mb-6 text-sm font-semibold text-neutral-400 uppercase">Download</h2>
-          <ul className="text-neutral-300">
+          <h2 className="mb-6 text-sm font-semibold text-gray-400 uppercase">Download</h2>
+          <ul className="text-gray-300">
             <li className="mb-4">
               <a href="#" className="hover:underline">
                 iOS
@@ -100,8 +100,8 @@ const Footer: FC = () => {
           </ul>
         </div>
       </div>
-      <div className="px-4 py-6 bg-neutral-700 md:flex md:items-center md:justify-between">
-        <span className="text-sm text-neutral-300 sm:text-center">
+      <div className="px-4 py-6 bg-gray-700 md:flex md:items-center md:justify-between">
+        <span className="text-sm text-gray-300 sm:text-center">
           © 2022 <a href="https://ed-fusion.com">ED-Fusion</a>. All Rights Reserved.
         </span>
         <div className="flex mt-4 space-x-6 sm:justify-center md:mt-0" />

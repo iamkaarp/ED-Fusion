@@ -155,20 +155,20 @@ const StationsTable: FC<IStationsTable> = ({ page }) => {
       ) : (
         <>
           <div className="flex items-center justify-between w-full px-4 md:px-0">
-            <h1 className="mb-4 text-3xl text-neutral-400">Stations</h1>
+            <h1 className="mb-4 text-3xl text-gray-400">Stations</h1>
             <a
               href="#"
               onClick={(e) => {
                 e.preventDefault()
                 setShowFilters(!showFilters)
               }}
-              className="text-neutral-400 cursor-pointer hover:text-orange-400"
+              className="text-gray-400 cursor-pointer hover:text-orange-400"
             >
               {showFilters ? 'Hide' : 'Show'} Filters
             </a>
           </div>
           <div className={`${showFilters ? 'flex' : 'hidden'} w-full`}>
-            <div className="w-full p-2 mb-6 text-neutral-400 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md md:p-6">
+            <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
               <div className="w-full">
                 <Filters
                   onFilter={(value: string, items: any[] = []) => onFilter(value, items)}
@@ -183,7 +183,7 @@ const StationsTable: FC<IStationsTable> = ({ page }) => {
                 return (
                   <tr
                     key={station.id}
-                    className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
+                    className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
                   >
                     <th
                       scope="row"

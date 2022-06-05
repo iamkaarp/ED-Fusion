@@ -57,10 +57,7 @@ const Stations: FC<ISystemStations> = ({ stations, loading, column, direction, o
       <Table th={th} loading={loading} onSort={onSort} column={column} direction={direction}>
         {stations.map((station: IStation) => {
           return (
-            <tr
-              key={station.id}
-              className="bg-neutral-800 border-b border-neutral-700 hover:bg-neutral-600"
-            >
+            <tr key={station.id} className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600">
               <th
                 scope="row"
                 className="px-1.5 py-2 md:px-6 md:py-4 font-medium text-white whitespace-nowrap"

@@ -33,8 +33,8 @@ const Table: FC<TableProps> = ({
           <Loader />
         </div>
       )}
-      <table className={`w-full text-sm text-left text-neutral-400 ${fixed ? 'table-fixed' : ''}`}>
-        <thead className="text-xs text-neutral-400 uppercase bg-neutral-700">
+      <table className={`w-full text-sm text-left text-gray-400 ${fixed ? 'table-fixed' : ''}`}>
+        <thead className="text-xs text-gray-400 uppercase bg-gray-700">
           <tr>
             {th.map((item, index) => {
               if (item.sortable) {

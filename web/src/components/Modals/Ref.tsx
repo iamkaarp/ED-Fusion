@@ -83,11 +83,11 @@ const Ref: FC<ModalProps> = ({ isOpen, closeModal }) => {
       {isOpen && (
         <div
           onClick={(e) => e.stopPropagation()}
-          className="w-full h-32 p-2 bg-neutral-800 border border-neutral-700 rounded-lg shadow-md overflow md:p-6 md:w-1/2"
+          className="w-full h-32 p-2 bg-gray-800 border border-gray-700 rounded-lg shadow-md overflow md:p-6 md:w-1/2"
         >
           <div className="autocomplete">
             <div>
-              <label htmlFor="system" className="block mb-2 text-sm font-medium text-neutral-300">
+              <label htmlFor="system" className="block mb-2 text-sm font-medium text-gray-300">
                 Set your current system
               </label>
               <input

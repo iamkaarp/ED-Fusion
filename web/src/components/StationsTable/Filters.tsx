@@ -135,10 +135,8 @@ const Filters: FC<IFiltersProps> = ({ onFilter, filters }) => {
                 className="sr-only peer"
                 checked={filters.showFc}
               />
-              <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-neutral-700 peer-checked:after:tranneutral-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-neutral-600 peer-checked:bg-orange-400" />
-              <span className="ml-3 text-sm font-medium text-neutral-300">
-                Include Fleet Carriers
-              </span>
+              <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:trangray-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-orange-400" />
+              <span className="ml-3 text-sm font-medium text-gray-300">Include Fleet Carriers</span>
             </label>
           </div>
           <div>
@@ -151,13 +149,13 @@ const Filters: FC<IFiltersProps> = ({ onFilter, filters }) => {
                 className="sr-only peer"
                 checked={filters.showPlanetary}
               />
-              <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-neutral-700 peer-checked:after:tranneutral-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-neutral-600 peer-checked:bg-orange-400" />
-              <span className="ml-3 text-sm font-medium text-neutral-300">Include Planetary</span>
+              <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:trangray-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-orange-400" />
+              <span className="ml-3 text-sm font-medium text-gray-300">Include Planetary</span>
             </label>
           </div>
         </div>
         <div className="w-full">
-          <label htmlFor="arrival" className="block mb-2 text-sm font-medium text-neutral-300">
+          <label htmlFor="arrival" className="block mb-2 text-sm font-medium text-gray-300">
             Max Distance to Arrival
           </label>
           <input
