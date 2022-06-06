@@ -120,14 +120,14 @@ const Autocomplete: FC<AutocompleteProps> = ({ title, placeholder, items, onItem
         />
       )}
       {activeItems.length > 0 && (
-        <div className="flex flex-wrap mt-4">
+        <div className="flex flex-wrap">
           {activeItems.map((item) => (
             <div
               key={item.id}
               onClick={() => removeItem(item)}
-              className="flex items-center px-3 py-2 m-1 text-sm text-white bg-gray-700 rounded-full"
+              className="flex items-center px-3 py-2 m-1 text-xs text-white bg-gray-700 rounded-full"
             >
-              <Icon path={mdiCloseThick} size={0.7} className="mr-1 cursor-pointer" />
+              <Icon path={mdiCloseThick} size={0.6} className="mr-1 cursor-pointer" />
               <span>{item.name}</span>
             </div>
           ))}

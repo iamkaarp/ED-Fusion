@@ -90,7 +90,7 @@ const BodiesTable: FC<IBodiesTable> = ({ page }) => {
       ) : (
         <>
           <h1 className="mb-8 text-3xl text-gray-400">Bodies</h1>
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg min-h-[16rem]">
             <Table th={th} loading={loading} onSort={sort} column={column} direction={direction}>
               {bodies.map((body: IBody) => {
                 return (
@@ -99,7 +99,7 @@ const BodiesTable: FC<IBodiesTable> = ({ page }) => {
                       return (
                         <tr
                           key={star.id}
-                          className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+                          className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600"
                         >
                           <th
                             scope="row"
@@ -134,7 +134,7 @@ const BodiesTable: FC<IBodiesTable> = ({ page }) => {
                       return (
                         <tr
                           key={planet.id}
-                          className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
+                          className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600"
                         >
                           <th
                             scope="row"

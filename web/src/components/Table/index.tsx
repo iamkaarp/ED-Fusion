@@ -27,7 +27,7 @@ const Table: FC<TableProps> = ({
     <>
       {loading && (
         <div
-          className="absolute flex items-center justify-center w-full h-full"
+          className="absolute flex items-center justify-center w-full h-full min-h-96"
           style={{ background: 'rgba(0,0,0,0.5)' }}
         >
           <Loader />
@@ -73,7 +73,7 @@ const Table: FC<TableProps> = ({
             })}
           </tr>
         </thead>
-        <tbody className="divide-y">{children}</tbody>
+        <tbody>{children}</tbody>
       </table>
     </>
   )

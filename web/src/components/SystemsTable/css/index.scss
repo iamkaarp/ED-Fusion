@@ -1,7 +1,7 @@
 .table {
   @apply table-auto w-full mt-8;
   & > thead {
-    @apply bg-neutral-700 text-neutral-400;
+    @apply bg-gray-700 text-gray-400;
 
     & > tr {
       & > th {
@@ -12,15 +12,15 @@
 
   & > tbody {
     & > tr {
-      @apply bg-neutral-800;
+      @apply bg-gray-800;
       &:hover {
-        @apply bg-neutral-900;
+        @apply bg-gray-900;
         & > td:first-child {
           @apply text-orange-400;
         }
       }
       & > td {
-        @apply px-3 py-2 text-neutral-400 border-b border-neutral-700;
+        @apply px-3 py-2 text-gray-400 border-b border-gray-700;
         &:first-child {
           @apply font-bold;
         }

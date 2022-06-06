@@ -3,13 +3,14 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import System from 'App/Models/System'
 
 export default class SystemsController {
-  private columns = ['name', 'population', 'distance', 'updated_at']
+  private columns = ['name', 'population', 'distance', 'updated_at', 'dist']
   private directions = ['asc', 'desc']
   public async index({ response, request }: HttpContextContract) {
     try {
       const qs = request.qs()
+      const ref = qs.ref ? decodeURI(qs.ref) : null
       const page = qs.page ? parseInt(qs.page) : 1
-      const column = this.columns.includes(qs.column) ? qs.column : 'distance'
+      let column = this.columns.includes(qs.column) ? qs.column : 'distance'
       const direction = this.directions.includes(qs.direction) ? qs.direction : 'asc'
       const systemsQuery = System.query()
 
@@ -24,6 +25,16 @@ export default class SystemsController {
         .preload('security')
         .preload('primaryEconomy')
         .preload('allegiance')
+
+      if (ref) {
+        const system = await System.findBy('name', ref)
+        if (system) {
+          systemsQuery.select(
+            Database.raw(`distanceBetweenSystems('${system.position}', position) as dist`)
+          )
+          //column = column === 'distance' ? 'dist' : column
+        }
+      }
 
       if (Object.keys(qs).includes('showPopulated') && qs.showPopulated === 'true') {
         systemsQuery.whereNot('population', 0)

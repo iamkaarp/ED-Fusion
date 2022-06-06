@@ -24,6 +24,7 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
   const [direction, setDirection] = useState<string>('asc')
   const [loading, setLoading] = useState<boolean>(true)
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
+  const [showFilters, setShowFilters] = useState<boolean>(false)
 
   const [filters, setFilters] = useState<IFilters>({
     showPopulated: true,
@@ -120,15 +121,29 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
         </div>
       ) : (
         <>
-          <div className="flex w-full">
-            <Filter>
-              <Filters
-                onFilter={(value: string, items: any[] = []) => onFilter(value, items)}
-                filters={filters}
-              />
-            </Filter>
+          <div className="flex items-center justify-between w-full px-4 md:px-0">
+            <h1 className="mb-4 text-3xl text-gray-400">Systems</h1>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                setShowFilters(!showFilters)
+              }}
+              className="text-gray-400 cursor-pointer hover:text-orange-400"
+            >
+              {showFilters ? 'Hide' : 'Show'} Filters
+            </a>
           </div>
-          <h1 className="mb-8 text-3xl text-gray-400">Systems</h1>
+          <div className={`${showFilters ? 'flex' : 'hidden'} w-full`}>
+            <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
+              <div className="w-full">
+                <Filters
+                  onFilter={(value: string, items: any[] = []) => onFilter(value, items)}
+                  filters={filters}
+                />
+              </div>
+            </div>
+          </div>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <Table th={th} loading={loading} onSort={sort} column={column} direction={direction}>
               {systems.map((system: ISystem) => {
