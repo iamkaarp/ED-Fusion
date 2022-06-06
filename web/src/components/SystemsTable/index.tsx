@@ -136,12 +136,7 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
           </div>
           <div className={`${showFilters ? 'flex' : 'hidden'} w-full`}>
             <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
-              <div className="w-full">
-                <Filters
-                  onFilter={(value: string, items: any[] = []) => onFilter(value, items)}
-                  filters={filters}
-                />
-              </div>
+              <div className="w-full" />
             </div>
           </div>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
