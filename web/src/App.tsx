@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -21,7 +21,8 @@ import NotFound from './views/NotFound'
 
 import ModalHandler from './components/Modals'
 
-import EDFusion from './apis/EDFusion'
+import FDev from './apis/FDev'
+import User from './apis/User'
 
 const App = () => {
   const refSystem = useSelector((state: any) => state.refSystem)
@@ -37,7 +38,7 @@ const App = () => {
   })
 
   const fetchProfile = async () => {
-    const res = await EDFusion.fdev.profile()
+    const res = await FDev.profile()
     if (res.status === 200) {
       dispatch({ type: 'refSystem/set', payload: { system: res.data.lastSystem.name } })
     } else {
@@ -45,7 +46,7 @@ const App = () => {
     }
   }
   const fetchToken = async (code: string) => {
-    const res = await EDFusion.fdev.token(code, fdev.verifier)
+    const res = await FDev.token(code, fdev.verifier)
     if (res.connected) {
       dispatch({ type: 'fdev/setData', payload: { connected: res.connected } })
     } else {
@@ -54,7 +55,7 @@ const App = () => {
   }
 
   const fetchMe = async () => {
-    const res = await EDFusion.user.me()
+    const res = await User.me()
     dispatch({ type: 'user/setName', payload: { name: res.user.name } })
     dispatch({ type: 'user/setProfile', payload: { profile: { image: res.user.profile.image } } })
   }

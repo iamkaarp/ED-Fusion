@@ -4,7 +4,8 @@ import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import * as _ from 'lodash'
 
-import EDFusion from '../../apis/EDFusion'
+import Market from '../../apis/Market'
+import System from '../../apis/System'
 
 import DateFormat from '../../helpers/DateFormat'
 
@@ -51,14 +52,14 @@ const Commodity: FC<CommodityProps> = ({ name }) => {
 
   const fetchCommodity = _.memoize(async () => {
     setLoading(true)
-    const res = await EDFusion.commodities.show(name)
+    const res = await Market.show(name)
     setCommodity(res)
     setLoading(false)
   })
 
   const fetchStationsMinBuy = _.memoize(async () => {
     setLoadingMin(true)
-    const res = await EDFusion.commodities.stations.index(commodity.key, {
+    const res = await Market.stations.index(commodity.key, {
       min: true,
       ref: refSystem,
       ...filters,
@@ -69,7 +70,7 @@ const Commodity: FC<CommodityProps> = ({ name }) => {
 
   const fetchStationsMaxSell = _.memoize(async () => {
     setLoadingMax(true)
-    const res = await EDFusion.commodities.stations.index(commodity.key, {
+    const res = await Market.stations.index(commodity.key, {
       max: true,
       ref: refSystem,
       ...filters,
@@ -79,21 +80,21 @@ const Commodity: FC<CommodityProps> = ({ name }) => {
   })
 
   const fetchMin = _.memoize(async () => {
-    const res = await EDFusion.commodities.stations.min(commodity.key, {
+    const res = await Market.stations.min(commodity.key, {
       ...filters,
     })
     setStationCommoditiesMin(res)
   })
 
   const fetchMax = _.memoize(async () => {
-    const res = await EDFusion.commodities.stations.max(commodity.key, {
+    const res = await Market.stations.max(commodity.key, {
       ...filters,
     })
     setStationCommoditiesMax(res)
   })
 
   const fetchSystems = _.memoize(async (query: string) => {
-    const res = await EDFusion.systems.search(query)
+    const res = await System.find(query)
     setSystems(res)
   })
 

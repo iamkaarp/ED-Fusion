@@ -1,9 +1,10 @@
 import React, { FC, useState, useEffect, Fragment } from 'react'
 import * as _ from 'lodash'
 
+import Market from '../../apis/Market'
+
 import IMarket from '../../interfaces/IMarket'
 import ITable from '../../interfaces/ITable'
-import EDFusion from '../../apis/EDFusion'
 import DateFormat from '../../helpers/DateFormat'
 
 import Table from '../Table'
@@ -12,12 +13,12 @@ interface IMarketProps extends ITable {
   commodities: IMarket[]
 }
 
-const Market: FC<IMarketProps> = ({ commodities, loading, column, direction, onSort }) => {
+const MarketTable: FC<IMarketProps> = ({ commodities, loading, column, direction, onSort }) => {
   const [categories, setCategories] = useState<string[]>([])
 
   const fetchCategories = _.memoize(async () => {
-    const res = await EDFusion.commodities.categories()
-    const c = res.data.map((cat: any) => {
+    const res = await Market.categories()
+    const c = res.map((cat: any) => {
       return cat.category
     })
     setCategories(c)
@@ -132,4 +133,4 @@ const Market: FC<IMarketProps> = ({ commodities, loading, column, direction, onS
   )
 }
 
-export default Market
+export default MarketTable

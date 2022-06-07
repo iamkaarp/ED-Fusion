@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useState, useCallback } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import EDFusion from '../../apis/EDFusion'
+import System from '../../apis/System'
 
 import ISystem from '../../interfaces/ISystem'
 import ISystemsTable from './interfaces/ISystemsTable'
@@ -14,7 +14,6 @@ import './css/index.scss'
 
 import Loader from '../Loader/index'
 import Table from '../Table'
-import Filter from '../Filter'
 import Filters from './Filters'
 
 const SystemsTable: FC<ISystemsTable> = ({ page }) => {
@@ -28,11 +27,14 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
 
   const [filters, setFilters] = useState<IFilters>({
     showPopulated: true,
+    needsPermit: false,
+    government: '',
+    allegiance: '',
   })
 
   const fetchData = async () => {
     setLoading(true)
-    const res = await EDFusion.systems.index(page, column, direction, filters)
+    const res = await System.index(page, column, direction, filters)
     setSystems(res.data)
     setMeta(res.meta)
     setLoading(false)
@@ -67,6 +69,9 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
     switch (value) {
       case 'showPopulated':
         f = { ...filters, showPopulated: !filters.showPopulated }
+        break
+      case 'needsPermit':
+        f = { ...filters, needsPermit: !filters.needsPermit }
         break
     }
     setFilters(f)
@@ -136,7 +141,12 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
           </div>
           <div className={`${showFilters ? 'flex' : 'hidden'} w-full`}>
             <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
-              <div className="w-full" />
+              <div className="w-full">
+                <Filters
+                  onFilter={(value: string, items: any[] = []) => onFilter(value, items)}
+                  filters={filters}
+                />
+              </div>
             </div>
           </div>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

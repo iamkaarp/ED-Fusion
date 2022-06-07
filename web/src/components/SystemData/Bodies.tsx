@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import * as _ from 'lodash'
 
+import System from '../../apis/System'
+
 import ISystemBodies from './interfaces/ISystemBodies'
 import IPlanet from '../../interfaces/IPlanet'
 import IStar from '../../interfaces/IStar'
 
-import EDFusion from '../../apis/EDFusion'
 import DateFormat from '../../helpers/DateFormat'
 
 import Table from '../Table/index'
@@ -119,14 +120,14 @@ const Bodies: FC<ISystemBodies> = ({ systemId }) => {
 
   const fetchPlanets = _.memoize(async () => {
     setLoadingPlanets(true)
-    const bodies = await EDFusion.systems.bodies.planets(systemId, planetColumn, planetDirection)
+    const bodies = await System.bodies.planets(systemId, planetColumn, planetDirection)
     setPlanets(bodies.planets)
     setLoadingPlanets(false)
   })
 
   const fetchStars = _.memoize(async () => {
     setLoadingStars(true)
-    const bodies = await EDFusion.systems.bodies.stars(systemId, starColumn, starDirection)
+    const bodies = await System.bodies.stars(systemId, starColumn, starDirection)
     setStars(bodies.stars)
     setLoadingStars(false)
   })

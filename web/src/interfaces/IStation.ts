@@ -4,7 +4,7 @@ import IFaction from './IFaction'
 import ISystem from './ISystem'
 import IAllegiance from './IAllegiance'
 import IEconomy from './IEconomy'
-import IService from './IService'
+import IStationService from './IStationService'
 
 export default interface IStation {
   id: number
@@ -22,7 +22,7 @@ export default interface IStation {
     faction: IFaction
   }
   system: ISystem
-  services: IService[]
+  services: IStationService[]
   max_landing_pad_size: string
   updated_at: string
 }

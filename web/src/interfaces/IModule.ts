@@ -1,7 +1,5 @@
-export default interface IModule {
-  id: string
-  name: string
-  key: string
+import KeyName from './KeyName'
+export default interface IModule extends KeyName {
   category: string
   mount: string
   guidance: string

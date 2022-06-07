@@ -3,8 +3,16 @@ import { v4 as uuidv4 } from 'uuid'
 import * as _ from 'lodash'
 
 import IFiltersProps from './interfaces/IFiltersProps'
+import ICommodity from '../../interfaces/ICommodity'
 
-import EDFusion from '../../apis/EDFusion'
+import KeyName from '../../interfaces/KeyName'
+
+import Service from '../../apis/Service'
+import Market from '../../apis/Market'
+import Station from '../../apis/Station'
+import Outfitting from '../../apis/Outfitting'
+import Shipyard from '../../apis/Shipyard'
+
 import Autocomplete from '../Forms/Autocomplete'
 
 import './css/Filter.scss'
@@ -17,51 +25,43 @@ interface Service {
   key: string
 }
 
-interface Commodity {
-  id: number
+interface Commodity extends KeyName {
   commodity_id: number
-  name: string
-  key: string
 }
 
 interface Type {
   id: string
   name: string
-  key: string
 }
 
 interface Module {
-  id: number
+  id: string
   name: string
   key: string
 }
 
-interface Ship {
-  id: number
-  name: string
-  key: string
-}
+interface Ship extends KeyName {}
 
 const Filters: FC<IFiltersProps> = ({ onFilter, filters }) => {
   const [services, setServices] = useState<Service[]>([])
-  const [commodities, setCommodities] = useState<Commodity[]>([])
+  const [commodities, setCommodities] = useState<ICommodity[]>([])
   const [types, setTypes] = useState<Type[]>([])
   const [modules, setModules] = useState<Module[]>([])
   const [ships, setShips] = useState<Ship[]>([])
 
   const fetchServices = _.memoize(async () => {
-    const res = await EDFusion.services.index()
-    setServices(res.data)
+    const res = await Service.index()
+    setServices(res)
   })
 
   const fetchCommodities = _.memoize(async () => {
-    const res = await EDFusion.commodities.index('name', 'asc')
-    setCommodities(res.data)
+    const res = await Market.index('name', 'asc')
+    setCommodities(res)
   })
 
   const fetchTypes = _.memoize(async () => {
-    const res = await EDFusion.stations.indexTypes()
-    const types = res.data
+    const res = await Station.types()
+    const types = res
       .filter((type: any) => type.type !== '')
       .map((type: any) => {
         return { id: uuidv4(), name: getStationType(type.type), key: type.type }
@@ -70,8 +70,8 @@ const Filters: FC<IFiltersProps> = ({ onFilter, filters }) => {
   })
 
   const fetchModules = _.memoize(async () => {
-    const res = await EDFusion.modules.index()
-    const modules = res.data.map((module: any) => {
+    const res = await Outfitting.index()
+    const modules = res.map((module: any) => {
       return {
         id: uuidv4(),
         name: `${module.class}${module.rating} ${module.name}`,
@@ -82,8 +82,8 @@ const Filters: FC<IFiltersProps> = ({ onFilter, filters }) => {
   })
 
   const fetchShips = _.memoize(async () => {
-    const res = await EDFusion.ships.index()
-    setShips(res.data)
+    const res = await Shipyard.index()
+    setShips(res)
   })
 
   useEffect(() => {

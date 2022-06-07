@@ -3,7 +3,7 @@ import _debounce from 'lodash/debounce'
 
 import GalaxyMap, { GalaxyMapOptions, DataSet } from '../helpers/GalaxyMap'
 
-import EDFusion from '../apis/EDFusion'
+import System from '../apis/System'
 
 import Loader from '../components/Loader'
 
@@ -18,7 +18,7 @@ const MapV3: FC = () => {
   //const [dataset, setDataset] = useState<Dataset>({} as Dataset)
   const [firstRender, setFirstRender] = useState(true)
   const fetchData = async () => {
-    const res = await EDFusion.systems.positions(distance)
+    const res = await System.positions(distance)
     setSystems(res)
   }
   let galMap: GalaxyMap

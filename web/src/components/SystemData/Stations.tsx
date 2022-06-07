@@ -1,9 +1,7 @@
-import React, { FC, useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { FC } from 'react'
 import { Link } from 'react-router-dom'
 import * as _ from 'lodash'
 
-import EDFusion from '../../apis/EDFusion'
 import DateFormat from '../../helpers/DateFormat'
 import getStationTypes from '../../helpers/StationTypes'
 

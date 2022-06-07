@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import * as _ from 'lodash'
 
-import EDFusion from '../../apis/EDFusion'
+import Shipyard from '../../apis/Shipyard'
 import shipyard from '../../helpers/Shipyard'
 
 import IShip from '../../interfaces/IShip'
@@ -15,8 +15,8 @@ const ShipyardTable: FC = () => {
 
   const fetchShips = _.memoize(async () => {
     setLoading(true)
-    const res = await EDFusion.ships.index()
-    setShips(res.data)
+    const res = await Shipyard.index()
+    setShips(res)
     setLoading(false)
   })
 

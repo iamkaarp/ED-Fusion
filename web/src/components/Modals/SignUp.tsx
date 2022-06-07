@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import EDFusion from '../../apis/EDFusion'
+import User from '../../apis/User'
 import portraits from '../../helpers/Portraits'
 
 import ModalProps from './interfaces/ModalProps'
@@ -34,7 +34,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
       img = keys[Math.floor(Math.random() * keys.length)]
     }
 
-    const res = await EDFusion.user.signUp(
+    const res = await User.signUp(
       email,
       username,
       password,
@@ -42,7 +42,7 @@ const SignUp: FC<ModalProps> = ({ isOpen, closeModal }) => {
       image === '' ? img : image
     )
     if (res.status === 200) {
-      const res = await EDFusion.user.signIn(email, password)
+      const res = await User.signIn(email, password)
       if (res.status === 200) {
         dispatch({ type: 'user/setToken', payload: { token: res.data.token } })
         closeModal()

@@ -1,5 +1,2 @@
-export default interface IGovernment {
-  id: number
-  key: string
-  name: string
-}
+import KeyName from './KeyName'
+export default interface IGovernment extends KeyName {}

@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import EDFusion from '../apis/EDFusion'
+import FDev from '../apis/FDev'
 
 const Frontier: FC = () => {
   const [params] = useSearchParams()
@@ -15,13 +15,13 @@ const Frontier: FC = () => {
   const code = params.get('code')
 
   const fetchURL = async () => {
-    const res = await EDFusion.fdev.url()
+    const res = await FDev.url()
     setUrl(res.url)
     dispatch({ type: 'fdev/setVerifier', payload: res.verifier })
   }
 
   const fetchToken = async (code: string) => {
-    const res = await EDFusion.fdev.token(code, verifier)
+    const res = await FDev.token(code, verifier)
     if (res.connected) {
       dispatch({ type: 'fdev/setData', payload: { connected: res.connected } })
     } else {

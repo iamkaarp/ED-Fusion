@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import EDFusion from '../../apis/EDFusion'
+import User from '../../apis/User'
 
 import portraits from '../../helpers/Portraits'
 
@@ -17,7 +17,7 @@ const UserSettings: FC = () => {
 
   const setImage = (image: string) => {
     if (image !== user.image) {
-      EDFusion.user.update({ image })
+      User.update({ image })
       dispatch({ type: 'user/setProfile', payload: { profile: { image } } })
       navigate('/settings')
     }
@@ -25,7 +25,7 @@ const UserSettings: FC = () => {
 
   const handleSubmit = (e: React.FormEvent<any>) => {
     e.preventDefault()
-    EDFusion.user.update({ password })
+    User.update({ password })
   }
 
   useEffect(() => {
