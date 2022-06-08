@@ -6,13 +6,13 @@ import 'chart.js/auto'
 import { Chart } from 'react-chartjs-2'
 import * as _ from 'lodash'
 
-import EDFusion from '../../apis/EDFusion'
+import System from '../../apis/System'
 import DateFormat from '../../helpers/DateFormat'
 
 import IStation from '../../interfaces/IStation'
 import ISystem from '../../interfaces/ISystem'
 import ISystemData from './interfaces/ISystemData'
-import IFaction from '../../interfaces/IFaction'
+import ISystemFaction from '../../interfaces/ISystemFaction'
 
 import Loader from '../Loader/index'
 import Stations from './Stations'
@@ -23,7 +23,7 @@ import Error from '../Error'
 const SystemData: FC<ISystemData> = ({ name }) => {
   const [system, setSystem] = useState<ISystem>({} as ISystem)
   const [stations, setStations] = useState<IStation[]>([])
-  const [factions, setFactions] = useState<IFaction[]>([])
+  const [factions, setFactions] = useState<ISystemFaction[]>([])
   const [error, setError] = useState<string>('')
 
   const [faction, setFaction] = useState<any>({})
@@ -52,59 +52,45 @@ const SystemData: FC<ISystemData> = ({ name }) => {
   const tabs = ['System', 'Factions', 'Bodies']
 
   const fetchStations = async (id: number) => {
-    const res = await EDFusion.systems.stations.index(id, 'updated_at', 'desc')
+    const res = await System.stations.index(id, 'updated_at', 'desc')
     setStations(res)
   }
 
   const fetchFactions = async (id: number) => {
-    const res = await EDFusion.systems.factions.index(id, 'influence', 'desc')
+    const res = await System.factions.index(id, 'influence', 'desc')
     setFactions(res)
   }
 
   const fetchData = _.memoize(async () => {
-    const res = await EDFusion.systems.show(name)
-    if (res.status === 200) {
-      setSystem(res.data.system)
-    } else if (res.status === 404) {
-      setError('System not found')
-    } else {
-      setError('Something went wrong')
-    }
+    const res = await System.show(name)
+    setSystem(res)
     setLoading(false)
   })
 
   const fetchOrbital = _.memoize(async () => {
     setLoadingOrbital(true)
-    const res = await EDFusion.systems.stations.orbital(system.id, orbitalColumn, orbitalDirection)
+    const res = await System.stations.orbital(system.id, orbitalColumn, orbitalDirection)
     setOrbital(res)
     setLoadingOrbital(false)
   })
 
   const fetchPlanetary = _.memoize(async () => {
     setLoadingPlanetary(true)
-    const res = await EDFusion.systems.stations.planetary(
-      system.id,
-      planetaryColumn,
-      planetaryDirection
-    )
+    const res = await System.stations.planetary(system.id, planetaryColumn, planetaryDirection)
     setPlanetary(res)
     setLoadingPlanetary(false)
   })
 
   const fetchFleetCarriers = _.memoize(async () => {
     setLoadingFleetCarriers(true)
-    const res = await EDFusion.systems.stations.fleetCarriers(
-      system.id,
-      planetaryColumn,
-      planetaryDirection
-    )
+    const res = await System.stations.fleetCarriers(system.id, planetaryColumn, planetaryDirection)
     setFleetCarriers(res)
     setLoadingFleetCarriers(false)
   })
 
-  const stationEconomies = (stations: any) => {
-    const economies: any[] = []
-    stations.forEach((station: any) => {
+  const stationEconomies = (stations: IStation[]) => {
+    const economies: string[] = []
+    stations.forEach((station: IStation) => {
       station.economies.forEach((economy: any) => {
         if (!economies.includes(economy.economy.name)) {
           if (economy.economy.name !== system.primaryEconomy.name) {
@@ -178,7 +164,7 @@ const SystemData: FC<ISystemData> = ({ name }) => {
     dispatch({ type: 'sort/setDirection', payload: { type, direction } })
   }
 
-  const factionsData = (factions: IFaction[]) => {
+  const factionsData = (factions: ISystemFaction[]) => {
     return factions.filter((faction: any) => faction.faction.influence > 0)
   }
 

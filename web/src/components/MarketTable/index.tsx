@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as _ from 'lodash'
 
-import EDFusion from '../../apis/EDFusion'
+import Market from '../../apis/Market'
 import DateFormat from '../../helpers/DateFormat'
 import ICommodity from '../../interfaces/ICommodity'
 
@@ -22,8 +22,8 @@ const MarketTable: FC = () => {
   const marketDirection = useSelector((state: any) => state.sort.market.direction)
 
   const fetchCategories = _.memoize(async () => {
-    const res = await EDFusion.commodities.categories()
-    const c = res.data.map((cat: any) => {
+    const res = await Market.categories()
+    const c = res.map((cat: { category: string }) => {
       return cat.category
     })
     setCategories(c)
@@ -31,9 +31,9 @@ const MarketTable: FC = () => {
 
   const fetchMarket = _.memoize(async () => {
     setLoading(true)
-    const res = await EDFusion.commodities.index(marketColumn, marketDirection)
+    const res = await Market.index(marketColumn, marketDirection)
     console.log(res)
-    setMarket(res.data.commodities)
+    setMarket(res)
     setLoading(false)
   })
 

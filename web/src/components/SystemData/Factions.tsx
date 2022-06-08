@@ -7,17 +7,17 @@ import { mdiChevronUp } from '@mdi/js'
 
 import DateFormat from '../../helpers/DateFormat'
 import getHappiness from '../../helpers/Happiness'
-import EDFusion from '../../apis/EDFusion'
+import System from '../../apis/System'
 
 import ISystemFactions from './interfaces/ISystemFactions'
 
 import Table from '../Table/index'
 import IStation from '../../interfaces/IStation'
-import IFactions from '../../interfaces/IFactions'
+import ISystemFaction from '../../interfaces/ISystemFaction'
 
 const Factions: FC<ISystemFactions> = ({ systemId, stations }) => {
   const [open, setOpen] = useState<any[]>([])
-  const [factions, setFactions] = useState<IFactions[]>([])
+  const [factions, setFactions] = useState<ISystemFaction[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const column = useSelector((state: any) => state.sort.factions.column)
   const direction = useSelector((state: any) => state.sort.factions.direction)
@@ -30,7 +30,7 @@ const Factions: FC<ISystemFactions> = ({ systemId, stations }) => {
 
   const fetchFactions = _.memoize(async () => {
     setLoading(true)
-    const factions = await EDFusion.systems.factions.index(systemId, column, direction)
+    const factions = await System.factions.index(systemId, column, direction)
     setFactions(factions)
     setLoading(false)
   })
@@ -98,14 +98,14 @@ const Factions: FC<ISystemFactions> = ({ systemId, stations }) => {
     }
     setOpen([...open, id])
   }
-  const filterStations = (faction: IFactions): IStation[] => {
+  const filterStations = (faction: ISystemFaction): IStation[] => {
     return stations.filter(
       (station: IStation) =>
         station.faction && station.faction.faction.name === faction.faction.name
     )
   }
 
-  const activeStates = (faction: IFactions): string[] => {
+  const activeStates = (faction: ISystemFaction): string[] => {
     if (faction.faction.active_states.length === 0) {
       return ['']
     }
@@ -118,7 +118,7 @@ const Factions: FC<ISystemFactions> = ({ systemId, stations }) => {
     return states
   }
 
-  const recoveringStates = (faction: IFactions): string[] => {
+  const recoveringStates = (faction: ISystemFaction): string[] => {
     if (faction.faction.recovering_states.length === 0) {
       return ['']
     }
@@ -131,7 +131,7 @@ const Factions: FC<ISystemFactions> = ({ systemId, stations }) => {
     return states
   }
 
-  const pendingStates = (faction: IFactions): string[] => {
+  const pendingStates = (faction: ISystemFaction): string[] => {
     if (faction.faction.pending_states.length === 0) {
       return ['']
     }

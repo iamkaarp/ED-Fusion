@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useState, useCallback } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import EDFusion from '../../apis/EDFusion'
+import System from '../../apis/System'
 
 import ISystem from '../../interfaces/ISystem'
 import ISystemsTable from './interfaces/ISystemsTable'
@@ -14,7 +14,6 @@ import './css/index.scss'
 
 import Loader from '../Loader/index'
 import Table from '../Table'
-import Filter from '../Filter'
 import Filters from './Filters'
 
 const SystemsTable: FC<ISystemsTable> = ({ page }) => {
@@ -28,11 +27,15 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
 
   const [filters, setFilters] = useState<IFilters>({
     showPopulated: true,
+    needsPermit: false,
+    hasStations: '',
+    government: '',
+    allegiance: '',
   })
 
   const fetchData = async () => {
     setLoading(true)
-    const res = await EDFusion.systems.index(page, column, direction, filters)
+    const res = await System.index(page, column, direction, filters)
     setSystems(res.data)
     setMeta(res.meta)
     setLoading(false)
@@ -67,6 +70,9 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
     switch (value) {
       case 'showPopulated':
         f = { ...filters, showPopulated: !filters.showPopulated }
+        break
+      case 'needsPermit':
+        f = { ...filters, needsPermit: !filters.needsPermit }
         break
     }
     setFilters(f)
@@ -123,21 +129,6 @@ const SystemsTable: FC<ISystemsTable> = ({ page }) => {
         <>
           <div className="flex items-center justify-between w-full px-4 md:px-0">
             <h1 className="mb-4 text-3xl text-gray-400">Systems</h1>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault()
-                setShowFilters(!showFilters)
-              }}
-              className="text-gray-400 cursor-pointer hover:text-orange-400"
-            >
-              {showFilters ? 'Hide' : 'Show'} Filters
-            </a>
-          </div>
-          <div className={`${showFilters ? 'flex' : 'hidden'} w-full`}>
-            <div className="w-full p-2 mb-6 text-gray-400 bg-gray-800 border border-gray-700 rounded-lg shadow-md md:p-6">
-              <div className="w-full" />
-            </div>
           </div>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <Table th={th} loading={loading} onSort={sort} column={column} direction={direction}>

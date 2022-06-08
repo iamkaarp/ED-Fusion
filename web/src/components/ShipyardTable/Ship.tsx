@@ -4,8 +4,10 @@ import { useSelector } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import * as _ from 'lodash'
 
-import EDFusion from '../../apis/EDFusion'
+import Shipyard from '../../apis/Shipyard'
+
 import IShip from '../../interfaces/IShip'
+import IStation from '../../interfaces/IStation'
 
 import shipyard from '../../helpers/Shipyard'
 import manufacturer from '../../helpers/Manufacturers'
@@ -25,20 +27,20 @@ interface ShipProps {
 
 const Ship: FC<ShipProps> = ({ name }) => {
   const [ship, setShip] = useState<IShip>({} as IShip)
-  const [stations, setStations] = useState<any[]>([])
+  const [stations, setStations] = useState<IStation[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const refSytem = useSelector((state: any) => state.refSystem.system)
 
   const fetchShips = _.memoize(async () => {
     setLoading(true)
-    const res = await EDFusion.ships.get(name)
-    setShip(res.data)
+    const res = await Shipyard.show(name)
+    setShip(res)
     setLoading(false)
   })
 
   const fetchNearest = _.memoize(async () => {
-    const res = await EDFusion.ships.nearest(ship.key, { system: refSytem })
-    setStations(res.data)
+    const res = await Shipyard.nearest(ship.key, { system: refSytem })
+    setStations(res)
   })
 
   const utiliy = (utiliy: number): string[] => {

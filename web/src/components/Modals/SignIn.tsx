@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import EDFusion from '../../apis/EDFusion'
+import User from '../../apis/User'
 
 import ModalProps from './interfaces/ModalProps'
 
@@ -12,7 +12,7 @@ const SignIn: FC<ModalProps> = ({ isOpen, closeModal }) => {
 
   const handleSubmit = async (e: React.FormEvent<any>) => {
     e.preventDefault()
-    const res = await EDFusion.user.signIn(email, password)
+    const res = await User.signIn(email, password)
     if (res.status === 200) {
       dispatch({ type: 'user/setToken', payload: { token: res.data.token } })
       closeModal()

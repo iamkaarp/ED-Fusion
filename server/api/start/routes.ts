@@ -209,3 +209,36 @@ Route.group(() => {
       destroy: ['auth'],
     })
 }).namespace('App/Controllers/Http')
+
+// ALLEGIANCE ROUTES
+Route.group(() => {
+  Route.resource('allegiances', 'AllegiancesController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
+}).namespace('App/Controllers/Http')
+
+// ECONOMIES ROUTES
+Route.group(() => {
+  Route.resource('economies', 'EconomiesController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
+}).namespace('App/Controllers/Http')
+
+// SECURITIES ROUTES
+Route.group(() => {
+  Route.resource('securities', 'SecuritiesController')
+    .only(['index', 'show', 'store', 'update', 'destroy'])
+    .middleware({
+      store: ['auth'],
+      update: ['auth'],
+      destroy: ['auth'],
+    })
+}).namespace('App/Controllers/Http')

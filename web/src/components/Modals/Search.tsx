@@ -1,11 +1,11 @@
 import React, { FC, useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
-import EDFusion from '../../apis/EDFusion'
+import System from '../../apis/System'
+import Station from '../../apis/Station'
 import ISystem from '../../interfaces/ISystem'
 import IStation from '../../interfaces/IStation'
 
-import Loader from '../Loader'
 import DateFormat from '../../helpers/DateFormat'
 import getStationType from '../../helpers/StationTypes'
 
@@ -35,14 +35,14 @@ const Search: FC<ModalProps> = ({ isOpen, closeModal }) => {
 
   const searchSystems = async (query: string) => {
     setLoading({ ...loading, systems: true })
-    const response = await EDFusion.systems.search(query)
+    const response = await System.find(query)
     setSystems(response)
     setLoading({ ...loading, systems: false })
   }
 
   const searchStations = async (query: string) => {
     setLoading({ ...loading, stations: true })
-    const response = await EDFusion.stations.search(query)
+    const response = await Station.find(query)
     setStations(response)
     setLoading({ ...loading, stations: false })
   }

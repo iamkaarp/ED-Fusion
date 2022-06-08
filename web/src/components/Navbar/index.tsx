@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as _ from 'lodash'
 
-import EDFusion from '../../apis/EDFusion'
+import FDev from '../../apis/FDev'
+import User from '../../apis/User'
 
 import './css/index.scss'
 import './css/search.scss'
-import logo from '../../assets/icons/logo.png'
+import logo from '../../assets/icons/logo.webp'
 import Search from './Search'
 
 import portraits from '../../helpers/Portraits'
@@ -44,12 +45,12 @@ const NavBar: FC = () => {
 
   const signOut = async (e: React.MouseEvent) => {
     e.preventDefault()
-    await EDFusion.user.signOut()
+    await User.signOut()
     dispatch({ type: 'user/signout' })
   }
 
   const fetchURL = async () => {
-    const res = await EDFusion.fdev.url()
+    const res = await FDev.url()
     setUrl(res.url)
     dispatch({ type: 'fdev/setVerifier', payload: res.verifier })
   }

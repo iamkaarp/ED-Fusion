@@ -1,9 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import * as _ from 'lodash'
 
-import EDFusion from '../../apis/EDFusion'
-
-import DateFormat from '../../helpers/DateFormat'
+import Body from '../../apis/Body'
 
 import Star from './Star'
 import Planet from './Planet'
@@ -21,7 +19,7 @@ const BodyData: FC<IBodyData> = ({ name }) => {
   const [loading, setLoading] = useState<boolean>(true)
   const fetchBody = _.memoize(async () => {
     setLoading(true)
-    const res = await EDFusion.bodies.show(name)
+    const res = await Body.show(name)
     if (res.hasOwnProperty('star')) {
       setType('star')
       setStar(res.star)

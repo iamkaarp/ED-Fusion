@@ -1,9 +1,9 @@
 import React, { FC, useState, useEffect, Fragment } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import * as _ from 'lodash'
 
-import EDFusion from '../../apis/EDFusion'
+import Body from '../../apis/Body'
 
 import DateFormat from '../../helpers/DateFormat'
 
@@ -29,9 +29,10 @@ const BodiesTable: FC<IBodiesTable> = ({ page }) => {
 
   const fetchbodies = _.memoize(async () => {
     setLoading(true)
-    const res = await EDFusion.bodies.index(page, column, direction)
-    setBodies(res.bodies.data)
-    setMeta(res.bodies.meta)
+    const res = await Body.index(page, column, direction)
+    console.log(res)
+    setBodies(res.data)
+    setMeta(res.meta)
     setLoading(false)
   })
 
@@ -99,7 +100,7 @@ const BodiesTable: FC<IBodiesTable> = ({ page }) => {
                       return (
                         <tr
                           key={star.id}
-                          className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600"
+                          className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
                         >
                           <th
                             scope="row"
@@ -134,7 +135,7 @@ const BodiesTable: FC<IBodiesTable> = ({ page }) => {
                       return (
                         <tr
                           key={planet.id}
-                          className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600"
+                          className="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"
                         >
                           <th
                             scope="row"

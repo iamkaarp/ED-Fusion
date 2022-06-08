@@ -1,5 +1,2 @@
-export default interface IEconomy {
-  id: number
-  key: string
-  name: string
-}
+import KeyName from './KeyName'
+export default interface IEconomy extends KeyName {}

@@ -2,7 +2,8 @@ import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as _ from 'lodash'
 
-import EDFusion from '../../apis/EDFusion'
+//import EDFusion from '../../apis/1EDFusion'
+import System from '../../apis/System'
 import ISystem from '../../interfaces/ISystem'
 import ModalProps from './interfaces/ModalProps'
 
@@ -15,7 +16,7 @@ const Ref: FC<ModalProps> = ({ isOpen, closeModal }) => {
   const [input, setInput] = useState<string>('')
 
   const fetchSystems = _.memoize(async (query: string) => {
-    const res = await EDFusion.systems.search(query)
+    const res = await System.find(query)
     setSystems(res)
   })
 

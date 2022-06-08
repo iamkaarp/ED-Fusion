@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import _debounce from 'lodash/debounce'
 
-import EDFusion from '../../apis/EDFusion'
+import Station from '../../apis/Station'
 
 import IStation from '../../interfaces/IStation'
 import IStationsTable from './interfaces/IStationsTable'
@@ -13,7 +13,6 @@ import Pagination from '../Pagination'
 
 import Loader from '../Loader/index'
 import Table from '../Table'
-import Filter from '../Filter'
 import Filters from './Filters'
 import IFilters from './interfaces/IFilters'
 
@@ -39,7 +38,7 @@ const StationsTable: FC<IStationsTable> = ({ page }) => {
 
   const fetchData = async () => {
     setLoading(true)
-    const res = await EDFusion.stations.index(page, column, direction, filters)
+    const res = await Station.index(page, column, direction, filters)
     setStations(res.data)
     setMeta(res.meta)
     setLoading(false)

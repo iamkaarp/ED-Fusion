@@ -6,17 +6,21 @@ import * as _ from 'lodash'
 
 import Loader from '../Loader'
 
+import Station from '../../apis/Station'
+import Discount from '../../apis/Discount'
+import Service from '../../apis/Service'
+
 import DateFormat from '../../helpers/DateFormat'
 import getStationTypes from '../../helpers/StationTypes'
 import Stations from '../../helpers/Stations'
-import EDFusion from '../../apis/EDFusion'
 
-import StationData from './interfaces/StationData'
+import StationDataProps from './interfaces/StationData'
 import IStation from '../../interfaces/IStation'
 import IShipyard from '../../interfaces/IShipyard'
 import IOutfitting from '../../interfaces/IOutfitting'
 import IDiscount from '../../interfaces/IDiscount'
 import IMarket from '../../interfaces/IMarket'
+import IService from '../../interfaces/IService'
 
 import Shipyard from './Shipyard'
 import Outfitting from './Outfitting'
@@ -24,13 +28,7 @@ import Market from './Market'
 
 import Error from '../Error'
 
-interface Service {
-  id: number
-  name: string
-  key: string
-}
-
-const Station: FC<StationData> = ({ name }) => {
+const StationData: FC<StationDataProps> = ({ name }) => {
   const [error, setError] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(true)
   const [loadingMarket, setLoadingMarket] = useState<boolean>(true)
@@ -41,7 +39,7 @@ const Station: FC<StationData> = ({ name }) => {
   const [outfitting, setOutfitting] = useState<IOutfitting[]>([])
   const [discounts, setDiscounts] = useState<IDiscount[]>([])
   const [market, setMarket] = useState<IMarket[]>([])
-  const [services, setServices] = useState<Service[]>([])
+  const [services, setServices] = useState<IService[]>([])
 
   const marketColumn = useSelector((state: any) => state.sort.market.column)
   const marketDirection = useSelector((state: any) => state.sort.market.direction)
@@ -57,49 +55,38 @@ const Station: FC<StationData> = ({ name }) => {
 
   const fetchStation = _.memoize(async () => {
     setLoading(true)
-    const res = await EDFusion.stations.show(name)
-    if (res.status === 200) {
-      setStation(res.data.station)
-    } else if (res.status === 404) {
-      setError('Station not found')
-    } else {
-      setError('Something went wrong')
-    }
+    const res = await Station.show(name)
+    setStation(res)
     setLoading(false)
   })
 
   const fetchShips = _.memoize(async () => {
-    const res = await EDFusion.stations.ships.index(station.id)
+    const res = await Station.ships.index(station.id)
     setShips(res)
   })
 
   const fetchOutfitting = _.memoize(async () => {
     setLoadingOutfitting(true)
-    const res = await EDFusion.stations.outfitting.index(
-      station.id,
-      outfittingColumn,
-      outfittingDirection
-    )
+    const res = await Station.outfitting.index(station.id, outfittingColumn, outfittingDirection)
     setOutfitting(res)
     setLoadingOutfitting(false)
   })
 
   const fetchMarket = _.memoize(async () => {
     setLoadingMarket(true)
-    const res = await EDFusion.stations.commodities.index(station.id, marketColumn, marketDirection)
+    const res = await Station.commodities.index(station.id, marketColumn, marketDirection)
     setMarket(res)
     setLoadingMarket(false)
   })
 
   const fetchDiscounts = _.memoize(async () => {
-    const res = await EDFusion.discount.find(station.system.name)
-    const discount = res.data
-    setDiscounts(discount)
+    const res = await Discount.find(station.system.name)
+    setDiscounts(res)
   })
 
   const fetchServices = _.memoize(async () => {
-    const res = await EDFusion.services.index()
-    const services = res.data
+    const res = await Service.index()
+    const services = res
     setServices(services)
   })
 
@@ -297,4 +284,4 @@ const Station: FC<StationData> = ({ name }) => {
   )
 }
 
-export default Station
+export default StationData

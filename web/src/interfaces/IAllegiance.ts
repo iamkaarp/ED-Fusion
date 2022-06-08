@@ -1,5 +1,2 @@
-export default interface IAllegiance {
-  id: number
-  key: string
-  name: string
-}
+import KeyName from './KeyName'
+export default interface IAllegiance extends KeyName {}
