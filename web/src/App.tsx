@@ -135,7 +135,6 @@ const App = () => {
             <Route path=":name" element={<Market />} />
           </Route>
           <Route path="/settings" element={<Settings />} />
-          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </>
