@@ -8,7 +8,7 @@ import User from '../../apis/User'
 
 import './css/index.scss'
 import './css/search.scss'
-import logo from '../../assets/icons/logo.png'
+import logo from '../../assets/icons/logo.webp'
 import Search from './Search'
 
 import portraits from '../../helpers/Portraits'

@@ -1,0 +1,7 @@
+input.toggle:checked~.dot {
+  transform: translateX(100%);
+}
+
+input.toggle:checked ~ .track {
+  @apply bg-orange-400;
+}

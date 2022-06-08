@@ -14,6 +14,7 @@ import Outfitting from '../../apis/Outfitting'
 import Shipyard from '../../apis/Shipyard'
 
 import Autocomplete from '../Forms/Autocomplete'
+import Toggle from '../Forms/Toggle'
 
 import './css/Filter.scss'
 import getStationType from '../../helpers/StationTypes'
@@ -122,36 +123,19 @@ const Filters: FC<IFiltersProps> = ({ onFilter, filters }) => {
     <div className="flex flex-col w-full md:flex-row">
       <div className="flex md:w-1/3 md:mr-2">
         <div className="w-full">
-          <div>
-            <label
-              htmlFor="fleetCarriers"
-              className="relative inline-flex items-center cursor-pointer"
-            >
-              <input
-                onChange={() => onFilter('showFc')}
-                type="checkbox"
-                value=""
-                id="fleetCarriers"
-                className="sr-only peer"
-                checked={filters.showFc}
-              />
-              <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:trangray-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-orange-400" />
-              <span className="ml-3 text-sm font-medium text-gray-300">Include Fleet Carriers</span>
-            </label>
+          <div className="mt-3">
+            <Toggle
+              onChange={() => onFilter('showFc')}
+              checked={filters.showFc}
+              label="Include Fleet Carriers"
+            />
           </div>
-          <div>
-            <label htmlFor="planetary" className="relative inline-flex items-center cursor-pointer">
-              <input
-                onChange={() => onFilter('showPlanetary')}
-                type="checkbox"
-                value=""
-                id="planetary"
-                className="sr-only peer"
-                checked={filters.showPlanetary}
-              />
-              <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:trangray-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-orange-400" />
-              <span className="ml-3 text-sm font-medium text-gray-300">Include Planetary</span>
-            </label>
+          <div className="mt-3">
+            <Toggle
+              onChange={() => onFilter('showPlanetary')}
+              checked={filters.showPlanetary}
+              label="Include Planetary"
+            />
           </div>
         </div>
         <div className="w-full">

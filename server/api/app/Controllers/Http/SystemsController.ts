@@ -32,12 +32,16 @@ export default class SystemsController {
           systemsQuery.select(
             Database.raw(`distanceBetweenSystems('${system.position}', position) as dist`)
           )
-          //column = column === 'distance' ? 'dist' : column
+          column = column === 'distance' ? 'dist' : column
         }
       }
 
       if (Object.keys(qs).includes('showPopulated') && qs.showPopulated === 'true') {
         systemsQuery.whereNot('population', 0)
+      }
+
+      if (Object.keys(qs).includes('needsPermit') && qs.needsPermit === 'true') {
+        systemsQuery.where('needs_permit', 1)
       }
       const systems = await systemsQuery.orderBy(column, direction).paginate(page, 25)
       return response.status(200).json({ systems })

@@ -12,6 +12,8 @@ import IAllegiance from '../../interfaces/IAllegiance'
 import IEconomy from '../../interfaces/IEconomy'
 import ISecurity from '../../interfaces/ISecurity'
 
+import Toggle from '../Forms/Toggle'
+
 const Filters: FC<IFiltersProps> = ({ onFilter, filters }) => {
   const [governments, setGovernments] = useState<IGovernment[]>([])
   const [allegiances, setAllegiances] = useState<IAllegiance[]>([])
@@ -48,42 +50,38 @@ const Filters: FC<IFiltersProps> = ({ onFilter, filters }) => {
   return (
     <div className="flex flex-col w-full">
       <div className="flex flex-col w-full md:flex-row">
-        <div className="flex md:w-1/3 md:mr-2">
+        <div className="flex flex-col md:w-1/3 md:mr-2">
           <div className="w-full">
             <div>
-              <label
-                htmlFor="fleetCarriers"
-                className="relative inline-flex items-center cursor-pointer"
-              >
-                <input
-                  onChange={() => onFilter('showPopulated')}
-                  type="checkbox"
-                  value=""
-                  id="fleetCarriers"
-                  className="sr-only peer"
-                  checked={filters.showPopulated}
-                />
-                <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:trangray-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-orange-400" />
-                <span className="ml-3 text-sm font-medium text-gray-300">Show Populated Only</span>
-              </label>
+              <Toggle
+                onChange={() => onFilter('showPopulated')}
+                checked={filters.showPopulated}
+                label="Show Populated Only"
+              />
             </div>
-            <div>
-              <label
-                htmlFor="fleetCarriers"
-                className="relative inline-flex items-center cursor-pointer"
-              >
-                <input
-                  onChange={() => onFilter('showPopulated')}
-                  type="checkbox"
-                  value=""
-                  id="fleetCarriers"
-                  className="sr-only peer"
-                  checked={filters.needsPermit}
-                />
-                <div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:trangray-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-orange-400" />
-                <span className="ml-3 text-sm font-medium text-gray-300">Needs Permit</span>
-              </label>
+            <div className="mt-3">
+              <Toggle
+                onChange={() => onFilter('needsPermit')}
+                checked={filters.needsPermit}
+                label="Needs Permit"
+              />
             </div>
+          </div>
+          <div className="w-full mt-6">
+            <label htmlFor="arrival" className="block mb-2 text-sm font-medium text-gray-300">
+              Having Stations
+            </label>
+            <select
+              id="countries"
+              className="text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
+            >
+              <>
+                <option value="">Any</option>
+                <option value="orbital">Has Orbital</option>
+                <option value="planetary">Has Planetary</option>
+                <option value="none">Has No Stations</option>
+              </>
+            </select>
           </div>
         </div>
         <div className="flex md:w-1/3 md:mr-2 md:ml-2">

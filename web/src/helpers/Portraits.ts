@@ -1,13 +1,13 @@
-import AislingDuval from '../assets/images/portraits/Aisling-Duval-portrait.png'
-import ArchonDelaine from '../assets/images/portraits/Archon-Delaine-portrait.png'
-import ArissaLavignyDuval from '../assets/images/portraits/Arissa-Lavigny-Duval-portrait.png'
-import EdmundMahon from '../assets/images/portraits/Edmund-Mahon-portrait.png'
-import FeliciaWinters from '../assets/images/portraits/Felicia-Winters-portrait.png'
-import LiYongRui from '../assets/images/portraits/Li-Yong-Rui-portrait.png'
-import PranavAntal from '../assets/images/portraits/Pranav-Antal-portrait.png'
-import ZacharyHudson from '../assets/images/portraits/Zachary-Hudson-portrait.png'
-import ZeminaTorval from '../assets/images/portraits/Zemina-Torval-portrait.png'
-import elite from '../assets/images/portraits/elite-dangerous-clean.png'
+import AislingDuval from '../assets/images/portraits/Aisling-Duval-portrait.webp'
+import ArchonDelaine from '../assets/images/portraits/Archon-Delaine-portrait.webp'
+import ArissaLavignyDuval from '../assets/images/portraits/Arissa-Lavigny-Duval-portrait.webp'
+import EdmundMahon from '../assets/images/portraits/Edmund-Mahon-portrait.webp'
+import FeliciaWinters from '../assets/images/portraits/Felicia-Winters-portrait.webp'
+import LiYongRui from '../assets/images/portraits/Li-Yong-Rui-portrait.webp'
+import PranavAntal from '../assets/images/portraits/Pranav-Antal-portrait.webp'
+import ZacharyHudson from '../assets/images/portraits/Zachary-Hudson-portrait.webp'
+import ZeminaTorval from '../assets/images/portraits/Zemina-Torval-portrait.webp'
+import elite from '../assets/images/portraits/elite-dangerous-clean.webp'
 
 const portraits: Record<string, string> = {
   AislingDuval,
